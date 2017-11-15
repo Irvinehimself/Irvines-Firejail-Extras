@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# FjTools shared library. Ideally, if I have got things correct, any problems with porting the collection of tools
+# to other distro's can be solved solely by editing this file
+
+# Colours
+Red=$'\e[1;31m' # Red
+Grn=$'\e[1;32m' # Green
+Yel=$'\e[1;33m' # Yellow
+Blu=$'\e[1;34m' # Blue
+Mag=$'\e[1;35m' # Magenta
+Cyn=$'\e[1;36m' # Cyan
+
+Bold=$'\e[1m'   # Bold
+Itlc=$'\e[3m'   # Italic
+Dimd=$'\e[2m'   # Dimmed
+Ulnd=$'\e[4m'   # Underlined
+Blnk=$'\e[5m'   # Blinking
+Invrt=$'\e[7m'  # Invert colours
+Hdden=$'\e[8m'  # Hidden
+
+End=$'\e[0m'    # Reset
+# End colours
+
+# Paths
+EtcFirejail="/etc/firejail"
+UsrLocalBin="/usr/local/bin"
+FjSymlinks="$UsrLocalBin/FjSymlinks"
+FjSymlinksBack="$FjSymlinks""Back"
+UsrBin="/usr/bin"
+UsrBinFirejail="/usr/bin/firejail"
+NotifyIcon="/usr/share/icons/FireJail.png"
+# End paths
+
+# Default sleep values
+SleepDelay="1"
+SleepSuffix="m"
+
+
+# Distro specific package owner search, comment/uncomment as needed.
+GetPckgOwner="pacman -Qoq"          ### Arch based distro's
+# GetPckgOwner="dpkg --search"      ### Debian based distro's
+# GetPckgOwner="rpm -qf"            ### Fedora based distro's
+
+NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to edit this string
+
+: <<'COMMENT'
+I believe the above distro specific commands are correct, but they lack testing. Also, you may, or may not, need to edit how the calling functions parse the output???
+
+See https://stackoverflow.com/questions/43158140/way-to-create-multiline-comments-in-bash
+COMMENT
+

@@ -1,0 +1,8 @@
+# Local customisations for  Cower
+# Further restrict the cower.profile
+
+whitelist ~/Git/Cower
+whitelist ~/.config/cower/config
+
+# Enable internet, (disabled in my globals.local)
+ignore net

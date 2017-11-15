@@ -1,0 +1,20 @@
+# Local customisations for Inox
+# Further restrict the inox.profile
+
+include /etc/firejail/disable-devel.inc
+
+caps.keep sys_chroot,sys_admin
+nogroups
+shell none
+
+private-bin inox,inoxdriver,xdg-mime,bash,sh,cut,grep,head
+#private-lib /inox,libpangocairo-1.0.so.0,libX11-xcb.so.1,libXcomposite.so.1,libXcursor.so.1,libXdamage.so.1,libXi.so.6,libXtst.so.6
+private-dev
+# enable private-tmp - may cause problems with multiple browser sessions
+private-tmp
+
+noexec ${HOME}
+noexec /tmp
+
+# Enable internet, (disabled in my globals.local)
+ignore net

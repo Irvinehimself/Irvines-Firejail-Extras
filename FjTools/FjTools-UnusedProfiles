@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Shell to find unused Firejail profiles
+
+# Ideally, if I have got things correct, any problems with porting the collection of tools
+# to other distro's can be solved solely by eiting the paths in FjTools-Shared
+source FjTools-Shared
+
+ ### Prompts
+PrmptMsg1="Create firejail symlinks in $FjSymlinks ? y/n"
+PrmptMsg2="Enter profile name, null string to terminate"
+ ### End prompts
+
+
+
+ ### ### ### Start Main ### ### ###
+printf '%-50s%-50s\n' ${Dimd}${Ulnd}"PROFILE NAME"${End} ${Dimd}${Ulnd}"OWNER'S NAME"${End}
+ls "$EtcFirejail" | grep "profile" |\
+    while read Line ; do
+        ProfileName=${Line%%.profile}
+        # Use package manager to check if bin file exists
+        Owner=$($GetPckgOwner $UsrBin/$ProfileName 2>&1)
+        # StndError is redirected to Stndout, So...
+        if [[ ! "$Owner" = *"No such file or directory" ]] ; then
+            if [[ "$Owner" = "$NoPckgOwns"* ]] ; then
+                # This deals with un-registered custom tweaks and installs to /usr/bin
+                # In particular, my custom link to /usr/lib/ThunarBulkRename
+                Owner="StupidMe"
+            fi
+            ### Silently check if profile is symlinked to firejail
+            if ! ls "$FjSymlinks" | grep -x "$ProfileName" 1>/dev/null ; then
+                printf '%-50s%-50s\n' ${Grn}"$ProfileName"${End} ${Blu}"$Owner"${End}
+            fi
+        fi
+    done
+ ### Option to create symlinks
+echo "$PrmptMsg1"
+read -n1 -s Key
+if  echo "$Key" | grep -iq "y" ; then
+    Target="Dummy"
+    until [[ "$Target" = "" ]] ; do
+        echo "$PrmptMsg2"
+        read Target
+        if [[ ! "$Target" = "" ]] ; then
+            sudo ln -s $UsrBinFirejail "$FjSymlinks/$Target"
+        fi
+    done
+fi

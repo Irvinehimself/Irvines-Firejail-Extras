@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Lists homegrown Firejail profiles
+
+# Ideally, if I have got things correct, any problems with porting the collection of tools
+# to other distro's can be solved solely by editing the paths in FjTools-Shared
+source FjTools-Shared
+
+function CheckOwner() {
+    while read Line ; do
+        ### Use package manager to check if profile is owned by firejail
+        ProfileOwner=$($GetPckgOwner $EtcFirejail/$Line 2>/dev/null)
+        ### StndError is redirected to /dev/null, so if owner is a nullstring,
+        ### then it's a homegrown customisation
+        if [[ "$ProfileOwner" = "" ]] ; then
+            echo -e "$Line"
+        fi
+    done
+}
+
+ ### Start Main
+echo -e ${Dimd}"The following firejail profiles are not owned by firejail:"${End}${Cyn}
+ls "$EtcFirejail" | grep "profile" | CheckOwner | column -x
+echo -e ${End}
+echo ${Dimd}"And the following have local customisations:"${End}${Grn}
+ls "$EtcFirejail" | grep "local" | CheckOwner | column -x
+echo -e ${End}
+echo -e ${Dimd}"(Hit return to close)"${End}
+read Quit

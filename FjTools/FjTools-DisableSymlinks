@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# This shell temporarily disables firejail symlinks by renaming my symlinking folder and, thus taking it out of the $PATH
+
+# Ideally, if I have got things correct, any problems with porting the collection of tools to other distro's can be solved
+# solely by editing the paths in FjTools-Shared
+source FjTools-Shared
+
+ ### ### Main ### ###
+if [[ "$1" = "" ]] ; then
+        echo "Enter time in minutes to disable Firejail symlinks, default = $SleepDelay"
+        read Tmp
+        if ! [[ "$Tmp" = "" ]] ; then
+            SleepDelay="$Tmp"
+        fi
+    else
+            SleepDelay="$1"
+fi
+
+
+echo "Disabling Firejail symlinks for $SleepDelay minutes"
+sudo mv "$FjSymlinks" "$FjSymlinksBack"
+echo "IMPORTANT: Don't close the  terminal window"
+notify-send "Firejail symlinks disabled" --icon="$NotifyIcon"
+sleep "$SleepDelay$SleepSuffix"
+notify-send "Firejail symlinks enabled" --icon="$NotifyIcon"
+sudo mv "$FjSymlinksBack" "$FjSymlinks"
