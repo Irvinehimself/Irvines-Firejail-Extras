@@ -38,6 +38,8 @@ This is just a little extra. It contains a set of bash shells that provide extra
 GetPckgOwner="pacman -Qoq"          ### Arch based distro's
 # GetPckgOwner="dpkg --search"      ### Debian based distro's
 # GetPckgOwner="rpm -qf"            ### Fedora based distro's
+
+NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to edit this string
 ```
 * `FjTools-DisableSymlinks`         : A tool to temporarily disable desktop integration
   * Note, I keep my firejail symlinks in a custom folder `/usr/local/bin/FjSymlinks/` which I added to my ${PATH}. So, you will need to edit the `$FjSymlinks` variable to your own usage.
