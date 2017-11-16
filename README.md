@@ -47,4 +47,4 @@ GetPckgOwner="pacman -Qoq"          ### Arch based distro's
 * `FjTools-FjTools-DebugProfile`    : A wrapper to launch applications in `firejail --debug` mode.
   1. It has a lot of nice features like automatically making indexed backups of `<App>.profile`, `<App>local`, and `<App>.net` all of which are cross-referenced to the relevant `firejail --debug` output
   1. By default, it creates the work directory `${HOME}/Desktop/FjTools-DebugFolder` this can be changed `FjTools-shared`
-  1. You should note that it is only output of 'firejail --debug` which is `tee`ed to the work directory. Other useful information may be gleaned from the terminal in which it is launched, ie `firejail stderr`.
+  1. You should note that it is only output of `firejail --debug` which is `tee`ed to the work directory. Other useful information may be gleaned from the terminal in which it is launched, ie `firejail stderr`.
