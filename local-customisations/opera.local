@@ -1,4 +1,27 @@
 # Local customisations for Opera
+# Further restrict the opera.profile
+
+include /etc/firejail/disable-devel.inc
+
+caps.keep sys_chroot,sys_admin
+nogroups
+shell none
+
+private-bin opera,xdg-mime,bash,sh,cut,grep,head
+
+# Once built, private-lib fails with: "The setuid sandbox is not running as root. Common causes:".
+# I believe this is related to Chromium/Inox/Opera's built in sandbox, see https://github.com/netblue30/firejail/issues/922
+# Also, see my inox.local file for an example private-lib that builds successfully, but fails when the built-in sandbox is launched
+# Note: I think this applies to the latest Firefox, which is also based on Chromium
+
+private-opt none
+private-dev
+private-tmp
+# Note: enabling private-tmp may cause problems with multiple browser sessions
+
+noexec ${HOME}
+noexec /tmp
 
 # Enable internet, (disabled in my globals.local)
 ignore net
+

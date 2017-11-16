@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# A wrapper to launch applications with 'firejail --debug'
+
+source FjTools-Shared
+
+ ### ### Functions ### ###
+function CloseTerminal(){
+    # This is for when this shell is launched with an application launcher,
+    # (for example .desktop or obmenu,) otherwise it can be ignored
+    echo
+    echo "Press return to close"
+    read Quit
+}
+
+function GetFileName(){
+    mkdir -p "$DebugFolder"
+    Index=001
+	while [ -e "$DebugFolder/$Index--$AppName.debug" ] ; do
+        Index=$(($Index+1))
+        printf -v Index "%03d" $Index
+	done
+    DebugFile="$DebugFolder/$Index--$AppName.debug"
+}
+
+function GetAppName(){
+    echo "FjTools Firejail debug wrapper $1"
+	if [[ $1 = "" ]] ; then
+			echo "Enter application name, null string to cancel"
+			read AppName
+			Profile="profile=$EtcFirejail/$AppName.profile"
+	    else
+	            ProfilePath="$EtcFirejail/$1"
+	            AppName="$1"
+	fi
+}
+
+function BackUpProfile(){
+    cp $EtcFirejail/$AppName.profile $DebugFolder/$Index--$AppName.profile 2>/dev/null
+    cp $EtcFirejail/$AppName.local $DebugFolder/$Index--$AppName.local 2>/dev/null
+    cp $EtcFirejail/$AppName.net $DebugFolder/$Index--$AppName.net 2>/dev/null
+}
+
+ ### End Functions
+
+
+ ### ### Main ### ###
+GetAppName
+if ! [[ $AppName = "" ]] ; then
+    # Debug application profile
+    DebugFolder="$FjToolsDebugFolder/$AppName"
+    GetFileName
+    BackUpProfile
+    firejail --debug --$Profile $AppName | tee "$DebugFile"
+fi
+CloseTerminal # comment/uncomment as needed
+echo "Bye :)"

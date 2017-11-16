@@ -29,7 +29,8 @@ FjSymlinks="$UsrLocalBin/FjSymlinks"
 FjSymlinksBack="$FjSymlinks""Back"
 UsrBin="/usr/bin"
 UsrBinFirejail="/usr/bin/firejail"
-NotifyIcon="/usr/share/icons/FireJail.png"
+NotifyIcon="/usr/share/pixmaps/firetools.png"
+FjToolsDebugFolder="${HOME}/Desktop/FjTools-DebugFolder"
 # End paths
 
 # Default sleep values
@@ -44,9 +45,4 @@ GetPckgOwner="pacman -Qoq"          ### Arch based distro's
 
 NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to edit this string
 
-: <<'COMMENT'
-I believe the above distro specific commands are correct, but they lack testing. Also, you may, or may not, need to edit how the calling functions parse the output???
-
-See https://stackoverflow.com/questions/43158140/way-to-create-multiline-comments-in-bash
-COMMENT
-
+# I believe the above distro specific commands are correct, but they lack testing. Also, you may, or may not, need to edit how the calling functions parse the output?
