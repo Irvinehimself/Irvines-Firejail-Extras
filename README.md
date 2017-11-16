@@ -19,8 +19,11 @@ Mainly, I intend to post any Firejail profiles I have written, along with my loc
 Currently, most of my local customisations are concerned with globally enabling apparmor confinement and/or disabling internet connectivity. However, I have recently started work on strengthening internet connected profiles.
 
 The following `.local` files have potentially useful customisations which strengthen their respective upstream profiles:
-inox.local - firefox.local - opera.local - makepkg.local
-cower.local | .... | .... | ....
+1. inox.local
+1. firefox.local
+1. opera.local
+1. makepkg.local
+1. cower.local
 
 **Note1:** It is expected that the above list will usually be incomplete. You can check the `local-customisations` folder for useful customisations by grepping for `# Further restrict the`.
 
