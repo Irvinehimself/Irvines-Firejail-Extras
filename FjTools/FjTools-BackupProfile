@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Shell to backup or restore /etc/firejail/<AppName>.*
+
+source FjTools-Shared
+
+ ### ### Functions ### ###
+function BackUpProfile(){
+    cp $EtcFirejail/$AppName.profile $LastCopy/$AppName.profile 2>/dev/null
+    cp $EtcFirejail/$AppName.local $LastCopy/$AppName.local 2>/dev/null
+    cp $EtcFirejail/$AppName.net $LastCopy/$AppName.net 2>/dev/null
+}
+
+function RestoreProfile(){
+    echo "Sorry, need sudo permission to copy files to /etc/firejail"
+    sudo cp $LastCopy/$AppName.profile $EtcFirejail/$AppName.profile 2>/dev/null
+    sudo cp $LastCopy/$AppName.local $EtcFirejail/$AppName.local 2>/dev/null
+    sudo cp $LastCopy/$AppName.net $EtcFirejail/$AppName.net 2>/dev/null
+}
+
+function GetAppName(){
+    echo "FjTools:  Create last working copy backups of <AppName>.profile, <AppName>.local and <AppName>.net"
+	echo "Enter application name, null string to cancel"
+	read AppName
+}
+
+
+ ### End Functions
+
+
+ ### ### Main ### ###
+GetAppName
+if ! [[ $AppName = "" ]] ; then
+    DebugFolder="$FjToolsDebugFolder/$AppName"
+    LastCopy="$DebugFolder/LastWorkingCopy"
+    mkdir -p "$LastCopy"
+    echo "(B)ackup or (R)estore $AppName profile and customisations? (default is 'B'/'b'"
+    read -n1 -s Key
+    if  echo "$Key" |grep -iq "r" ; then
+            RestoreProfile
+        else
+                BackUpProfile
+    fi
+fi
+echo "Bye :)"
