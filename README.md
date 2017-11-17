@@ -21,8 +21,8 @@ Currently, most of my local customisations are concerned with globally enabling 
 The following `.local` files have potentially useful customisations which strengthen their respective upstream profiles:
 <pre><code>
   inox.local        		: private-bin, private-etc, private-dev, caps.keep whitelist and more
-  firefox.local     		: private-bin and private-etc, private-dev
   opera.local       		: private-bin, private-etc, private-dev, caps.keep whitelist and more
+  firefox.local     		: private-bin, private-etc and private-dev
   makepkg.local     		: restrict access to ${HOME}
   cower.local       		: restrict access to ${HOME}
 </code></pre>
