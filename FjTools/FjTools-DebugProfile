@@ -15,10 +15,11 @@ function CloseTerminal(){
 
 function GetFileName(){
     mkdir -p "$DebugFolder"
-    Index=001
+    i=1
+    printf -v Index "%03d" $i
 	while [ -e "$DebugFolder/$Index--$AppName.debug" ] ; do
-        Index=$(($Index+1))
-        printf -v Index "%03d" $Index
+        i=$(($i+1))
+        printf -v Index "%03d" $i
 	done
     DebugFile="$DebugFolder/$Index--$AppName.debug"
 }
