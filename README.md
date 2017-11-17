@@ -18,8 +18,8 @@ Mainly, I intend to post any Firejail profiles I have written, along with my loc
 #### Local customisations
 Currently, most of my local customisations are concerned with globally enabling apparmor confinement and/or disabling internet connectivity. However, I have recently started work on strengthening internet connected profiles.
 
-<pre><code>
 The following `.local` files have potentially useful customisations which strengthen their respective upstream profiles:
+<pre><code>
   inox.local        		: private-bin, private-etc, private-dev, caps.keep whitelist and more
   opera.local       		: private-bin, private-etc, private-dev, caps.keep whitelist and more
   firefox.local     		: private-bin, private-etc and private-dev
