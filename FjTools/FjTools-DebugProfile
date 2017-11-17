@@ -5,14 +5,6 @@
 source FjTools-Shared
 
  ### ### Functions ### ###
-function CloseTerminal(){
-    # This is for when this shell is launched with an application launcher,
-    # (for example .desktop or obmenu,) otherwise it can be ignored
-    echo
-    echo "Press return to close"
-    read Quit
-}
-
 function GetFileName(){
     mkdir -p "$DebugFolder"
     i=1
@@ -42,6 +34,7 @@ function BackUpProfile(){
     cp $EtcFirejail/$AppName.net $DebugFolder/$Index--$AppName.net 2>/dev/null
 }
 
+
  ### End Functions
 
 
@@ -51,8 +44,15 @@ if ! [[ $AppName = "" ]] ; then
     # Debug application profile
     DebugFolder="$FjToolsDebugFolder/$AppName"
     GetFileName
-    BackUpProfile
-    firejail --debug --$Profile $AppName | tee "$DebugFile"
+    Launch="y"
+    until ! [[ "$Launch" = "y"  ]] ; do
+        BackUpProfile
+        # tee both stderr and stdout to log file
+        firejail --debug --$Profile $AppName 2>&1 | tee "$DebugFile"
+        echo
+        echo "Launch $AppName again? y/n (default no)"
+        read -n1 -s Launch
+        echo
+    done
 fi
-CloseTerminal # comment/uncomment as needed
 echo "Bye :)"
