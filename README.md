@@ -19,11 +19,13 @@ Mainly, I intend to post any Firejail profiles I have written, along with my loc
 Currently, most of my local customisations are concerned with globally enabling apparmor confinement and/or disabling internet connectivity. However, I have recently started work on strengthening internet connected profiles.
 
 The following `.local` files have potentially useful customisations which strengthen their respective upstream profiles:
-1. inox.local
-1. firefox.local
-1. opera.local
-1. makepkg.local
-1. cower.local
+<pre><code>
+  inox.local        		: private-bin, private-etc, private-dev, caps.keep whitelist and more
+  firefox.local     		: private-bin and private-etc, private-dev
+  opera.local       		: private-bin, private-etc, private-dev, caps.keep whitelist and more
+  makepkg.local     		: restrict access to ${HOME}
+  cower.local       		: restrict access to ${HOME}
+</code></pre>
 
 **Note1:** It is expected that the above list will usually be incomplete. You can check the `local-customisations` folder for useful customisations by grepping for `# Further restrict the`.
 
@@ -41,11 +43,16 @@ GetPckgOwner="pacman -Qoq"          ### Arch based distro's
 
 NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to edit this string
 ```
+
 * `FjTools-DisableSymlinks`         : A tool to temporarily disable desktop integration
   * Note, I keep my firejail symlinks in a custom folder `/usr/local/bin/FjSymlinks/` which I added to my ${PATH}. So, you will need to edit the `$FjSymlinks` variable to your own usage.
+
 * `FjTools-UnusedProfiles`          : Finds unused Firejail profiles and offer's to create a symlink in the `$FjSymlinks` folder
+
 * `FjTools-SymlinkedProfiles`       : Lists which applications are using Firejail by default.
+
 * `FjTools-HomeGrownProfiles`       : Lists profiles in `/etc/firejail` which are not owned by Firejail
+
 * `FjTools-FjTools-DebugProfile`    : A wrapper to launch applications in `firejail --debug` mode.
   1. It has a lot of nice features like automatically making indexed backups of `<App>.profile`, `<App>.local`, and `<App>.net` all of which are cross-referenced to the relevant `firejail --debug` output
   1. By default, it creates the work directory `${HOME}/Desktop/FjTools-DebugFolder` this can be changed in `FjTools-shared`
