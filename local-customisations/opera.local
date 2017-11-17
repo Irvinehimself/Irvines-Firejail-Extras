@@ -7,17 +7,19 @@ caps.keep sys_chroot,sys_admin
 nogroups
 shell none
 
-private-bin opera,xdg-mime,bash,sh,cut,grep,head
+private-bin opera,xdg-mime,bash,sh,cut,grep,head,ls
 
 # Once built, private-lib fails with: "The setuid sandbox is not running as root. Common causes:".
 # I believe this is related to Chromium/Inox/Opera's built in sandbox, see https://github.com/netblue30/firejail/issues/922
 # Also, see my inox.local file for an example private-lib that builds successfully, but fails when the built-in sandbox is launched
-# Note: I think this applies to the latest Firefox, which is also based on Chromium
+# Note: I think this may apply to the latest Firefox, which is also based on Chromium
 
+private-etc passwd,group,hostname,hosts,localtime,nsswitch.conf,resolv.conf,xdg,gtk-3.0,pango,fonts,mime.types,mailcap,asound.conf,pulse
 private-opt none
 private-dev
+
+# Note: enabling private-tmp works for me, but may cause problems with multiple browser sessions
 private-tmp
-# Note: enabling private-tmp may cause problems with multiple browser sessions
 
 noexec ${HOME}
 noexec /tmp
