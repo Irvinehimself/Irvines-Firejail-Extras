@@ -27,13 +27,13 @@ The following `.local` files have potentially useful customisations which streng
   cower.local       		: restrict access to ${HOME}
 ```
 
-**Note1:** It is expected that the above list will usually be incomplete. You can check the `local-customisations` folder for useful customisations by grepping for `# Further restrict the`.
+**Note1:**It is expected that the above list will usually be incomplete. You can check the `local-customisations` folder for useful customisations by grepping for `# Further restrict the`.
 
-**Note2:** Both `profiles` and `local-customisations` are very much works in progress, so frequent updates are to be expected.
+**Note2:**Both `profiles` and `local-customisations` are very much works in progress, so frequent updates are to be expected.
 
 #### FjTools
 This is just a little extra. It contains a set of bash shells that provide extra functionality for controlling Firejail and/or writing profiles. Currently, it consists of:
-* `FjTools-Shared`                  : Contains the paths used by FjTools, and distro specific commands. For example:
+* **FjTools-Shared:** Contains the paths used by FjTools, and distro specific commands. For example:
   * (Note, I only use Arch Linux, so the following is untested and may need some tweaking for non-arch based distros)
 ```
 # Distro specific package owner search, comment/uncomment as needed.
@@ -44,21 +44,21 @@ GetPckgOwner="pacman -Qoq"          ### Arch based distro's
 NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to edit this string
 ```
 
-* `FjTools-DisableSymlinks`         : A tool to temporarily disable desktop integration
+* **FjTools-DisableSymlinks:** A tool to temporarily disable desktop integration
   * Note, I keep my firejail symlinks in a custom folder `/usr/local/bin/FjSymlinks/` which I added to my ${PATH}. So, you will need to edit the `$FjSymlinks` variable to your own usage.
 
-* `FjTools-UnusedProfiles`          : Finds unused Firejail profiles and offer's to create a symlink in the `$FjSymlinks` folder
+* **FjTools-UnusedProfiles:** Finds unused Firejail profiles and offer's to create a symlink in the `$FjSymlinks` folder
 
-* `FjTools-SymlinkedProfiles`       : Lists which applications are using Firejail by default.
+* **FjTools-SymlinkedProfiles:** Lists which applications are using Firejail by default.
 
-* `FjTools-HomeGrownProfiles`       : Lists profiles in `/etc/firejail` which are not owned by Firejail
+* **FjTools-HomeGrownProfiles:** Lists profiles in `/etc/firejail` which are not owned by Firejail
 
-* `FjTools-FjTools-DebugProfile`    : A wrapper to launch applications in `firejail --debug` mode.
+* **FjTools-FjTools-DebugProfile:** A wrapper to launch applications in `firejail --debug` mode.
   1. It has a lot of nice features like automatically making indexed backups of `<App>.profile`, `<App>.local`, and `<App>.net` all of which are cross-referenced to the relevant `firejail --debug` output
   1. By default, it creates the work directory `${HOME}/Desktop/FjTools-DebugFolder` this can be changed in `FjTools-shared`
   1. You should note that there is a great deal of useful in formation to gleaned from `stderr`, so both `stdout` and `stderr` are `tee`ed to the debug log file.
 
-* `FjTools-BackupProfile`           : Backup and/or restore a last working cop of <AppName>.profile, <AppName>.local and <AppName>.net
+* **FjTools-BackupProfile:** Backup and/or restore a last working cop of <AppName>.profile, <AppName>.local and <AppName>.net
   1. The difference between this backup function and the one in above, is that `FjTools-FjTools-DebugProfile` automatically backs up an indexed copy of the profile being tested, which may or may not work. This backup function however, has it's own `LastWorkingCopy` sub-folder of the `FjTools-DebugFolder`, and, as the name suggests, is used to backup important milestones.
 
-**Important Tip:** Being old, and a very un-natural typist, I am not generally a great fan of *keybindings*. However, in this case, I have to admit that having *hotkeys* to launch `FjTools-FjTools-DebugProfile` and `FjTools-BackupProfile` greatly speeds up my workflow.
+**Important Tip:**Being old, and a very un-natural typist, I am not generally a great fan of *keybindings*. However, in this case, I have to admit that having *hotkeys* to launch `FjTools-FjTools-DebugProfile` and `FjTools-BackupProfile` greatly speeds up my workflow.
