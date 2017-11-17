@@ -3,7 +3,7 @@
 
 
 private-bin firefox,which,sh,dbus-launch,dbus-send,env,bash,ps,grep,sh
-private-etc passwd,group,hostname,hosts,localtime,nsswitch.conf,resolv.conf,xdg,gtk-2.0,gtk-3.0,X11,pango,fonts,firefox,mime.types,mailcap,asound.conf,pulse
+private-etc passwd,group,hostname,hosts,localtime,nsswitch.conf,resolv.conf,xdg,gtk-3.0,pango,fonts,mime.types,mailcap,asound.conf,pulse
 
 # Enable internet, (disabled in my globals.local)
 ignore net
