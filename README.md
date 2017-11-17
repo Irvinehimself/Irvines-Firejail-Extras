@@ -19,13 +19,13 @@ Mainly, I intend to post any Firejail profiles I have written, along with my loc
 Currently, most of my local customisations are concerned with globally enabling apparmor confinement and/or disabling internet connectivity. However, I have recently started work on strengthening internet connected profiles.
 
 The following `.local` files have potentially useful customisations which strengthen their respective upstream profiles:
-<pre><code>
+```
   inox.local        		: private-bin, private-etc, private-dev, caps.keep whitelist and more
   opera.local       		: private-bin, private-etc, private-dev, caps.keep whitelist and more
-  firefox.local     		: private-bin, private-etc and private-dev
+  firefox.local     		: private-bin, private-etc and private-dev, (private-lib work in progress)
   makepkg.local     		: restrict access to ${HOME}
   cower.local       		: restrict access to ${HOME}
-</code></pre>
+```
 
 **Note1:** It is expected that the above list will usually be incomplete. You can check the `local-customisations` folder for useful customisations by grepping for `# Further restrict the`.
 
@@ -56,4 +56,9 @@ NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to ed
 * `FjTools-FjTools-DebugProfile`    : A wrapper to launch applications in `firejail --debug` mode.
   1. It has a lot of nice features like automatically making indexed backups of `<App>.profile`, `<App>.local`, and `<App>.net` all of which are cross-referenced to the relevant `firejail --debug` output
   1. By default, it creates the work directory `${HOME}/Desktop/FjTools-DebugFolder` this can be changed in `FjTools-shared`
-  1. You should note that it is only the output of `firejail --debug` which is `tee`ed to the work directory. Other useful information may be gleaned from the terminal in which it is launched, ie `firejail stderr`.
+  1. You should note that there is a great deal of useful in formation to gleaned from `stderr`, so both `stdout` and `stderr` are `tee`ed to the debug log file.
+
+* `FjTools-BackupProfile`           : Backup and/or restore a last working cop of <AppName>.profile, <AppName>.local and <AppName>.net
+  1. The difference between this backup function and the one in above, is that `FjTools-FjTools-DebugProfile` automatically backs up an indexed copy of the profile being tested, which may or may not work. This backup function however, has it's own `LastWorkingCopy` sub-folder of the `FjTools-DebugFolder`, and, as the name suggests, is used to backup important milestones.
+
+**Important Tip:** Being old, and a very un-natural typist, I am not generally a great fan of *keybindings*. However, in this case, I have to admit that having *hotkeys* to launch `FjTools-FjTools-DebugProfile` and `FjTools-BackupProfile` greatly speeds up my workflow.
