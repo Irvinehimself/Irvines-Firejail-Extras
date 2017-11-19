@@ -81,7 +81,7 @@ NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to ed
 
 * **Limitations of FjTools-CreatePrivateLib:**
 * It only tries to get the \<app\> to launch and ignores warnings. (See the inline notes for the shell)
-* If the \<app\>  launches, it may immediately crash. (See my inline notes about seccomp in the Chromium based Opera and Inox browser's `.local` customisation files)
+* If the \<app\>  launches, it may immediately crash. (See my inline notes about `private-lib` in the Chromium based Opera and Inox browser's `.local` customisation files)
 * Even if it launches, you will probably have to use `stderr` to manually find the missing files for things like Gtk
 * After all this, your are still going to have to make an educated guess about what is needed to enable missing functionality, eg internet connectivity:
   1. In the case of Firefox 57, I guessed that it was the `nss` network security package and used `ls /usr/lib | grep "nss" | tr '\n' ','`
