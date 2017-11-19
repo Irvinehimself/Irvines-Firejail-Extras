@@ -19,9 +19,12 @@ fi
 
 
 echo "Disabling Firejail symlinks for $SleepDelay minutes"
+echo "Sorry, need root password"
 sudo mv "$FjSymlinks" "$FjSymlinksBack"
 echo "IMPORTANT: Don't close the  terminal window"
 notify-send "Firejail symlinks disabled" --icon="$NotifyIcon"
 sleep "$SleepDelay$SleepSuffix"
 notify-send "Firejail symlinks enabled" --icon="$NotifyIcon"
+echo "Enabling Firejail symlinks after $SleepDelay minutes"
+echo "Sorry, need root password"
 sudo mv "$FjSymlinksBack" "$FjSymlinks"
