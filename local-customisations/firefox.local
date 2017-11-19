@@ -1,9 +1,16 @@
 # Local customisations for Firefox
 # Further restrict the firefox.profile
 
+private-bin firefox,which,sh,dbus-launch,dbus-send,env,bash,ps,grep,sh,ls
 
-private-bin firefox,which,sh,dbus-launch,dbus-send,env,bash,ps,grep,sh
-private-etc passwd,group,hostname,hosts,localtime,nsswitch.conf,resolv.conf,xdg,gtk-3.0,pango,fonts,mime.types,mailcap,asound.conf,pulse
+private-lib firefox,libstdc++.so.6,libgtk-3.so.0,libsqlite3.so.0,libhunspell-1.6.so.0,libasound.so.2,libdbus-glib-1.so.2,libstartup-notification-1.so.0,libXt.so.6,gdk-pixbuf-2.0,gtk-3.0,libcanberra-gtk3.so.0,gio,libgconf-2.so.4,gvfs,libnssckbi.so,libnss_dns.so.2
+
+private-etc passwd,group,hostname,hosts,localtime,nsswitch.conf,resolv.conf,xdg,gtk-3.0,pango,fonts,mime.types,pulse
+private-dev
+private-opt none
 
 # Enable internet, (disabled in my globals.local)
 ignore net
+
+# tracelog doesn't contribute and is causing problems finding prvate-lib
+#ignore tracelog
