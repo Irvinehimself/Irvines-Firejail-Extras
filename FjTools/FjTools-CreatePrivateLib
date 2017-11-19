@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# A tool to create the private-lib string
+
+source  FjTools-Shared
+
+ ### ### Constants and variables ### ###
+PrivateLibDebug="--private-lib"     # This is what is fed back into the function
+PrivateLib="private-lib"            # This what is copy pasted into the profile
+
+# Note on $PrivateLib and $PrivateLibDebug:
+# There is no easy way of parsing a warning without creating an infinite loop.
+# To get around this, I am using two variables: The one we  want, $PrivateLib,
+# which is filtered for warnings, and $PrivateLibDebug which is fed back into the
+# function. We still need the "missing file or directory", however the emphasis here
+# is to get the application to launch. Once having done so, we can use the terminal,
+# "FjTools-DebugProfile" and a bit of intuition to manually fine tune the "private-lib"
+# directory.
+
+
+ ### ### End Constants
+
+ ### ### Functions ### ###
+function GetAppName(){
+    echo "FjTools: create the private-lib string"
+    echo "Enter application name, null string to cancel"
+    read AppName
+	if ! [[ "$AppName" = "" ]] ; then
+	   mkdir -p "$FjToolsPrivateLibFolder"
+	   AppPrivateLibFile="$FjToolsPrivateLibFolder/GetPrivateLib-$AppName"
+	fi
+}
+
+function GetMissingLib(){
+    firejail --ignore=quiet "$PrivateLibDebug" $AppName 2>&1 | tee "$AppPrivateLibFile"
+    NoSuchFile=$(cat "$AppPrivateLibFile" | grep "No such file or directory" )
+    if [[ "$NoSuchFile" = *"error while loading shared libraries"* ]]; then
+            MissingLib=$(echo "$NoSuchFile" | cut -d':' -f3 | tr -d '[:space:]' )
+        elif ! [[ "$NoSuchFile" = *"/usr/lib/"* ]]; then
+                MissingLib=$(echo "$NoSuchFile" | cut -d':' -f1 | tr -d '[:space:]' )
+            else
+                    MissingLib=$(echo "$NoSuchFile" | cut -d':' -f3 | cut -d'/' -f4 | tr -d '[:space:]' )
+    fi
+}
+
+
+ ### End Functions
+
+
+ ### ### Main ### ###
+GetAppName
+if ! [[ $AppName = "" ]] ; then
+	GetMissingLib
+    #echo "Debug: NoSuchFile = $NoSuchFile"
+    #echo "Debug: MissingLib = $MissingLib"
+	until [[ "$MissingLib" = "" ]] ; do
+	    if [[ "$PrivateLibDebug" = "--private-lib" ]] ; then
+                PrivateLibDebug="$PrivateLibDebug=$MissingLib"
+                if ! [[ "$MissingLib" = *"WARNING"* ]] ; then
+                    PrivateLib="$PrivateLib $MissingLib"
+	            fi
+	        else
+                    PrivateLibDebug="$PrivateLibDebug,$MissingLib"
+                    if ! [[ "$MissingLib" = *"WARNING"* ]] ; then
+                        PrivateLib="$PrivateLib,$MissingLib"
+                    fi
+	    fi
+	    GetMissingLib
+	    #echo "Debug: NoSuchFile = $NoSuchFile"
+	    #echo "Debug: MissingLib = $MissingLib"
+	done
+	echo
+	echo "$PrivateLib" | tee -a "$AppPrivateLibFile"
+	echo
+fi
+echo "Bye :)" | tee -a "$AppPrivateLibFile"
+echo
+
