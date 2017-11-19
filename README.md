@@ -1,6 +1,21 @@
 # Irvines-Firejail-Extras
 Extra profiles, local customisations and tools for Firejail
 
+#### Contents
+* **Introduction**
+* **Profiles**
+* **Local customisations**
+* **FjTools**
+  1. *FjTools-Shared*
+  1. *FjTools-DisableSymlinks*
+  1. *FjTools-UnusedProfiles*
+  1. *FjTools-SymlinkedProfiles*
+  1. *FjTools-HomeGrownProfiles*
+  1. *FjTools-FjTools-DebugProfile*
+  1. *FjTools-BackupProfile*
+  1. *FjTools-CreatePrivateLib*
+
+
 #### Introduction
 Inspired by recent security threats and the new [SubGraph OS](https://subgraph.com/), my current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org)
 
@@ -20,16 +35,16 @@ Currently, most of my local customisations are concerned with globally enabling 
 
 The following `.local` files have potentially useful customisations which strengthen their respective upstream profiles:
 ```
-  inox.local        		: private-bin, private-etc, private-dev, caps.keep whitelist and more
-  opera.local       		: private-bin, private-etc, private-dev, caps.keep whitelist and more
-  firefox.local     		: private-bin, private-etc and private-dev, (private-lib work in progress)
-  makepkg.local     		: restrict access to ${HOME}
-  cower.local       		: restrict access to ${HOME}
+inox.local        	: private-bin, private-etc, private-dev, caps.keep whitelist and more
+opera.local       	: private-bin, private-etc, private-dev, caps.keep whitelist and more
+firefox.local     	: private-bin, private-etc, private-dev, and private-lib (Tested with Firefox 57)
+makepkg.local     	: restrict access to ${HOME}
+cower.local       	: restrict access to ${HOME}
 ```
 
-**Note1:**It is expected that the above list will usually be incomplete. You can check the `local-customisations` folder for useful customisations by grepping for `# Further restrict the`.
+**Note1:** It is expected that the above list will usually be incomplete. You can check the `local-customisations` folder for useful customisations by grepping for `# Further restrict the`.
 
-**Note2:**Both `profiles` and `local-customisations` are very much works in progress, so frequent updates are to be expected.
+**Note2:** Both `profiles` and `local-customisations` are very much works in progress, so frequent updates are to be expected.
 
 #### FjTools
 This is just a little extra. It contains a set of bash shells that provide extra functionality for controlling Firejail and/or writing profiles. Currently, it consists of:
@@ -61,3 +76,14 @@ NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to ed
 * **FjTools-BackupProfile:** Backup and/or restore a last working cop of `<App>.profile`, `<App>.local` and `<App>.net`
   1. The difference between this backup function and the one above, is that `FjTools-DebugProfile` automatically backs up an indexed copy of the profile being tested, which may or may not work. This backup function however, has it's own `LastWorkingCopy` sub-folder of the `FjTools-DebugFolder`, and, as the name suggests, is used to backup important milestones.
   1. **Important Tip:** Being old, and very much an un-natural typist, I am not generally a great fan of *keybindings*. However, in this case, I have to admit that having *hotkeys* to launch `FjTools-DebugProfile` and `FjTools-BackupProfile` greatly speeds up the workflow.
+
+* **FjTools-CreatePrivateLib:** Like the Firejail `private-lib` feature itself, this is pretty much still experimental. However, it did greatly simplify the building of the `private-lib` whitelist for Firefox 57. Which, by the way, is the first non-trivial working example of the `prvate-lib` feature I have seen. (Try `grep "private-lib" /etc/firejai/*` and see how many examples you find!)
+
+* **Limitations of FjTools-CreatePrivateLib:**
+* It only tries to get the \<app\> to launch and ignores warnings. (See the inline notes for the shell)
+* If the \<app\>  launches, it may immediately crash. (See my inline notes about seccomp in the Chromium based Opera and Inox browser's `.local` customisation files)
+* Even if it launches, you will probably have to use `stderr` to manually find the missing files for things like Gtk
+* After all this, your are still going to have to make an educated guess about what is needed to enable missing functionality, eg internet connectivity:
+  1. In the case of Firefox 57, I guessed that it was the `nss` network security package and used `ls /usr/lib | grep "nss" | tr '\n' ','`
+  1. After copy/pasting that rather large list onto the end of my `private-lib` I had internet connectivity.
+  1. I then used a [binary chop algorithm](https://en.wikipedia.org/wiki/Binary_search_algorithm) to manually remove the unneeded libraries.
