@@ -1,19 +1,40 @@
 #!/bin/bash
 
+###############################################
+# Copyright (C) 2017  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# FjTools is a collection of extra profiles, local customisations and
+# tools for Firejail. The project home page can be found at
+# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+#
+# FjTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# FjTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+###############################################
+
 # A wrapper to launch applications with 'firejail --debug'
 
 source FjTools-Shared
 
  ### ### Functions ### ###
 function GetFileName(){
-    mkdir -p "$DebugFolder"
+    mkdir -p "$DebugWork"
     i=1
     printf -v Index "%03d" $i
-	while [ -e "$DebugFolder/$Index--$AppName.debug" ] ; do
+	while [ -e "$DebugWork/$Index--$AppName.debug" ] ; do
         i=$(($i+1))
         printf -v Index "%03d" $i
 	done
-    DebugFile="$DebugFolder/$Index--$AppName.debug"
+    DebugFile="$DebugWork/$Index--$AppName.debug"
 }
 
 function GetAppName(){
@@ -29,9 +50,9 @@ function GetAppName(){
 }
 
 function BackUpProfile(){
-    cp $EtcFirejail/$AppName.profile $DebugFolder/$Index--$AppName.profile 2>/dev/null
-    cp $EtcFirejail/$AppName.local $DebugFolder/$Index--$AppName.local 2>/dev/null
-    cp $EtcFirejail/$AppName.net $DebugFolder/$Index--$AppName.net 2>/dev/null
+    cp $EtcFirejail/$AppName.profile $DebugWork/$Index--$AppName.profile 2>/dev/null
+    cp $EtcFirejail/$AppName.local $DebugWork/$Index--$AppName.local 2>/dev/null
+    cp $EtcFirejail/$AppName.net $DebugWork/$Index--$AppName.net 2>/dev/null
 }
 
 
@@ -41,8 +62,7 @@ function BackUpProfile(){
  ### ### Main ### ###
 GetAppName
 if ! [[ $AppName = "" ]] ; then
-    # Debug application profile
-    DebugFolder="$FjToolsDebugFolder/$AppName"
+    DebugWork="$FjDebugFolder/$AppName"
     GetFileName
     Launch="y"
     until ! [[ "$Launch" = "y"  ]] ; do
