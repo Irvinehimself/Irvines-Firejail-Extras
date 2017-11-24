@@ -7,7 +7,8 @@ caps.keep sys_chroot,sys_admin
 nogroups
 shell none
 
-private-bin inox,inoxdriver,xdg-mime,bash,sh,cut,grep,head,ls
+# Originally a mix from the inline notes of the upstream Firefox and Chromium profiles. In fact, this is all that is needed
+private-bin inox
 
 # Once built, private-lib fails with: "The setuid sandbox is not running as root. Common causes:".
 # I believe this is related to Chromium/Inox/Opera's built in sandbox, see https://github.com/netblue30/firejail/issues/922
