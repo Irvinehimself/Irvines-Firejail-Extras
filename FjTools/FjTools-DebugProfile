@@ -62,7 +62,7 @@ function BackUpProfile(){
  ### ### Main ### ###
 GetAppName
 if ! [[ $AppName = "" ]] ; then
-    DebugWork="$FjDebugFolder/$AppName"
+    DebugWork="$FjWorkFolder/$AppName"
     GetFileName
     Launch="y"
     until ! [[ "$Launch" = "y"  ]] ; do

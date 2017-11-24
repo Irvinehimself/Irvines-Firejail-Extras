@@ -52,7 +52,7 @@ function GetAppName(){
  ### ### Main ### ###
 GetAppName
 if ! [[ $AppName = "" ]] ; then
-    LastCopy="$FjDebugFolder/$AppName/LastWorkingCopy"
+    LastCopy="$FjWorkFolder/$AppName/LastWorkingProfiles"
     mkdir -p "$LastCopy"
     echo "(B)ackup or (R)estore $AppName profile and customisations? (default is 'B'/'b'"
     read -n1 -s Key
