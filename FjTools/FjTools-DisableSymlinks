@@ -1,30 +1,70 @@
 #!/bin/bash
 
+###############################################
+# Copyright (C) 2017  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# FjTools is a collection of extra profiles, local customisations and
+# tools for Firejail. The project home page can be found at
+# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+#
+# FjTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# FjTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+###############################################
+
 # This shell temporarily disables firejail symlinks by renaming my symlinking folder and, thus taking it out of the $PATH
 
-# Ideally, if I have got things correct, any problems with porting the collection of tools to other distro's can be solved
-# solely by editing the paths in FjTools-Shared
 source FjTools-Shared
 
+ ### ### Functions
+function GetSleepDelay(){
+	if [[ "$1" = "" ]] ; then
+	        echo "Enter time in minutes to disable Firejail symlinks, default = $SleepDelay"
+	        read Tmp
+	        if ! [[ "$Tmp" = "" ]] ; then
+	            SleepDelay="$Tmp"
+	        fi
+	    else
+	            SleepDelay="$1"
+	fi
+}
+
+function DisableSymlinks(){
+	echo "Disabling Firejail symlinks for $SleepDelay minutes"
+	echo "Sorry, need root password"
+	sudo mv "$FjSymlinks" "$FjSymlinksBack"
+	echo "IMPORTANT: Don't close the  terminal window"
+	notify-send "Firejail symlinks disabled" --icon="$NotifyIcon"
+	sleep "$SleepDelay$SleepSuffix"
+}
+
+function EnableSymlinks(){
+	echo "Sorry, need root password"
+	sudo mv "$FjSymlinksBack" "$FjSymlinks"
+	notify-send "Firejail symlinks enabled" --icon="$NotifyIcon"
+}
+
+function EnableSymlinksAfteSleep(){
+	echo "Enabling Firejail symlinks after $SleepDelay minutes"
+	EnableSymlinks
+}
+
+ ### End Functions
+
  ### ### Main ### ###
-if [[ "$1" = "" ]] ; then
-        echo "Enter time in minutes to disable Firejail symlinks, default = $SleepDelay"
-        read Tmp
-        if ! [[ "$Tmp" = "" ]] ; then
-            SleepDelay="$Tmp"
-        fi
-    else
-            SleepDelay="$1"
-fi
-
-
-echo "Disabling Firejail symlinks for $SleepDelay minutes"
-echo "Sorry, need root password"
-sudo mv "$FjSymlinks" "$FjSymlinksBack"
-echo "IMPORTANT: Don't close the  terminal window"
-notify-send "Firejail symlinks disabled" --icon="$NotifyIcon"
-sleep "$SleepDelay$SleepSuffix"
-notify-send "Firejail symlinks enabled" --icon="$NotifyIcon"
-echo "Enabling Firejail symlinks after $SleepDelay minutes"
-echo "Sorry, need root password"
-sudo mv "$FjSymlinksBack" "$FjSymlinks"
+echo "(D)isable Firejail symlink folder, (E)nable Firejail symlink folder. [default is enable]"
+read -n1 -s Key
+case $Key in
+    [dD]) DisableSymlinks
+          EnableSymlinksAfteSleep ;;
+       *) EnableSymlinks ;;
+esac
