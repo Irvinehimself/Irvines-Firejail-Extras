@@ -1,7 +1,29 @@
 #!/bin/bash
 
-# FjTools shared library. Ideally, if I have got things correct, any problems with porting the collection of tools
-# to other distro's can be solved solely by editing this file
+###############################################
+# Copyright (C) 2017  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# FjTools is a collection of extra profiles, local customisations and
+# tools for Firejail. The project home page can be found at
+# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+#
+# FjTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# FjTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+###############################################
+
+# Ideally, if I have got things correct, any problems with porting the collection of
+# tools to other distro's can be solved solely by editing the paths in this common
+# library, (FjTools-Shared,) of FjTools
 
 # Colours
 Red=$'\e[1;31m' # Red
@@ -23,27 +45,116 @@ End=$'\e[0m'    # Reset
 # End colours
 
 # Paths
-EtcFirejail="/etc/firejail"
-UsrLocalBin="/usr/local/bin"
 FjSymlinks="$UsrLocalBin/FjSymlinks"
 FjSymlinksBack="$FjSymlinks""Back"
-UsrBin="/usr/bin"
+FjWorkFolder="${HOME}/Desktop/FjTools-WorkFolder"
+
+FjPrivateLibFolder="$FjWorkFolder/PrivateLibWork"
+FjGuessPrivateLibFile="$FjPrivateLibFolder/GuessPrivateLib"
+FjPrivateLibLibraryFile="$FjPrivateLibFolder/Libraries"
+FjPrivateLibNotFoundFile="$FjPrivateLibFolder/NotFound"
+
+FjDependencyFolder="$FjWorkFolder/Dependencies"
+FjDependencyChainFile="$FjDependencyFolder/DependencyChain"
+FjDependencyChainLog="$FjDependencyFolder/DependencyChainLog"
+FjDependencyLibraryFile="$FjDependencyFolder/Libraries"
+FjDependencyNotFoundFile="$FjDependencyFolder/NotFound"
+
+FjInstalledPkgsFile="$FjDependencyFolder/InstalledPkgs"
+
+EtcFirejail="/etc/firejail"
 UsrBinFirejail="/usr/bin/firejail"
+
+UsrLocalBin="/usr/local/bin"
+UsrBin="/usr/bin"
+
+UsrLib="/usr/lib"
+
 NotifyIcon="/usr/share/pixmaps/firetools.png"
-FjToolsDebugFolder="${HOME}/Desktop/FjTools-DebugFolder"
-FjToolsPrivateLibFolder="$FjToolsDebugFolder/PrivateLibWork"
+
 # End paths
 
-# Default sleep values
+# Global constants and variables
+DependencyChain=""
+LibSoLibraryChain=""
+DependencyNotFoundChain=""
+
+BinaryChop="64"
 SleepDelay="1"
 SleepSuffix="m"
 
+# Distro specific functions and variables that will need editing for non-arch distros
 
-# Distro specific package owner search, comment/uncomment as needed.
-GetPckgOwner="pacman -Qoq"          ### Arch based distro's
-# GetPckgOwner="dpkg --search"      ### Debian based distro's
-# GetPckgOwner="rpm -qf"            ### Fedora based distro's
+NoPckgOwns="error: No package owns"
+WasNotFound="was not found"
+NoDepends="None"
 
-NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to edit this string
+function GetPckgOwner(){
+    echo "$(pacman -Qoq $1)"
+}
 
-# I believe the above distro specific commands are correct, but they lack testing. Also, you may, or may not, need to edit how the calling functions parse the output?
+function GetPkgDepends(){
+    echo "$(pacman -Si "$1" 2>&1 | grep 'Depends On\|was not found' | cut -d':' -f2 | xargs)"
+}
+
+function GetInstalled(){
+    mkdir -p "$FjDependencyFolder"
+    pacman -Q  > "$FjInstalledPkgsFile"
+}
+
+function GetProvides(){
+    echo "$(pacman -Si $1 | grep 'Provides')"
+}
+
+function RemoveVersionQualifier(){
+    if [[ "$1" = *">"* ]] ; then
+            TmpSrchStr="$(echo $1 | cut -d'>' -f1)"
+        elif [[ "$1" = *"<"* ]] ; then
+                TmpSrchStr="$(echo $1 | cut -d'<' -f1)"
+            elif [[ "$1" = *"="* ]] ; then
+                    TmpSrchStr="$(echo $1 | cut -d'=' -f1)"
+                else
+                        TmpSrchStr="$1"
+    fi
+    echo "$TmpSrchStr"
+}
+
+function GetProvidedBy(){
+	local TmpMissingPkg=$1
+    local Pkg="Dummy"
+    local TmpGrepInstalled="Dummy"
+    local TmpGrepProvides="Dummy"
+    local TmpTest1="Dummy"
+    local TmpTest2="Dummy"
+        #(>&2 echo "Debug: Test2 return Pkg = $Pkg" )
+	    #(>&2 echo )
+    pkgfile -r ".*$TmpMissingPkg.*" |\
+    while read Line ; do
+        Pkg=$(echo $Line | cut -d'/' -f2)
+        # Is it installed?
+        TmpGrepInstalled=$(cat $FjInstalledPkgsFile | grep "$Pkg " | cut -d' ' -f1)
+        if ! [[ "$TmpGrepInstalled" = "" ]] ; then
+            # Yes, it's a possibility. Could it provide the required package?
+            TmpGrepProvides=$(GetProvides "$Pkg" | grep " $TmpMissingPkg")
+        	if ! [[ "$TmpGrepProvides" = "" ]] ; then
+                # Possible, need to extract substring and remove any versioning qualifier
+                Test1=$(echo $TmpGrepProvides | sed "s/^.*\( $TmpMissingPkg.* \).*$/\1/"  | xargs)
+        	    Test1="$(RemoveVersionQualifier $Test1)"
+        	    if ! [[ "$TmpTest1" = "$TmpMissingPkg" ]] ; then
+                        # Yes, exact match
+                        echo "$Pkg"
+                        return
+                    else
+                            # Could it be at the end of the line
+                            TmpTest2=$(echo $TmpGrepProvides | sed "s/^.*\( $TmpMissingPkg.*\).*$/\1/" | xargs)
+                            Test2="$(RemoveVersionQualifier $Test2)"
+                            if [[ "$TmpTest2" = "$TmpMissingPkg" ]] ; then
+                                	# Yes, exact match at end of line
+                                	echo "$Pkg"
+                                	return
+                            fi
+        	    fi
+        	fi
+        fi
+    done
+}
