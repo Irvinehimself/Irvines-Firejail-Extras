@@ -1,0 +1,189 @@
+#!/bin/bash
+
+###############################################
+# Copyright (C) 2017  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# FjTools is a collection of extra profiles, local customisations and
+# tools for Firejail. The project home page can be found at
+# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+#
+# FjTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# FjTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+###############################################
+
+# Get a list of an applications dependencies
+
+source FjTools-Shared
+
+
+
+ ### ### Functions ### ###
+function EchoToLog(){
+    echo "$1" | tee -a "$FjDependencyChainLog-$AppName"
+    echo | tee -a "$FjDependencyChainLog-$AppName"
+}
+
+function GetAppName(){
+    # If AppName has not been assigned manually, then ask user
+    if [[ "$AppName" = "" ]] ; then
+    	echo "Get a list of an applications dependencies"
+    	echo "Enter application name, null string to cancel"
+    	read AppName
+    	echo
+	fi
+}
+
+function RecursiveDepends(){
+    # Declare function's local variables
+    local Package=$1
+    local PkgSearchString="Dummy"
+    local PkgDependString="Dummy"
+    local PkgProvidedBy="Dummy"
+    # Check package is not already indexed
+	if ! [[ "$DependencyChain" = *",$Package,"* || "$LibSoLibraryChain" = *"$Package"* || "$DependencyNotFoundChain" = *"$Package"* ]] ; then
+        # No, it's not already indexed
+
+        # Is it a shared object library ???
+        if ! [[ "$Package" = *'.so'* ]] ; then
+                # No, it's not a shared object library
+
+                # Get the package dependencies and trim white spaces
+				PkgDependString=$(GetPkgDepends $Package)
+
+				# Is package installed ???
+				if [[ "$PkgDependString" = *"$WasNotFound"  ]] ; then
+				        # No, log "Redirecting: package * was not found"
+        		    	EchoToLog "Redirecting: $PkgDependString"
+
+        		    	# Can we find the package that provides missing dependency ???
+        		        PkgProvidedBy=$(GetProvidedBy $Package)
+        		    	if ! [[ "$PkgProvidedBy" = ""  ]] ; then
+                                # Yes, log the 'provides' package
+        		    			EchoToLog "$Package is provided by $PkgProvidedBy"
+
+        		    			# Add the 'provides' package to global dependency chain
+        		    			DependencyChain="$DependencyChain,$PkgProvidedBy,"
+        		    			EchoToLog "Added package $PkgProvidedBy to dependency string"
+
+        		    			# Set up the next recursion with the the 'provides' package
+        		    			PkgDependString=$(GetPkgDepends $PkgProvidedBy)
+        		    			EchoToLog "Package $PkgProvidedBy, which depends on: $PkgDependString"
+
+        		    		else # No, we can't we find the package that provides missing dependency
+
+        		    		        # Add the missing package to the 'not found' chain
+                                    DependencyNotFoundChain="$DependencyNotFoundChain,$Package,"
+                                    EchoToLog "Package providing $Package, added to 'not found' string"
+
+        		    		        # Skip the next recursion
+                                    PkgDependString="$NoDepends"
+        		    	fi
+
+        		    else # Yes, the package is installed
+							EchoToLog "Package $Package found, which depends on: $PkgDependString"
+
+							# And add it to the dependency string
+        		            DependencyChain="$DependencyChain,$Package,"
+        		            EchoToLog "Added package $Package global dependency string"
+				fi
+
+				# Does package have any dependencies ???
+				if ! [[ "$PkgDependString" = "$NoDepends" ]] ; then
+				        # Yes, get first argument, trim whitespaces
+						PkgSearchString="$(echo $PkgDependString | cut -d' ' -f1 | xargs)"
+
+						# Remove version qualifier
+						PkgSearchString="$(RemoveVersionQualifier $PkgSearchString)"
+
+						# Get remaining arguments and trim whitespaces
+						PkgDependString="$(echo $PkgDependString | cut -d' ' -f2- | xargs)"
+
+						# Recurse through the package dependencies
+						while ! [[ "$PkgSearchString" = "" ]] ; do
+							RecursiveDepends "$PkgSearchString"
+
+							# Back from recursion, is there any more arguments to the PkgDependString
+							if [[ "$PkgDependString" = *" "* ]] ; then
+                            		# Yes, get the next search argument
+                            		PkgSearchString="$(echo $PkgDependString | cut -d' ' -f1 | xargs)"
+
+                            		# Remove version qualifier from search string
+                            		PkgSearchString="$(RemoveVersionQualifier $PkgSearchString)"
+
+                            		# Get remaining arguments and trim whitespaces
+                            		PkgDependString="$(echo $PkgDependString | cut -d' ' -f2- | xargs)"
+                            	else
+                                        # No, set the next search to null and escape while loop
+								        PkgSearchString=""
+							fi
+
+						# Repeat until bottom of package dependency chain
+						done
+				fi
+			else  # Yes, it's a shared object library
+                    EchoToLog "$Package is a shared object library, adding to library string"
+                    LibSoLibraryChain="$LibSoLibraryChain,$Package,"
+        fi
+	fi
+}
+
+ ### End Functions
+
+
+ ### ### Main ### ###
+
+# Assign any command line parameter to AppName
+AppName="$1"
+
+# if necessary, assign AppName manually
+GetAppName
+
+# Does user wish to continue ???
+if ! [[ "$AppName" = "" ]] ; then
+	# Note, GetInstalled will also create the work directory: $FjDependencyFolder
+	GetInstalled
+
+	# Reset log file
+    echo "" > $FjDependencyChainLog-$AppName
+
+    # Find the applications dependencies
+    RecursiveDepends "$AppName"
+
+    # Clean up dependency strings
+    DependencyChain=$(echo "$DependencyChain" | sed "s/,,/,/g")
+    LibSoLibraryChain=$(echo "$LibSoLibraryChain" | sed "s/,,/,/g")
+    DependencyNotFoundChain=$(echo "$DependencyNotFoundChain" | sed "s/,,/,/g")
+
+    # Append dependency strings to log files
+    echo | tee -a "$FjDependencyChainLog-$AppName"
+
+    echo "DependencyChain = " | tee -a "$FjDependencyChainLog-$AppName"
+    echo "$DependencyChain" | tee -a "$FjDependencyChainLog-$AppName"
+    echo | tee -a "$FjDependencyChainLog-$AppName"
+
+    echo "LibraryChain = " | tee -a "$FjDependencyChainLog-$AppName"
+    echo "$LibSoLibraryChain" | tee -a "$FjDependencyChainLog-$AppName"
+    echo | tee -a "$FjDependencyChainLog-$AppName"
+
+    echo "NotFoundChain = " | tee -a "$FjDependencyChainLog-$AppName"
+    echo "$DependencyNotFoundChain" | tee -a "$FjDependencyChainLog-$AppName"
+    echo | tee -a "$FjDependencyChainLog-$AppName"
+
+    # Overwrite results files
+    echo "$DependencyChain" > "$FjDependencyChainFile-$AppName"
+    echo "$LibSoLibraryChain" > "$FjDependencyLibraryFile-$AppName"
+    echo "$DependencyNotFoundChain" > "$FjDependencyNotFoundFile-$AppName"
+
+fi
+
+
