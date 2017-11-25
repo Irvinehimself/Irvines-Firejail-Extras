@@ -47,39 +47,33 @@ cower.local       	: restrict access to ${HOME}
 **Note2:** Both `profiles` and `local-customisations` are very much works in progress, so frequent updates are to be expected.
 
 #### FjTools
-This is just a little extra. It contains a set of bash shells that provide extra functionality for controlling Firejail and/or writing profiles. Currently, it consists of:
-* **FjTools-Shared:** Contains the paths used by FjTools, and distro specific commands. For example:
-  * (Note, I only use Arch Linux, so the following is untested and may need some tweaking for non-arch based distros)
-```
-# Distro specific package owner search, comment/uncomment as needed.
-GetPckgOwner="pacman -Qoq"          ### Arch based distro's
-# GetPckgOwner="dpkg --search"      ### Debian based distro's
-# GetPckgOwner="rpm -qf"            ### Fedora based distro's
+This is just a little extra. It contains a set of bash shells that provide extra functionality for controlling Firejail and/or writing profiles.
 
-NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to edit this string
-```
+Currently, it consists of:
 
-* **FjTools-DisableSymlinks:** A tool to temporarily disable desktop integration
-  * Note, I keep my firejail symlinks in a custom folder `/usr/local/bin/FjSymlinks/` which I added to my ${PATH}. So, you will need to edit the `$FjSymlinks` variable to your own usage.
+**FjTools-Shared:** Contains the paths and distro specific commands used by FjTools. I only use Arch Linux, so I cant test or develop versions of FjTools for other distros. However, if you wish to port the tools to other distros, I will be only to glad to help, and suggest, as a first step, you open an issue.
+* *Note*: As written, it is assumed that FjTools are installed to `/usr/local/bin`, or some other location in the ${PATH}
 
-* **FjTools-UnusedProfiles:** Finds unused Firejail profiles and offer's to create a symlink in the `$FjSymlinks` folder
+**FjTools-DisableSymlinks:** A tool to temporarily disable desktop integration
+* *Note*: I keep my firejail symlinks in a custom folder `/usr/local/bin/FjSymlinks/` which I added to my ${PATH}. So, you will need to edit the `$FjSymlinks` variable to your own usage.
 
-* **FjTools-SymlinkedProfiles:** Lists which applications are using Firejail by default.
+**FjTools-UnusedProfiles:** Finds unused Firejail profiles and offer's to create a symlink in the `$FjSymlinks` folder
 
-* **FjTools-HomeGrownProfiles:** Lists profiles in `/etc/firejail` which are not owned by Firejail
+**FjTools-SymlinkedProfiles:** Lists which applications are using Firejail by default.
 
-* **FjTools-FjTools-DebugProfile:** A wrapper to launch applications in `firejail --debug` mode.
-  1. It has a lot of nice features like automatically making indexed backups of `<App>.profile`, `<App>.local`, and `<App>.net` all of which are cross-referenced to the relevant `firejail --debug` output
-  1. By default, it creates the work directory `${HOME}/Desktop/FjTools-DebugFolder` this can be changed in `FjTools-shared`
-  1. You should note that there is a great deal of useful in formation to gleaned from `stderr`, so both `stdout` and `stderr` are `tee`ed to the debug log file.
+**FjTools-HomeGrownProfiles:** Lists profiles in `/etc/firejail` which are not owned by Firejail
 
-* **FjTools-BackupProfile:** Backup and/or restore a last working cop of `<App>.profile`, `<App>.local` and `<App>.net`
-  1. The difference between this backup function and the one above, is that `FjTools-DebugProfile` automatically backs up an indexed copy of the profile being tested, which may or may not work. This backup function however, has it's own `LastWorkingCopy` sub-folder of the `FjTools-DebugFolder`, and, as the name suggests, is used to backup important milestones.
-  1. **Important Tip:** Being old, and very much an un-natural typist, I am not generally a great fan of *keybindings*. However, in this case, I have to admit that having *hotkeys* to launch `FjTools-DebugProfile` and `FjTools-BackupProfile` greatly speeds up the workflow.
+**FjTools-FjTools-DebugProfile:** A wrapper to launch applications in `firejail --debug` mode.
+1. It has a lot of nice features like automatically making indexed backups of `<App>.profile`, `<App>.local`, and `<App>.net` all of which are cross-referenced to the relevant `firejail --debug` output
+1. By default, it creates the work directory `${HOME}/Desktop/FjTools-DebugFolder` this can be changed in `FjTools-shared`
+1. You should note that there is a great deal of useful in formation to gleaned from `stderr`, so both `stdout` and `stderr` are `tee`ed to the debug log file.
 
-* **FjTools-CreatePrivateLib:** Like the Firejail `private-lib` feature itself, this is pretty much still experimental. However, it did greatly simplify the building of the `private-lib` whitelist for Firefox 57. Which, by the way, is the first non-trivial working example of the `prvate-lib` feature I have seen. (Try `grep "private-lib" /etc/firejai/*` and see how many examples you find!)
+**FjTools-BackupProfile:** Backup and/or restore a last working cop of `<App>.profile`, `<App>.local` and `<App>.net`
+1. The difference between this backup function and the one above, is that `FjTools-DebugProfile` automatically backs up an indexed copy of the profile being tested, which may or may not work. This backup function however, has it's own `LastWorkingCopy` sub-folder of the `FjTools-DebugFolder`, and, as the name suggests, is used to backup important milestones.
+1. **Important Tip:** Being old, and very much an un-natural typist, I am not generally a great fan of *keybindings*. However, in this case, I have to admit that having *hotkeys* to launch `FjTools-DebugProfile` and `FjTools-BackupProfile` greatly speeds up the workflow.
 
-* **Limitations of FjTools-CreatePrivateLib:**
+**FjTools-CreatePrivateLib:** Like the Firejail `private-lib` feature itself, this is pretty much still experimental. However, it did greatly simplify the building of the `private-lib` whitelist for Firefox 57. Which, by the way, is the first non-trivial working example of the `prvate-lib` feature I have seen. (Try `grep "private-lib" /etc/firejai/*` and see how many examples you find!)
+* **Limitations:**
 * It only tries to get the \<app\> to launch and ignores warnings. (See the inline notes for the shell)
 * If the \<app\>  launches, it may immediately crash. (See my inline notes about `private-lib` in the Chromium based Opera and Inox browser's `.local` customisation files)
 * Even if it launches, you will probably have to use `stderr` to manually find the missing files for things like Gtk
@@ -87,3 +81,14 @@ NoPckgOwns="error: No package owns" ### For non-arch distros, you may need to ed
   1. In the case of Firefox 57, I guessed that it was the `nss` network security package and used `ls /usr/lib | grep "nss" | tr '\n' ','`
   1. After copy/pasting that rather large list onto the end of my `private-lib` I had internet connectivity.
   1. I then used a [binary chop algorithm](https://en.wikipedia.org/wiki/Binary_search_algorithm) to manually remove the unneeded libraries.
+
+**FjTools-GuessMissingLibs:** Attempts to find all the files in `/usr/lib` owned by an applications dependencies.
+* **Limitations and Usage:**
+* The list is extensive and 99.9% of the entries are unneeded. For an Application like Firefox, this would make it completely unusable as a direct copy/paste. So, for convenience, it has "chop marks" to assist in systematically testing for missing functionality. In the case of Firefox, after restoring internet connectivity, I realised YouTube videos had no sound:
+  1. Running *FjTools-GuessMissingLibs* I had a list of over a thousand potential libraries, about a dozen libraries which were hard coded to a particular version, and one package for which the algorithm couldn't find the "Provided By" package.
+  1. It took six cuts of the "GuessPrivateLib-firefox" file to narrow the thousand potential libraries  down to `libnss_compat.so.2`, and, consequently, restore sound to YouTube
+* Some dependencies are hard coded to a particular version, these are stored in a separate file. eg `Libraries-firefox`
+* Similarly, some dependencies are "provided by" a package other than what the developers originally intended. The algorithm tries to find this replacement package, but, rarely, this may not be possible and require the user to manually search for the "Provides" package. These missing packages are also stored in separate file, eg `NotFound-firefox`
+
+
+**FjTools-GetAppDependencies:** This is the work horse for *FjTools-GuessMissingLibs*, but has so many potential applications, (like for example: guessing `private-bin`, `private-opt` and `private-etc` entries,) I have spun it off as a separate sub-shell. As the name suggests, it uses recursion to generate a 'chain of dependencies' for an application. this 'chain of dependencies' can then be cross-referenced against the owners of the files and folders in your `lib` `bin` `etc` and `opt` directories.
