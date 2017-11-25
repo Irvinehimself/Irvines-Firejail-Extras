@@ -14,6 +14,8 @@ Extra profiles, local customisations and tools for Firejail
   1. *FjTools-FjTools-DebugProfile*
   1. *FjTools-BackupProfile*
   1. *FjTools-CreatePrivateLib*
+  1. *FjTools-GuessMissingLibs*
+  1. *FjTools-GetAppDependencies*
 
 
 #### Introduction
