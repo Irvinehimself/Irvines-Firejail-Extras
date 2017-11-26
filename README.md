@@ -33,7 +33,7 @@ Mainly, I intend to post any Firejail profiles I have written, along with my loc
 * \# This profile will be automatically replaced when an upstream profile becomes available.
 
 #### Local customisations
-Currently, most of my local customisations are concerned with globally enabling apparmor confinement and/or disabling internet connectivity. However, I have recently started work on strengthening internet connected profiles.
+Currently, most of my local customisations are concerned with globally enabling apparmor confinement and/or disabling internet connectivity. However, I have recently started work on strengthening internet connected profiles. The intention is to make these customisations **very** restrictive, while mainlining basic functionality like for example, (in the case of browsers,) video and sound across a wide spectrum of websites.
 
 The following `.local` files have potentially useful customisations which strengthen their respective upstream profiles:
 ```
@@ -54,7 +54,7 @@ This is just a little extra. It contains a set of bash shells that provide extra
 Currently, it consists of:
 
 **FjTools-Shared:** Contains the paths and distro specific commands used by FjTools. I only use Arch Linux, so I cant test or develop versions of FjTools for other distros. However, if you wish to port the tools to other distros, I will be only to glad to help, and suggest, as a first step, you open an issue.
-* *Note*: As written, it is assumed that FjTools are installed to `/usr/local/bin`, or some other location in the ${PATH}
+* *Note*: As written, it is assumed that the FjTools shells are installed to `/usr/local/bin`, or some other location in the ${PATH}
 
 **FjTools-DisableSymlinks:** A tool to temporarily disable desktop integration
 * *Note*: I keep my firejail symlinks in a custom folder `/usr/local/bin/FjSymlinks/` which I added to my ${PATH}. So, you will need to edit the `$FjSymlinks` variable to your own usage.
@@ -70,7 +70,7 @@ Currently, it consists of:
 1. By default, it creates the work directory `${HOME}/Desktop/FjTools-DebugFolder` this can be changed in `FjTools-shared`
 1. You should note that there is a great deal of useful in formation to gleaned from `stderr`, so both `stdout` and `stderr` are `tee`ed to the debug log file.
 
-**FjTools-BackupProfile:** Backup and/or restore a last working cop of `<App>.profile`, `<App>.local` and `<App>.net`
+**FjTools-BackupProfile:** Backup and/or restore a last working copy of `<App>.profile`, `<App>.local` and `<App>.net`
 1. The difference between this backup function and the one above, is that `FjTools-DebugProfile` automatically backs up an indexed copy of the profile being tested, which may or may not work. This backup function however, has it's own `LastWorkingCopy` sub-folder of the `FjTools-DebugFolder`, and, as the name suggests, is used to backup important milestones.
 1. **Important Tip:** Being old, and very much an un-natural typist, I am not generally a great fan of *keybindings*. However, in this case, I have to admit that having *hotkeys* to launch `FjTools-DebugProfile` and `FjTools-BackupProfile` greatly speeds up the workflow.
 
@@ -83,12 +83,14 @@ Currently, it consists of:
   1. In the case of Firefox 57, I guessed that it was the `nss` network security package and used `ls /usr/lib | grep "nss" | tr '\n' ','`
   1. After copy/pasting that rather large list onto the end of my `private-lib` I had internet connectivity.
   1. I then used a [binary chop algorithm](https://en.wikipedia.org/wiki/Binary_search_algorithm) to manually remove the unneeded libraries.
+* With further experimentation, I realised that finding missing libraries was going to be "non-trivial", and wrote the complementary *FjTools-GuessMissingLibs*, (below,) which greatly eases the task of guessing the libraries missed by *FjTools-CreatePrivateLib*.
 
-**FjTools-GuessMissingLibs:** Attempts to find all the files in `/usr/lib` owned by an applications dependencies.
+**FjTools-GuessMissingLibs:** A complement to *FjTools-CreatePrivateLib*, *FjTools-GuessMissingLibs:* attempts to find all the files in `/usr/lib` owned by an applications dependencies.
 * **Limitations and Usage:**
 * The list is extensive and 99.9% of the entries are unneeded. For an Application like Firefox, this would make it completely unusable as a direct copy/paste. So, for convenience, it has "chop marks" to assist in systematically testing for missing functionality. In the case of Firefox, after restoring internet connectivity, I realised YouTube videos had no sound:
   1. Running *FjTools-GuessMissingLibs* I had a list of over a thousand potential libraries, about a dozen libraries which were hard coded to a particular version, and one package for which the algorithm couldn't find the "Provided By" package.
-  1. It took six cuts of the "GuessPrivateLib-firefox" file to narrow the thousand potential libraries  down to `libnss_compat.so.2`, and, consequently, restore sound to YouTube
+  1. It took about half a dozen "chops" of the "GuessPrivateLib-firefox" file to narrow the thousand potential libraries  down to `libnss_compat.so.2`, and, consequently, restore sound to YouTube.
+  1. Porn sites are a good place to experiment with browser functionality, and they revealed that I was still missing some important libraries. Using *FjTools-GuessMissingLibs*, it took, in total, about 10 minutes to find the rest of the missing libraries and restore full video functionality to Firefox.
 * Some dependencies are hard coded to a particular version, these are stored in a separate file. eg `Libraries-firefox`
 * Similarly, some dependencies are "provided by" a package other than what the developers originally intended. The algorithm tries to find this replacement package, but, rarely, this may not be possible and require the user to manually search for the "Provides" package. These missing packages are also stored in separate file, eg `NotFound-firefox`
 
