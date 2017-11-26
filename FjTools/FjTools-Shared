@@ -45,6 +45,17 @@ End=$'\e[0m'    # Reset
 # End colours
 
 # Paths
+
+EtcFirejail="/etc/firejail"
+UsrBinFirejail="/usr/bin/firejail"
+
+UsrLocalBin="/usr/local/bin"
+UsrBin="/usr/bin"
+
+UsrLib="/usr/lib"
+
+NotifyIcon="/usr/share/pixmaps/firetools.png"
+
 FjSymlinks="$UsrLocalBin/FjSymlinks"
 FjSymlinksBack="$FjSymlinks""Back"
 FjWorkFolder="${HOME}/Desktop/FjTools-WorkFolder"
@@ -61,16 +72,6 @@ FjDependencyLibraryFile="$FjDependencyFolder/Libraries"
 FjDependencyNotFoundFile="$FjDependencyFolder/NotFound"
 
 FjInstalledPkgsFile="$FjDependencyFolder/InstalledPkgs"
-
-EtcFirejail="/etc/firejail"
-UsrBinFirejail="/usr/bin/firejail"
-
-UsrLocalBin="/usr/local/bin"
-UsrBin="/usr/bin"
-
-UsrLib="/usr/lib"
-
-NotifyIcon="/usr/share/pixmaps/firetools.png"
 
 # End paths
 
@@ -120,14 +121,10 @@ function RemoveVersionQualifier(){
 }
 
 function GetProvidedBy(){
-	local TmpMissingPkg=$1
-    local Pkg="Dummy"
-    local TmpGrepInstalled="Dummy"
-    local TmpGrepProvides="Dummy"
-    local TmpTest1="Dummy"
-    local TmpTest2="Dummy"
-        #(>&2 echo "Debug: Test2 return Pkg = $Pkg" )
-	    #(>&2 echo )
+	# Because of piped sub-shell, local variables do nothing
+    # Because of redirect in calling function, when debugging, use:
+    # (>&2 echo "Debug: Test2 return Pkg = $Pkg" )
+    # Note, include braces
     pkgfile -r ".*$TmpMissingPkg.*" |\
     while read Line ; do
         Pkg=$(echo $Line | cut -d'/' -f2)

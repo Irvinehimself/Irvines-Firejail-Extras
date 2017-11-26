@@ -64,7 +64,8 @@ function EnableSymlinksAfteSleep(){
 echo "(D)isable Firejail symlink folder, (E)nable Firejail symlink folder. [default is enable]"
 read -n1 -s Key
 case $Key in
-    [dD]) DisableSymlinks
+    [dD]) GetSleepDelay
+          DisableSymlinks
           EnableSymlinksAfteSleep ;;
        *) EnableSymlinks ;;
 esac
