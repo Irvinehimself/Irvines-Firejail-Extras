@@ -6,7 +6,6 @@ private-bin firefox,sh,bash
 private-lib firefox,mozilla,libstdc++.so.6,libgtk-3.so.0,libsqlite3.so.0,libhunspell-1.6.so.0,libasound.so.2,libdbus-glib-1.so.2,libstartup-notification-1.so.0,libXt.so.6,gdk-pixbuf-2.0,gtk-3.0,libcanberra-gtk3.so.0,gio,libgconf-2.so.4,gvfs,libnssckbi.so,libnss_dns.so.2,libnss_compat.so.2,libavcodec.so.57
 
 private-etc group,resolv.conf
-#private-etc passwd,group,hostname,hosts,localtime,nsswitch.conf,resolv.conf,xdg,gtk-2.0,gtk-3.0,X11,pango,fonts,firefox,mime.types,mailcap,asound.conf,pulse
 private-dev
 private-opt none
 
