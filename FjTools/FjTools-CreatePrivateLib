@@ -47,8 +47,8 @@ function GetAppName(){
     echo "Enter application name, null string to cancel"
     read AppName
 	if ! [[ "$AppName" = "" ]] ; then
-	   mkdir -p "$FjPrivateLibFolder"
-	   AppPrivateLibFile="$FjPrivateLibFolder/GetPrivateLib-$AppName"
+	   mkdir -p "$FjPrivateLibCreateFolder"
+	   AppPrivateLibFile="$FjPrivateLibCreateFolder/CreatePrivateLib-$AppName"
 	fi
 }
 
@@ -90,9 +90,10 @@ if ! [[ $AppName = "" ]] ; then
 	    #echo "Debug: NoSuchFile = $NoSuchFile"
 	    #echo "Debug: MissingLib = $MissingLib"
 	done
-	echo
+	echo | tee -a "$AppPrivateLibFile"
+	echo "Private-Lib ="| tee -a "$AppPrivateLibFile"
 	echo "$PrivateLib" | tee -a "$AppPrivateLibFile"
-	echo
+	echo | tee -a "$AppPrivateLibFile"
 fi
 echo "Press return to quit"
 read Quit

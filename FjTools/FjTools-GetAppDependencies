@@ -150,7 +150,7 @@ GetAppName
 
 # Does user wish to continue ???
 if ! [[ "$AppName" = "" ]] ; then
-	# Note, GetInstalled will also create the work directory: $FjDependencyFolder
+    mkdir -p "$FjDependencyFolder"
 	GetInstalled
 
 	# Reset log file

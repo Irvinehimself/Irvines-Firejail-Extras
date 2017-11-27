@@ -21,10 +21,9 @@
 # along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################
 
-# Get a list of an applications dependencies
+# Guess an applications missing shared objects
 
 source FjTools-Shared
-#source FjTools-GetAppDependencies
 
  ### ### Functions ### ###
  function EchoToScreen(){
@@ -80,10 +79,10 @@ function GetPrivateLibSugestions(){
 GetAppName
 if ! [[ "$AppName" = "" ]] ; then
     GetDependencies
-    mkdir -p "$FjPrivateLibFolder"
+    mkdir -p "$FjPrivateLibGuessFolder"
     echo "" > "$FjGuessPrivateLibFile-$AppName" # Reset
     GetPrivateLibSugestions
-    cp $FjDependencyLibraryFile-$AppName $FjPrivateLibLibraryFile-$AppName
+    cp $FjDependencyLibraryFile-$AppName $FjPrivateLibSoFile-$AppName
     cp $FjDependencyNotFoundFile-$AppName $FjPrivateLibNotFoundFile-$AppName
     EchoToScreen "You can find the private-lib suggestions at $FjGuessPrivateLibFile-$AppName"
     EchoToScreen "Hit return to quit"
