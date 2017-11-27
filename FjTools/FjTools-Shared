@@ -53,6 +53,7 @@ UsrLocalBin="/usr/local/bin"
 UsrBin="/usr/bin"
 
 UsrLib="/usr/lib"
+Etc="/etc"
 
 NotifyIcon="/usr/share/pixmaps/firetools.png"
 
@@ -61,9 +62,20 @@ FjSymlinksBack="$FjSymlinks""Back"
 FjWorkFolder="${HOME}/Desktop/FjTools-WorkFolder"
 
 FjPrivateLibFolder="$FjWorkFolder/PrivateLibWork"
-FjGuessPrivateLibFile="$FjPrivateLibFolder/GuessPrivateLib"
-FjPrivateLibLibraryFile="$FjPrivateLibFolder/Libraries"
-FjPrivateLibNotFoundFile="$FjPrivateLibFolder/NotFound"
+FjPrivateLibCreateFolder="$FjWorkFolder/PrivateLibWork/CreatePrivateLib"
+FjPrivateLibGuessFolder="$FjWorkFolder/PrivateLibWork/GuessPrivateLib"
+
+FjGuessPrivateLibFile="$FjPrivateLibGuessFolder/GuessPrivateLib"
+FjPrivateLibSoFile="$FjPrivateLibGuessFolder/Libraries"
+FjPrivateLibNotFoundFile="$FjPrivateLibGuessFolder/NotFound"
+
+FjPrivateEtcFolder="$FjWorkFolder/PrivateEtcWork"
+FjPrivateEtcCreateFolder="$FjWorkFolder/PrivateEtcWork/CreatePrivateEtc"
+FjPrivateEtcGuessFolder="$FjWorkFolder/PrivateEtcWork/GuessPrivateEtc"
+
+FjGuessPrivateEtcFile="$FjPrivateEtcGuessFolder/GuessPrivateEtc"
+FjGuessPrivateEtcNoPkgOwnsFile="$FjPrivateEtcGuessFolder/GuessPrivateEtcNoPkgOwns"
+FjPrivateEtcNotFoundFile="$FjPrivateEtcGuessFolder/NotFound"
 
 FjDependencyFolder="$FjWorkFolder/Dependencies"
 FjDependencyChainFile="$FjDependencyFolder/DependencyChain"
@@ -99,7 +111,6 @@ function GetPkgDepends(){
 }
 
 function GetInstalled(){
-    mkdir -p "$FjDependencyFolder"
     pacman -Q  > "$FjInstalledPkgsFile"
 }
 
