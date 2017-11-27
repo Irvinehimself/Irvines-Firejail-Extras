@@ -14,7 +14,7 @@ private-bin opera,bash,sh
 # I believe this is related to Chromium/Inox/Opera's built in sandbox, see https://github.com/netblue30/firejail/issues/922
 # Also, see my inox.local file for an example private-lib that builds successfully, but fails when the built-in sandbox is launched
 
-private-etc passwd,group,hostname,hosts,localtime,nsswitch.conf,resolv.conf,xdg,gtk-3.0,pango,fonts,mime.types,pulse
+private-etc group,resolv.conf,fonts
 private-opt none
 private-dev
 
