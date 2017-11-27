@@ -29,7 +29,7 @@ source  FjTools-Shared
 PrivateLibDebug="--private-lib"     # This is what is fed back into the function
 PrivateLib="private-lib"            # This what is copy pasted into the profile
 
-# Note on $PrivateLib and $PrivateLibDebug:
+# Note on the variables $PrivateLib and $PrivateLibDebug:
 # There is no easy way of parsing a warning without creating an infinite loop.
 # To get around this, I am using two variables: The one we  want, $PrivateLib,
 # which is filtered for warnings, and $PrivateLibDebug which is fed back into the
@@ -94,6 +94,8 @@ if ! [[ $AppName = "" ]] ; then
 	echo "$PrivateLib" | tee -a "$AppPrivateLibFile"
 	echo
 fi
+echo "Press return to quit"
+read Quit
 echo "Bye :)" | tee -a "$AppPrivateLibFile"
 echo
 

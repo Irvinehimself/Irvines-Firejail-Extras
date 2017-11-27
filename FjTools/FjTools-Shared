@@ -121,7 +121,8 @@ function RemoveVersionQualifier(){
 }
 
 function GetProvidedBy(){
-	# Because of piped sub-shell, local variables do nothing
+    local TmpMissingPkg="$1"
+	# Inside piped sub-shell, local variables are irrelevant
     # Because of redirect in calling function, when debugging, use:
     # (>&2 echo "Debug: Test2 return Pkg = $Pkg" )
     # Note, include braces
