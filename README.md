@@ -16,6 +16,7 @@ Extra profiles, local customisations and tools for Firejail
   1. *FjTools-CreatePrivateLib*
   1. *FjTools-GuessMissingLibs*
   1. *FjTools-GetAppDependencies*
+  1. *FjTools-GuessMissingEtcs*
 
 
 #### Introduction
@@ -95,5 +96,6 @@ Currently, it consists of:
 * Some dependencies are hard coded to a particular version, these are stored in a separate file. eg `Libraries-firefox`
 * Similarly, some dependencies are "provided by" a package other than what the developers originally intended. The algorithm tries to find this replacement package, but, rarely, this may not be possible and require the user to manually search for the "Provides" package. These missing packages are also stored in separate file, eg `NotFound-firefox`
 
-
 **FjTools-GetAppDependencies:** This is the work horse for *FjTools-GuessMissingLibs*, but has so many potential applications, (like for example: guessing `private-bin`, `private-opt` and `private-etc` entries,) I have spun it off as a separate sub-shell. As the name suggests, it uses recursion to generate a 'chain of dependencies' for an application. this 'chain of dependencies' can then be cross-referenced against the owners of the files and folders in your `lib` `bin` `etc` and `opt` directories.
+
+**FjTools-GuessMissingEtcs**: Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc` owned by an applications dependencies. This list can then be drastically cropped to the bare necessities needed to run the application. It also creates a list of files in `/etc` which are not owned by any package. This includes things like: *hostname and machine-id*, which may, or may not be needed for certain functionality. (See the inline notes for `private-etc` in `firfox.local`.)
