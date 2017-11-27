@@ -79,6 +79,7 @@ Currently, it consists of:
 * It only tries to get the \<app\> to launch and ignores warnings. (See the inline notes for the shell)
 * If the \<app\>  launches, it may immediately crash. (See my inline notes about `private-lib` in the Chromium based Opera and Inox browser's `.local` customisation files)
 * Even if it launches, you will probably have to use `stderr` to manually find the missing files for things like Gtk
+  1. Typically, the missing GTK libraries might be: *"gtk-3.0, gdk-pixbuf-2.0 and libcanberra-gtk3.so.0"*
 * After all this, your are still going to have to make an educated guess about what is needed to enable missing functionality, eg internet connectivity:
   1. In the case of Firefox 57, I guessed that it was the `nss` network security package and used `ls /usr/lib | grep "nss" | tr '\n' ','`
   1. After copy/pasting that rather large list onto the end of my `private-lib` I had internet connectivity.
