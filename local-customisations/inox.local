@@ -7,14 +7,12 @@ caps.keep sys_chroot,sys_admin
 nogroups
 shell none
 
-# Originally a mix from the inline notes of the upstream Firefox and Chromium profiles. In fact, this is all that is needed
 private-bin inox
 
 # Once built, private-lib fails with: "The setuid sandbox is not running as root. Common causes:".
 # I believe this is related to Chromium/Inox/Opera's built in sandbox, see https://github.com/netblue30/firejail/issues/922
 
-# Below is an example private-lib that builds successfully, but fails when the built-in sandbox is launched
-#private-lib /inox,libpangocairo-1.0.so.0,libX11-xcb.so.1,libXcomposite.so.1,libXcursor.so.1,libXdamage.so.1,libXi.so.6,libXtst.so.6,libcups.so.2,libxml2.so.2,libXss.so.1,libwebpdemux.so.2,libre2.so.0,libXrandr.so.2,libasound.so.2,libpulse.so.0,libopus.so.0,libatk-1.0.so.0,libsnappy.so.1,libgtk-3.so.0,libxslt.so.1
+# private-lib /inox,libpangocairo-1.0.so.0,libX11-xcb.so.1,libXcomposite.so.1,libXcursor.so.1,libXdamage.so.1,libXi.so.6,libXtst.so.6,libcups.so.2,libxml2.so.2,libXss.so.1,libwebpdemux.so.2,libre2.so.0,libXrandr.so.2,libasound.so.2,libpulse.so.0,libopus.so.0,libatk-1.0.so.0,libsnappy.so.1,libgtk-3.so.0,libxslt.so.1
 
 private-etc group,resolv.conf,fonts
 private-dev
