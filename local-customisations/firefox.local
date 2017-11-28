@@ -4,16 +4,11 @@
 private-bin firefox,sh,bash
 
 
-# NOTE: Add libavdevice.so.57 If you are likely to switch audio output
+# NOTE: Add libavdevice.so.57 if you are likely to switch to 'HDMI audio'
 private-lib firefox,mozilla,libstdc++.so.6,libgtk-3.so.0,libsqlite3.so.0,libhunspell-1.6.so.0,libasound.so.2,libdbus-glib-1.so.2,libstartup-notification-1.so.0,libXt.so.6,gdk-pixbuf-2.0,gtk-3.0,libcanberra-gtk3.so.0,gio,libgconf-2.so.4,gvfs,libnssckbi.so,libnss_dns.so.2,libnss_compat.so.2
 
 
-# NOTE: If you are likely to switch audio output between "built in" and "HDMI", then you need
-# to expose the "machine-id" in "private-etc". However, if you don't switch audio output,
-# then you can greatly enhance your privacy by leaving it out. But, BE WARNED, if "machine-id"
-# is not present in "private-etc" and you attempt to switch output while Firefox is streaming
-# multi-media, then not only will the operation fail, but you will break audio output for
-# everything except Firefox.
+# NOTE: Before enabling HDMI audio with '/etc/machine-id' see https://github.com/Irvinehimself/Irvines-Firejail-Extras#browsers-and-hdmi-audio
 private-etc group,resolv.conf,fonts
 # private-etc group,resolv.conf,fonts,machine-id
 
