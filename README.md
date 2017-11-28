@@ -38,12 +38,12 @@ Currently, most of my local customisations are concerned with globally enabling 
 
 The following `.local` files have potentially useful customisations which strengthen their respective upstream profiles:
 ```
-inox.local        		: private-bin, private-etc, private-dev, caps.keep whitelist and more
-opera.local       		: private-bin, private-etc, private-dev, caps.keep whitelist and more
-firefox.local     		: private-bin, private-etc, private-dev, and private-lib (Tested with Firefox 57)
+inox.local        	: private-bin, private-etc, private-dev, caps.keep whitelist and more
+opera.local       	: private-bin, private-etc, private-dev, caps.keep whitelist and more
+firefox.local     	: private-bin, private-etc, private-dev, and private-lib (Tested with Firefox 57)
 transmission-gtk.local  : private-lib, private-etc, private-opt, noexec ${HOME} and noexec /tmp
-makepkg.local     		: restrict access to ${HOME}
-cower.local       		: restrict access to ${HOME}
+makepkg.local     	: restrict access to ${HOME}
+cower.local       	: restrict access to ${HOME}
 ```
 
 **Note1:** It is expected that the above list will usually be incomplete. You can check the `local-customisations` folder for useful customisations by grepping for `# Further restrict the`.
