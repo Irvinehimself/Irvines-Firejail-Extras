@@ -1,4 +1,5 @@
 # Local customisations for Transmission-gtk
+# Further restrict the transmission-gtk.profile
 
 private-lib gtk-3.0,gdk-pixbuf-2.0,libcanberra-gtk3.so.0
 
