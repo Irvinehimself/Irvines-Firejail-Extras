@@ -113,7 +113,7 @@ Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc
 1. Using a terminal, launch firefox with the new firejail profile.
 1. Scroll through the expected GTK warnings, until you find GTK errors and add the indicated folders and libraries to your `private-lib`.
 1. You may need to use something like `ls /usr/lib | grep "canberra"` to get a list of canberra shared objects. By continually *bisecting* the resulting list and discarding the half that doesn't work you can quickly narrow it down to a single shared object library.
-1. The application, eg Firefox, should now be launching without errors
+1. Repeat steps 3 through 6 until there are no more GTK errors. (Ignore the warnings, they are normal)
 
 *Step 2:*
 1. Test the application for basic functionality: In the case of Firefox, there was no internet connectivity
