@@ -1,4 +1,17 @@
 # Local customisations for Transmission-gtk
 
+private-lib gtk-3.0,gdk-pixbuf-2.0,libcanberra-gtk3.so.0
+
+private-etc resolv.conf
+
+private-opt none
+
+noexec ${HOME}
+noexec /tmp
+
+
 # Enable internet, (disabled in my globals.local)
 ignore net
+
+# tracelog doesn't contribute and is causing problems
+ignore tracelog
