@@ -2,12 +2,12 @@
 Extra profiles, local customisations and tools for Firejail
 
 ## Contents
-* **Introduction**
-* **Profiles**
-* **Local customisations**
-  * **Browsers and HDMI audio**
-* **FjTools**
-* **Example Usage: Creating Firefox private-lib**
+* [**Introduction**](#introduction)
+* [**Profiles**](#profiles)
+* [**Local customisations**](#local-customisations)
+  * [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
+* [**FjTools**](#fjtools)
+* [**Example Usage -- Creating Firefox private-lib**](#example-usage----creating-firefox-private-lib)
 
 
 ## Introduction
@@ -104,7 +104,7 @@ This is the work horse for *FjTools-GuessMissingLibs*, but has so many potential
 #### FjTools-GuessMissingEtcs
 Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc` owned by an applications dependencies. This list can then be drastically cropped to the bare necessities needed to run the application. It also creates a list of files in `/etc` which are not owned by any package. This includes things like: *hostname and machine-id*, which may, or may not be needed for certain functionality. (See the inline notes for `private-etc` in `firfox.local`.)
 
-## Example Usage: Creating Firefox private-lib
+## Example Usage -- Creating Firefox private-lib
 *Note*: In what follows it will help to have a basic understanding of [bisection](https://en.wikipedia.org/wiki/Bisection_method)
 
 *Step 1:*
