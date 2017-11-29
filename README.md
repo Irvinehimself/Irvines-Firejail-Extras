@@ -35,11 +35,11 @@ Mainly, I intend to post any Firejail profiles I have written, along with my loc
 
 The following are my un-submitted `profiles` most likely to be of interest to a casual visitor:
 ```
-epdfview.profile     : Restrictive and usable, but needs private-bin, private-etc and private-lib
-Player.profile     	: Restrictive and usable, but needs private-etc and private-lib
-QMLPlayer.profile    : Restrictive and usable, but needs private-etc and private-lib
-rsstail.profile      : Restrictive and usable, but needs private-etc and private-lib
-showfoto.profile     : Basically a wrapper for the parent Digikam profile provided by upstream
+epdfview.profile    : Restrictive and usable, but needs private-bin, private-etc and private-lib
+Player.profile      : Restrictive and usable, but needs private-etc and private-lib
+QMLPlayer.profile   : Restrictive and usable, but needs private-etc and private-lib
+rsstail.profile     : Restrictive and usable, but needs private-etc and private-lib
+showfoto.profile    : Basically a wrapper for the parent Digikam profile provided by upstream
 ```
 *Note*: The above list of un-submitted profiles is a summary of what is most likely to be of interest, it is not an exhaustive list of my profiles.
 
