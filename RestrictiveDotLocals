@@ -1,0 +1,8 @@
+The following '.local' customisations further restrict the upstream profile:
+
+cower.local
+firefox.local
+inox.local
+makepkg.local
+opera.local
+transmission-gtk.local
