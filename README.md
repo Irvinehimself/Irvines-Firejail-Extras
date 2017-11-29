@@ -27,7 +27,7 @@ Mainly, I intend to post any Firejail profiles I have written, along with my loc
 ## Local customisations
 Currently, most of my local customisations are concerned with globally enabling apparmor confinement and/or disabling internet connectivity. However, I have recently started work on strengthening internet connected profiles. Mainly, this is to be achieved through creating whitelists for: `private-bin`, `private-lib`, `private-etc` and `private-opt`. The intention is to make these customisations **very** restrictive, while maintaining core functionality.
 
-It's not practical to list every profile in this repo with a restrictive `.local` customisations, but you can can check the `local-customisations` folder by grepping for `# Further restrict the`.
+For your convenience, the file [`RestrictiveDotLocals`](https://github.com/Irvinehimself/Irvines-Firejail-Extras/blob/master/RestrictiveDotLocals) contains an up-to-date list of all the `local` customisations which further restrict upstream profiles.
 
 The following are the ones likely to be of the most interest to a casual visitor:
 ```
