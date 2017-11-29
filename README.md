@@ -40,7 +40,7 @@ Player.profile     	 : Restrictive and usable, but needs private-etc and private
 QMLPlayer.profile    : Restrictive and usable, but needs private-etc and private-lib
 rsstail.profile      : Restrictive and usable, but needs private-etc and private-lib
 showfoto.profile     : Basically a wrapper for the parent Digikam profile provided by upstream
-```.
+```
 *Note*: The above list of un-submitted profiles is a summary of what is most likely to be of interest, it is not an exhaustive list of my profiles.
 
 *Further*: Both `profiles` and `local-customisations` are very much works in progress, so frequent updates are to be expected
