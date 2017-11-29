@@ -70,8 +70,6 @@ Further, be warned, when`machine-id` is not present in `private-etc`, trying to 
 ## FjTools
 This is a set of bash shells that provide extra functionality for controlling Firejail and writing profiles. Currently, it consists of:
 
-[*Return to contents*](#contents)
-
 #### FjTools-Shared
 Contains the paths and distro specific commands used by FjTools. I only use Arch Linux, so I can't test or develop versions of FjTools for other distros. However, if you wish to port the tools to other distros, I will be only to glad to help, and suggest, as a first step, you open an issue.
 
