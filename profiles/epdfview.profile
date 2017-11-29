@@ -28,9 +28,9 @@ shell none
 
 disable-mnt
 # private
-# private-bin program
+# private-bin
 private-dev
-# private-etc none
+# private-etc
 # private-lib
 private-tmp
 

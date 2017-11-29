@@ -30,7 +30,7 @@ shell none
 # private
 private-bin QMLPlayer
 private-dev
-# private-etc none
+# private-etc
 # private-lib
 private-tmp
 

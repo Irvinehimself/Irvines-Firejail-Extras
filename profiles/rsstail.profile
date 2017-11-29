@@ -32,7 +32,7 @@ disable-mnt
 # private
 private-bin rsstail
 private-dev
-# private-etc none
+# private-etc
 # private-lib
 private-tmp
 
