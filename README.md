@@ -154,10 +154,10 @@ Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc
 1. Run *FjTools-CreatePrivateLib* and enter `firefox`
 1. Navigate to your work folder, open `CreatePrivateLib-firefox` and, ignoring any errors or warnings, copy the `private-lib` string into `firefox.local`
 1. Using a terminal, launch firefox with the new firejail profile.
-1. Scroll through the expected GTK warnings, until you find GTK errors and warnings about missing files and add the indicated folders and libraries to your `private-lib`.
-  * You may need to use your file search utility to find containing folders.
-  * If the file search fails to find a missing folder, use something like: `ls /usr/lib | grep "canberra"` to get a list of missing shared objects. By continually *bisecting* the resulting list and discarding the half that doesn't work you can quickly narrow it down to a single shared object library.
-1. Repeat steps 3 through 6 until there are no more GTK errors. (Ignore the warnings, they are normal)
+1. Scroll through the expected GTK messages, until you find errors and warnings about missing files and add the indicated folders and libraries to your `private-lib`.
+   1. You may need to use your file search utility to find containing folders.
+   1. If the file search fails to find a missing folder, use something like: `ls /usr/lib | grep "canberra"` to get a list of missing shared objects. By continually *bisecting* the resulting list and discarding the half that doesn't work you can quickly narrow it down to a single shared object library.
+1. Repeat steps 3 through 5 until there are no more GTK errors. (Ignore the depreciation warnings, they are normal)
 
 *Step 2:*
 1. Test the application for basic functionality: In the case of Firefox, there was no internet connectivity
