@@ -143,7 +143,9 @@ This is the work horse for *FjTools-GuessMissingLibs*, but has so many potential
 [*Return to contents*](#contents)
 
 #### FjTools-GuessMissingEtcs
-Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc` owned by an applications dependencies. This list can then be drastically cropped to the bare necessities needed to run the application. It also creates a list of files in `/etc` which are not owned by any package. This includes things like: *hostname and machine-id*, which may, or may not be needed for certain functionality. See [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
+Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc` owned by an applications dependencies. This list can then be quickly [bisected](https://en.wikipedia.org/wiki/Bisection_method) to to remove unneeded entries.
+
+*Note:* *FjTools-GuessMissingEtcs* also creates a list of files in `/etc` which are not owned by any package. This includes things like: *hostname and machine-id*, which may, or may not be needed for certain functionality. See [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
 
 [*Return to contents*](#contents)
 
