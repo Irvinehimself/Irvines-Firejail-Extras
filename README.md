@@ -17,19 +17,19 @@ Extra profiles, local customisations and tools for Firejail
   1. [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs)
   1. [FjTools-GetAppDependencies](#fjtools-getappdependencies)
   1. [FjTools-GuessMissingEtcs](#fjtools-guessmissingetcs)
-* [**Example Usage -- Creating Firefox private-lib**](#example-usage----creating-firefox-private-lib)
+* [**Example -- Creating Firefox private-lib**](#example----creating-firefox-private-lib)
 
 ## Introduction
 My current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org). Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of two parts:
 1. **Use Firejail to sandbox everything!!!**
 1. My [apparmor enabled](https://aur.archlinux.org/pkgbase/linux-hardened-apparmor/) linux-hardened kernel
 
-It is the first item on the list that this GitHub project is concerned with. However, it is not just a collection of profiles. The latest versions of Firejail have advanced sand-boxing features such as `private-bin`, `private-lib`, `private-etc` and `private-opt` which can be difficult to implement. So, while the project does contain new profiles and local customisations, it also contains a set of tools and methodologies to simplify the writing of advanced profiles.
+It is the first item on the list that this GitHub project is concerned with. However, it is not just a collection of profiles. The latest versions of Firejail have advanced sand-boxing features such as `private-bin`, `private-lib`, `private-etc` and `private-opt` which can be difficult to implement. So, while the project does contain new profiles and local customisations, it also contains a set of tools and methodologies to simplify the writing of advanced these profiles.
 
 [*Return to contents*](#contents)
 
 ## Profiles
-Mainly, I intend to post any Firejail profiles I have written, along with my local customisations of upstream profiles. While several of these profiles have already been accepted for inclusion upstream, the majority have not yet been submitted. For convenience, the file [`NotYetSubmitted`](https://github.com/Irvinehimself/Irvines-Firejail-Extras/blob/master/NotYetSubmitted) contains an an automatically updated list of all my unsubmitted `profiles`.
+I intend to post any Firejail profiles I have written, along with my local customisations of upstream profiles. While several of my profiles have already been accepted for inclusion upstream, the majority have not yet been submitted. For convenience, the file [`NotYetSubmitted`](https://github.com/Irvinehimself/Irvines-Firejail-Extras/blob/master/NotYetSubmitted) contains an an automatically updated list of all my unsubmitted `profiles`.
 
 The following are my un-submitted `profiles` most likely to be of interest to a casual visitor:
 ```
@@ -117,18 +117,19 @@ Like the Firejail `private-lib` feature itself, this is pretty much still experi
 * **Limitations:**
 * It only tries to get the \<app\> to launch and ignores warnings. (See the inline notes for the shell)
 * If the \<app\>  launches, it may immediately crash. (See my inline notes about `private-lib` in the Chromium based Opera and Inox browser's `.local` customisation files)
-* Even if it launches, you will probably have to use `stderr` to manually find the missing files for things like Gtk
-  1. Typically, the missing GTK libraries might be: *"gtk-3.0, gdk-pixbuf-2.0 and libcanberra-gtk3.so.0"*
+* Even if it launches, you will probably have to use `stderr` to manually find missing files for Gtk
+  *. Typically, the missing GTK libraries might be: *"gtk-3.0, gdk-pixbuf-2.0 and libcanberra-gtk3.so.0"*
 * After all this, your are still going to have to make an educated guess about what is needed to enable missing functionality. To help with this task, I wrote the complementary *FjTools-GuessMissingLibs*, (below,) which greatly eases the task of guessing the libraries missed by *FjTools-CreatePrivateLib*.
-  1. In the case of Firefox 57, I guessed that it was the `nss` network security package and used `ls /usr/lib | grep "nss" | tr '\n' ','`
-  1. After copy/pasting that rather large list onto the end of my `private-lib` I had internet connectivity.
-  1. I then used a [bisection](https://en.wikipedia.org/wiki/Bisection_method) to manually remove the unneeded libraries.
+  * See the provided [example](#example----creating-firefox-private-lib) for a detailed description of the methodology.
 
 [*Return to contents*](#contents)
 
 #### FjTools-GuessMissingLibs
 A complement to *FjTools-CreatePrivateLib*, *FjTools-GuessMissingLibs:* attempts to find all the files in `/usr/lib` owned by an applications dependencies.
-* **Limitations and Usage:**
+
+*See* the provided [example](#example----creating-firefox-private-lib) for a step step guide to usage.
+
+* **Limitations**
 * The list is extensive and 99.9% of the entries are unneeded. For an Application like Firefox, this would make it completely unusable as a direct copy/paste. So, for convenience, it has "chop marks" to assist in systematically testing for missing functionality.
 * Some dependencies are hard coded to a particular version, these are stored in a separate file. eg `Libraries-firefox`
 * Similarly, some dependencies are "provided by" a package other than what the developers originally intended. The algorithm tries to find this replacement package, but, rarely, this may not be possible and require the user to manually search for the "Provides" package. These missing packages are also stored in separate file, eg `NotFound-firefox`
@@ -147,7 +148,7 @@ Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc
 
 [*Return to contents*](#contents)
 
-## Example Usage -- Creating Firefox private-lib
+## Example -- Creating Firefox private-lib
 *Note*: In what follows it will help to have a basic understanding of [bisection](https://en.wikipedia.org/wiki/Bisection_method)
 
 *Step 1:*
