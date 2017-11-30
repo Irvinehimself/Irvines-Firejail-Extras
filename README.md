@@ -151,8 +151,8 @@ Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc
 *Note*: In what follows it will help to have a basic understanding of [bisection](https://en.wikipedia.org/wiki/Bisection_method)
 
 *Step 1:*
-1. Run *FjTools-CreatePrivateLib* and enter `firefox`
-1. Navigate to your work folder, open `CreatePrivateLib-firefox` and, ignoring any errors or warnings, copy the `private-lib` string into `firefox.local`
+1. Run [*FjTools-CreatePrivateLib*](#fjtools-createprivatelib) and enter `firefox`
+1. Navigate to your work folder, open the file `CreatePrivateLib-firefox` and, ignoring any errors or warnings, copy the `private-lib` string into `firefox.local`
 1. Using a terminal, launch firefox with the new firejail profile.
 1. Scroll through the expected GTK messages, until you find errors and warnings about missing files and add the indicated folders and libraries to your `private-lib`.
    1. You may need to use your file search utility to find containing folders.
@@ -161,11 +161,11 @@ Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc
 
 *Step 2:*
 1. Test the application for basic functionality: In the case of Firefox, there was no internet connectivity
-1. Run *FjTools-GuessMissingLibs* and enter `firefox`
+1. Run [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) and enter `firefox`
 1. Make a backup copy of the resulting file `GuessPrivateLib-firefox`
 1. Try the list `Libraries-firefox` to see if provides the missing functionality.
 1. If successful, use *bisection* to eliminate unseeded shared objects.
-1. Otherwise, use the provided "chop marks" to systematically test each section of `GuessPrivateLib-firefox` to see if it provides the missing functionality.
+1. Otherwise, use the provided "chop marks" to systematically test each section of the `GuessPrivateLib-firefox` file to see if it provides the missing functionality.
 1. Once you find the required section, use *bisection* to eliminate unneeded shared objects.
 1. Run further tests for core functionality and repeat steps 6, 7 and 8 as needed.
 
