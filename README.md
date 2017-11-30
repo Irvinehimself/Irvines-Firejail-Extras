@@ -120,19 +120,19 @@ Like the Firejail `private-lib` feature itself, this is pretty much still experi
 * Even if it launches, you will probably have to use `stderr` to manually find missing files for Gtk
   * Typically, the missing GTK libraries might be: *"gtk-3.0, gdk-pixbuf-2.0 and libcanberra-gtk3.so.0"*
 * After all this, your are still going to have to make an educated guess about what is needed to enable missing functionality. To help with this task, I wrote the complementary [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) which greatly eases the task of guessing the libraries missed by *FjTools-CreatePrivateLib*.
-  * *See* the provided [example](#example----creating-firefox-private-lib) for a detailed description of the methodology.
+
+*See* the provided [example](#example----creating-firefox-private-lib) for a detailed guide to usage and a general description of the methodology.
 
 [*Return to contents*](#contents)
 
 #### FjTools-GuessMissingLibs
 A complement to *FjTools-CreatePrivateLib*, *FjTools-GuessMissingLibs:* attempts to find all the files in `/usr/lib` owned by an applications dependencies.
-
-*See* the provided [example](#example----creating-firefox-private-lib) for a step step guide to usage.
-
 * **Limitations**
 * The list is extensive and 99.9% of the entries are unneeded. For an Application like Firefox, this would make it completely unusable as a direct copy/paste. So, for convenience, it has "chop marks" to assist in systematically testing for missing functionality.
 * Some dependencies are hard coded to a particular version, these are stored in a separate file. eg `Libraries-firefox`
 * Similarly, some dependencies are "provided by" a package other than what the developers originally intended. The algorithm tries to find this replacement package, but, rarely, this may not be possible and require the user to manually search for the "Provides" package. These missing packages are also stored in separate file, eg `NotFound-firefox`
+
+*See* the provided [example](#example----creating-firefox-private-lib) for a detailed guide to usage and a general description of the methodology.
 
 [*Return to contents*](#contents)
 
