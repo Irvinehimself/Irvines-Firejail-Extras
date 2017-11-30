@@ -119,8 +119,7 @@ Like the Firejail `private-lib` feature itself, this is pretty much still experi
 * If the \<app\>  launches, it may immediately crash. (See my inline notes about `private-lib` in the Chromium based Opera and Inox browser's `.local` customisation files)
 * Even if it launches, you will probably have to use `stderr` to manually find missing files for Gtk
   * Typically, the missing GTK libraries might be: *"gtk-3.0, gdk-pixbuf-2.0 and libcanberra-gtk3.so.0"*
-* After all this, your are still going to have to make an educated guess about what is needed to enable missing functionality. To help with this task, I wrote the complementary *FjTools-GuessMissingLibs*, (below,) which greatly eases the task of guessing the libraries missed by *FjTools-CreatePrivateLib*.
-  * See the provided [example](#example----creating-firefox-private-lib) for a detailed description of the methodology.
+* After all this, your are still going to have to make an educated guess about what is needed to enable missing functionality. To help with this task, I wrote the complementary [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) which greatly eases the task of guessing the libraries missed by *FjTools-CreatePrivateLib*. See the provided [example](#example----creating-firefox-private-lib) for a detailed description of the methodology.
 
 [*Return to contents*](#contents)
 
