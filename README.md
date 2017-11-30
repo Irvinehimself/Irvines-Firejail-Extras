@@ -137,12 +137,12 @@ A complement to *FjTools-CreatePrivateLib*, *FjTools-GuessMissingLibs:* attempts
 [*Return to contents*](#contents)
 
 #### FjTools-GetAppDependencies
-This is the work horse for *FjTools-GuessMissingLibs*, but has so many potential applications, (like for example: guessing `private-bin`, `private-opt` and `private-etc` entries,) I have spun it off as a separate sub-shell. As the name suggests, it uses recursion to generate a 'chain of dependencies' for an application. this 'chain of dependencies' can then be cross-referenced against the owners of the files and folders in your `lib` `bin` `etc` and `opt` directories.
+This is the work horse for [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs), but has so many potential applications, (like for example: guessing `private-bin`, `private-opt` and `private-etc` entries,) I have spun it off as a separate sub-shell. As the name suggests, it uses recursion to generate a 'chain of dependencies' for an application. this 'chain of dependencies' can then be cross-referenced against the owners of the files and folders in your `lib` `bin` `etc` and `opt` directories.
 
 [*Return to contents*](#contents)
 
 #### FjTools-GuessMissingEtcs
-Much like *FjTools-GuessMissingLibs*, it attempts to find all the files in `/etc` owned by an applications dependencies. This list can then be quickly [bisected](https://en.wikipedia.org/wiki/Bisection_method) to to remove unneeded entries.
+Much like [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs), it attempts to find all the files in `/etc` owned by an applications dependencies. This list can then be quickly [bisected](https://en.wikipedia.org/wiki/Bisection_method) to to remove unneeded entries.
 
 *Note:* *FjTools-GuessMissingEtcs* also creates a list of files in `/etc` which are not owned by any package. This includes things like: *hostname and machine-id*, which may, or may not be needed for certain functionality. See [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
 
