@@ -69,6 +69,7 @@ FjInstalledPkgs="$FjWork/InstalledPkgs"
 
 # Debug
 FjDebugWork="$FjWork/DebugProfiles"
+FjDebugLog="$FjDebugWork/DebugLog"
 
 FjBackupProfiles="$FjWork/BackupProfiles"
 

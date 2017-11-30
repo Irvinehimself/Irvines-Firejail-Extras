@@ -74,7 +74,7 @@ This is a set of bash shells that provide extra functionality for controlling Fi
 Currently, it consists of:
 
 #### FjTools-Shared
-Contains the shared paths and distro specific functions used by FjTools which a user may wish to customise. I only use Arch Linux, so I can't test or develop versions of FjTools for other distros. However, if you wish to port the tools to other distros, I will be only to glad to help, and suggest, as a first step, you open an issue.
+Contains the shared paths and distro specific functions used by FjTools which a user may wish to customise. I only use Arch Linux, so I can't test or develop versions of FjTools for other distros. However, if you wish to port the tools, I will be only to glad to help, and suggest, as a first step, you open an issue.
 
 *Note*: As written, it is assumed that the FjTools shells are installed to `/usr/local/bin`, or some other location in the ${PATH}
 
@@ -109,15 +109,15 @@ Lists profiles in `/etc/firejail` which are not owned by Firejail
 
 #### FjTools-DebugProfile
 A wrapper to launch applications in `firejail --debug` mode:
-1. Basically, it's just a quick way to launch a profile in debug mode, but it has useful features like automatically making backups of `<App>.profile`, `<App>.local`, and `<App>.net`
+1. Basically, it's just a quick way to launch a profile in debug mode. However, it has useful features like automatically copying the profile under test, along with it's local customisations, to a backup folder, the contents of which are also backed up.
 1. You should note that there is a great deal of useful in formation to gleaned from `stderr`, so both `stdout` and `stderr` are `tee`ed to the debug log file.
 
 [*Return to contents*](#contents)
 
 #### FjTools-BackupProfile
-Backup and/or restore working copies of `<App>.profile`, `<App>.local` and `<App>.net`
-1. The difference between this backup function and the one above, is that `FjTools-DebugProfile` automatically backs up an indexed copy of the profile being tested, which may or may not work. This backup function however, has it's own `LastWorkingCopy` sub-folder of the `FjTools-DebugFolder`, and, as the name suggests, is used to backup important milestones.
-1. It has an option to  backup **ALL** local customisations and homegrown profiles in `/etc/firejail`
+Backup and/or restore working copies of `<App>.profile`, `<App>.local` and `<App>.net` to `${HOME}/Documents/FjToolsWork/BackupProfiles/`
+1. The difference between this backup function and the one above, is that `FjTools-DebugProfile` automatically makes backups of the profile being tested, which may or may not work. As the name suggests, however, this backup function is used to backup important milestones.
+1. Additionaly, it has an option to  backup **ALL** the local customisations and homegrown profiles in `/etc/firejail`
 
 [*Return to contents*](#contents)
 

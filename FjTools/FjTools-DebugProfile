@@ -25,6 +25,11 @@
 
 source FjTools-Shared
 
+ ### ### Constants ### ###
+ ProfileBackup1="$FjDebugWork/Backup"
+ ProfileBackup2="$ProfileBackup1/Backup2"
+ ### End Constants
+
  ### ### Functions ### ###
 
 function GetAppName(){
@@ -40,12 +45,12 @@ function GetAppName(){
 }
 
 function BackUpProfile(){
-    cp -f $FjDebugWork/$AppName.profile $FjDebugWork/$AppName.profile.back 2>/dev/null
-    cp -f $FjDebugWork/$AppName.local $FjDebugWork/$AppName.local.back 2>/dev/null
-    cp -f $FjDebugWork/$AppName.net $FjDebugWork/$AppName.net.back 2>/dev/null
-    cp -f $EtcFirejail/$AppName.profile $FjDebugWork/$AppName.profile 2>/dev/null
-    cp -f $EtcFirejail/$AppName.local $FjDebugWork/$AppName.local 2>/dev/null
-    cp -f $EtcFirejail/$AppName.net $FjDebugWork/$AppName.net 2>/dev/null
+    cp -f "$ProfileBackup1/$AppName.profile" "$ProfileBackup2/$AppName.profile" 2>/dev/null
+    cp -f "$ProfileBackup1/$AppName.local" "$ProfileBackup2/$AppName.local" 2>/dev/null
+    cp -f "$ProfileBackup1/$AppName.net" "$ProfileBackup2/$AppName.net" 2>/dev/null
+    cp -f "$EtcFirejail/$AppName.profile" "$ProfileBackup1/$AppName.profile" 2>/dev/null
+    cp -f "$EtcFirejail/$AppName.local" "$ProfileBackup1/$AppName.local" 2>/dev/null
+    cp -f "$EtcFirejail/$AppName.net" "$ProfileBackup1/$AppName.net" 2>/dev/null
 }
 
 
@@ -55,12 +60,12 @@ function BackUpProfile(){
  ### ### Main ### ###
 GetAppName
 if ! [[ $AppName = "" ]] ; then
-    mkdir -p "$FjDebugWork"
+    mkdir -p "$ProfileBackup2"
     Launch="y"
     until ! [[ "$Launch" = "y"  ]] ; do
         BackUpProfile
         # tee both stderr and stdout to log file
-        firejail --debug --$Profile $AppName 2>&1 | tee "$DebugFile"
+        firejail --debug --$Profile $AppName 2>&1 | tee "$FjDebugLog-$AppName"
         echo
         echo "Launch $AppName again? y/n (default no)"
         read -n1 -s Launch
