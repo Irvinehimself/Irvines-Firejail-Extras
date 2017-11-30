@@ -20,13 +20,11 @@ Extra profiles, local customisations and tools for Firejail
 * [**Example Usage -- Creating Firefox private-lib**](#example-usage----creating-firefox-private-lib)
 
 ## Introduction
-Inspired by recent security threats and the new [SubGraph OS](https://subgraph.com/), my current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org)
-
-Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of two parts:
+My current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org). Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of two parts:
 1. **Use Firejail to sandbox everything!!!**
 1. My [apparmor enabled](https://aur.archlinux.org/pkgbase/linux-hardened-apparmor/) linux-hardened kernel
 
-It is the first item on the list that this GitHub project is concerned with.
+It is the first item on the list that this GitHub project is concerned with. However, it is not just a collection of profiles. The latest versions of Firejail have advanced sand-boxing features such as `private-bin`, `private-lib`, `private-etc` and `private-opt` which can be difficult to implement. So, while the project does contain new profiles and local customisations, it also contains a set of tools and methodologies to simplify the writing of advanced profiles.
 
 [*Return to contents*](#contents)
 
