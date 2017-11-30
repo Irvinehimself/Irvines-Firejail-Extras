@@ -24,42 +24,55 @@
 # Shell to backup or restore /etc/firejail/<AppName>.*
 
 source FjTools-Shared
+source FjTools-Includes
 
  ### ### Functions ### ###
 function BackUpProfile(){
-    cp $EtcFirejail/$AppName.profile $LastCopy/$AppName.profile 2>/dev/null
-    cp $EtcFirejail/$AppName.local $LastCopy/$AppName.local 2>/dev/null
-    cp $EtcFirejail/$AppName.net $LastCopy/$AppName.net 2>/dev/null
+    cp $EtcFirejail/$AppName.profile $FjBackupProfiles/$AppName.profile 2>/dev/null
+    cp $EtcFirejail/$AppName.local $FjBackupProfiles/$AppName.local 2>/dev/null
+    cp $EtcFirejail/$AppName.net $FjBackupProfiles/$AppName.net 2>/dev/null
 }
 
 function RestoreProfile(){
-    echo "Sorry, need sudo permission to copy files to /etc/firejail"
-    sudo cp $LastCopy/$AppName.profile $EtcFirejail/$AppName.profile 2>/dev/null
-    sudo cp $LastCopy/$AppName.local $EtcFirejail/$AppName.local 2>/dev/null
-    sudo cp $LastCopy/$AppName.net $EtcFirejail/$AppName.net 2>/dev/null
+    # Probably the stupidest thing in Linux, redirecting "stderr" also redirects "sudo" !!!!
+    if [[ -e $1 ]] ; then
+        sudo cp $2 $1
+    fi
 }
 
 function GetAppName(){
-    echo "FjTools:  Create last working copy backups of <AppName>.profile, <AppName>.local and <AppName>.net"
 	echo "Enter application name, null string to cancel"
 	read AppName
 }
-
 
  ### End Functions
 
 
  ### ### Main ### ###
-GetAppName
-if ! [[ $AppName = "" ]] ; then
-    LastCopy="$FjWorkFolder/$AppName/LastWorkingProfiles"
-    mkdir -p "$LastCopy"
-    echo "(B)ackup or (R)estore $AppName profile and customisations? (default is 'B'/'b'"
-    read -n1 -s Key
-    if  echo "$Key" |grep -iq "r" ; then
-            RestoreProfile
-        else
-                BackUpProfile
-    fi
+echo "FjTools:  Create backups of <AppName>.profile, <AppName>.local and <AppName>.net "
+mkdir -p "$FjBackupProfiles"
+echo "(B)ackup or (R)estore (default is 'B'/'b')"
+read -n1 -s Key
+if  echo "$Key" |grep -iq "r" ; then
+        # Restoring profiles
+        GetAppName
+        echo "Sorry, need sudo permission to copy files to /etc/firejail"
+        RestoreProfile $FjBackupProfiles/$AppName.profile $EtcFirejail/$AppName.profile
+        RestoreProfile $FjBackupProfiles/$AppName.local $EtcFirejail/$AppName.local
+        RestoreProfile $FjBackupProfiles/$AppName.net $EtcFirejail/$AppName.net
+    else
+            echo
+            echo "Backup (A)ll local customisations or (N)amed <application (default is 'N'/'n'"
+            read -n1 -s Key
+			if  echo "$Key" |grep -iq "A" ; then
+			        # Backing up ALL local customisations
+			        CopyLsGrep "$EtcFirejail" "profile" "$FjBackupProfiles"
+			        CopyLsGrep "$EtcFirejail" "local" "$FjBackupProfiles"
+			        CopyLsGrep "$EtcFirejail" "net" "$FjBackupProfiles"
+			    else
+			             # Backing up named profile and local customisations
+			             GetAppName
+			             BackUpProfile
+			fi
 fi
 echo "Bye :)"

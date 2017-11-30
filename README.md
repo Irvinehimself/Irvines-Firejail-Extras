@@ -7,6 +7,8 @@ Extra profiles, local customisations and tools for Firejail
 * [**Local customisations**](#local-customisations)
   * [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
 * [**FjTools**](#fjtools)
+  1. [FjTools-Shared](#fjtools-shared)
+  1. [FjTools-Includes](#fjtools-includes)
   1. [FjTools-DisableSymlinks](#fjtools-disablesymlinks)
   1. [FjTools-UnusedProfiles](#fjtools-unusedprofiles)
   1. [FjTools-SymlinkedProfiles](#fjtools-symlinkedprofiles)
@@ -67,12 +69,19 @@ Further, be warned, when`machine-id` is not present in `private-etc`, trying to 
 [*Return to contents*](#contents)
 
 ## FjTools
-This is a set of bash shells that provide extra functionality for controlling Firejail and writing profiles. Currently, it consists of:
+This is a set of bash shells that provide extra functionality for controlling Firejail and writing profiles. It hs it's own work folder, `${HOME}/Documents/FjToolsWork`, which can be changed in `FjTools-Shared`. Additionally, the various tools will create their own subfolders in which to store their results.
+
+Currently, it consists of:
 
 #### FjTools-Shared
-Contains the paths and distro specific commands used by FjTools. I only use Arch Linux, so I can't test or develop versions of FjTools for other distros. However, if you wish to port the tools to other distros, I will be only to glad to help, and suggest, as a first step, you open an issue.
+Contains the shared paths and distro specific functions used by FjTools which a user may wish to customise. I only use Arch Linux, so I can't test or develop versions of FjTools for other distros. However, if you wish to port the tools to other distros, I will be only to glad to help, and suggest, as a first step, you open an issue.
 
 *Note*: As written, it is assumed that the FjTools shells are installed to `/usr/local/bin`, or some other location in the ${PATH}
+
+[*Return to contents*](#contents)
+
+#### FjTools-Includes
+Contains the shared functions which a user is unikely to wish to customise.
 
 [*Return to contents*](#contents)
 
@@ -100,15 +109,15 @@ Lists profiles in `/etc/firejail` which are not owned by Firejail
 
 #### FjTools-DebugProfile
 A wrapper to launch applications in `firejail --debug` mode:
-1. It has a lot of nice features like automatically making indexed backups of `<App>.profile`, `<App>.local`, and `<App>.net` all of which are cross-referenced to the relevant `firejail --debug` output
-1. By default, it creates the work directory `${HOME}/Desktop/FjTools-DebugFolder` this can be changed in `FjTools-shared`
+1. Basically, it's just a quick way to launch a profile in debug mode, but it has useful features like automatically making backups of `<App>.profile`, `<App>.local`, and `<App>.net`
 1. You should note that there is a great deal of useful in formation to gleaned from `stderr`, so both `stdout` and `stderr` are `tee`ed to the debug log file.
 
 [*Return to contents*](#contents)
 
 #### FjTools-BackupProfile
-Backup and/or restore a last working copy of `<App>.profile`, `<App>.local` and `<App>.net`
+Backup and/or restore working copies of `<App>.profile`, `<App>.local` and `<App>.net`
 1. The difference between this backup function and the one above, is that `FjTools-DebugProfile` automatically backs up an indexed copy of the profile being tested, which may or may not work. This backup function however, has it's own `LastWorkingCopy` sub-folder of the `FjTools-DebugFolder`, and, as the name suggests, is used to backup important milestones.
+1. It has an option to  backup **ALL** local customisations and homegrown profiles in `/etc/firejail`
 
 [*Return to contents*](#contents)
 
@@ -155,6 +164,7 @@ Much like [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs), it attempts t
 1. Run [*FjTools-CreatePrivateLib*](#fjtools-createprivatelib) and enter `firefox`
 1. Navigate to your work folder, open the file `CreatePrivateLib-firefox` and, ignoring any errors or warnings, copy the `private-lib` string into `firefox.local`
 1. Using a terminal, launch firefox with the new firejail profile.
+   * *Note:* If, for example, as in the case of `transmission-gtk`, `private-lib` has no entries, temporarily use `private-lib none` to proceed to the next step.
 1. Scroll through the expected GTK messages, until you find errors and warnings about missing files and add the indicated folders and libraries to your `private-lib`.
    1. You may need to use your file search utility to find containing folders.
    1. If the file search fails to find a missing folder, use something like: `ls /usr/lib | grep "canberra"` to get a list of missing shared objects. By continually *bisecting* the resulting list and discarding the half that doesn't work you can quickly narrow it down to a single shared object library.
@@ -165,7 +175,7 @@ Much like [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs), it attempts t
 1. Run [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) and enter `firefox`
 1. Make a backup copy of the resulting file `GuessPrivateLib-firefox`
 1. Try the list `Libraries-firefox` to see if provides the missing functionality.
-1. If successful, use *bisection* to eliminate unseeded shared objects.
+1. If successful, use *bisection* to eliminate unneeded shared objects.
 1. Otherwise, use the provided "chop marks" to systematically test each section of the `GuessPrivateLib-firefox` file to see if it provides the missing functionality.
 1. Once you find the required section, use *bisection* to eliminate unneeded shared objects.
 1. Run further tests for core functionality and repeat steps 6, 7 and 8 as needed.

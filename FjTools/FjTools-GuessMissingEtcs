@@ -41,12 +41,12 @@ function GetAppName(){
 }
 
 function GetDependencies(){
-	if ! [ -e  "$FjDependencyChainFile-$AppName" ] ; then
+	if ! [ -e  "$FjDependencyChain-$AppName" ] ; then
 	        FjTools-GetAppDependencies "$AppName"
 	    else
 	            EchoToScreen "Dependency chain already exist, skipping get dependencies"
 	fi
-	DependencyChain="$(cat $FjDependencyChainFile-$AppName)"
+	DependencyChain="$(cat $FjDependencyChain-$AppName)"
 }
 
 function GetPrivateEtcSugestions(){
@@ -60,16 +60,16 @@ function GetPrivateEtcSugestions(){
         #EchoToScreen "$Line is owned by $PkgOwner"
         if [[ "$DependencyChain" = *",$PkgOwner,"* ]] ; then
             	EchoToScreen "Adding $Line to private-etc file"
-            	echo "$Line" >> "$FjGuessPrivateEtcFile-$AppName"
+            	echo "$Line" >> "$FjGuessPrivateEtc-$AppName"
             	((Count++))
             	if [[ "$Count" = "$BinaryChop"  ]] ; then
             	    Count="0"
             	    EchoToScreen "Adding binary chop marker to private-etc file"
-            	    echo "### ### ### ### ### ### Binary Chop ### ### ### ### ### ###" >> "$FjGuessPrivateEtcFile-$AppName"
+            	    echo "### ### ### ### ### ### Binary Chop ### ### ### ### ### ###" >> "$FjGuessPrivateEtc-$AppName"
             	fi
             elif  [[ "$PkgOwner" = *"$NoPckgOwns"* ]] ; then
                 EchoToScreen "No package owns $Line to Adding NoPkgOwns file"
-                echo "$Line" >> $FjGuessPrivateEtcNoPkgOwnsFile-$AppName
+                echo "$Line" >> $FjPrivateEtcNoPkgOwns
         fi
     done
 }
@@ -81,11 +81,12 @@ function GetPrivateEtcSugestions(){
 GetAppName
 if ! [[ "$AppName" = "" ]] ; then
     GetDependencies
-    mkdir -p "$FjPrivateEtcGuessFolder"
-    echo "" > "$FjGuessPrivateEtcFile-$AppName" # Reset
+    mkdir -p "$FjPrivateEtcWork"
+    echo "" > "$FjGuessPrivateEtc-$AppName"     # Reset
+    echo "" > "$FjPrivateEtcNoPkgOwns"              # Reset
     GetPrivateEtcSugestions
-    cp $FjDependencyNotFoundFile-$AppName $FjPrivateEtcNotFoundFile-$AppName
-    EchoToScreen "You can find the private-etc suggestions at $FjGuessPrivateEtcFile-$AppName"
+    cp $FjDependencyNotFound-$AppName $FjPrivateEtcNotFound-$AppName
+    EchoToScreen "You can find the private-etc suggestions at $FjGuessPrivateEtc-$AppName"
     EchoToScreen "Hit return to quit"
     read Quit
 fi

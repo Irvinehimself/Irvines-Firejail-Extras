@@ -42,12 +42,12 @@ function GetAppName(){
 }
 
 function GetDependencies(){
-	if ! [ -e  "$FjDependencyChainFile-$AppName" ] ; then
+	if ! [ -e  "$FjDependencyChain-$AppName" ] ; then
 	        FjTools-GetAppDependencies "$AppName"
 	    else
 	            EchoToScreen "Dependency chain already exist, skipping get dependencies"
 	fi
-	DependencyChain="$(cat $FjDependencyChainFile-$AppName)"
+	DependencyChain="$(cat $FjDependencyChain-$AppName)"
 }
 
 function GetPrivateLibSugestions(){
@@ -60,13 +60,13 @@ function GetPrivateLibSugestions(){
         PkgOwner=$(GetPckgOwner "$UsrLib/$Line")
         #EchoToScreen "$Line is owned by $PkgOwner"
         if [[ "$DependencyChain" = *",$PkgOwner,"* ]] ; then
-            EchoToScreen "Adding $Line to private-lib file"
-            echo "$Line" >> "$FjGuessPrivateLibFile-$AppName"
+            EchoToScreen "Adding $Line to GuessPrivateLib-$AppName"
+            echo "$Line" >> "$FjGuessPrivateLib-$AppName"
             ((Count++))
             if [[ "$Count" = "$BinaryChop"  ]] ; then
                 Count="0"
-                EchoToScreen "Adding binary chop marker to private-lib file"
-                echo "### ### ### ### ### ### Binary Chop ### ### ### ### ### ###" >> "$FjGuessPrivateLibFile-$AppName"
+                EchoToScreen "Adding binary chop marker to GuessPrivateLib-$AppName"
+                echo "### ### ### ### ### ### Binary Chop ### ### ### ### ### ###" >> "$FjGuessPrivateLib-$AppName"
             fi
         fi
     done
@@ -79,12 +79,12 @@ function GetPrivateLibSugestions(){
 GetAppName
 if ! [[ "$AppName" = "" ]] ; then
     GetDependencies
-    mkdir -p "$FjPrivateLibGuessFolder"
-    echo "" > "$FjGuessPrivateLibFile-$AppName" # Reset
+    mkdir -p "$FjPrivateLibWork"
+    echo "" > "$FjGuessPrivateLib-$AppName" # Reset
     GetPrivateLibSugestions
-    cp $FjDependencyLibraryFile-$AppName $FjPrivateLibSoFile-$AppName
-    cp $FjDependencyNotFoundFile-$AppName $FjPrivateLibNotFoundFile-$AppName
-    EchoToScreen "You can find the private-lib suggestions at $FjGuessPrivateLibFile-$AppName"
+    cp $FjDependencyLibraries-$AppName $FjPrivateLibSo-$AppName
+    cp $FjDependencyNotFound-$AppName $FjPrivateLibNotFound-$AppName
+    EchoToScreen "You can find the private-lib suggestions at $FjGuessPrivateLib-$AppName"
     EchoToScreen "Hit return to quit"
     read Quit
 fi

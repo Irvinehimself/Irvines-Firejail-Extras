@@ -47,14 +47,13 @@ function GetAppName(){
     echo "Enter application name, null string to cancel"
     read AppName
 	if ! [[ "$AppName" = "" ]] ; then
-	   mkdir -p "$FjPrivateLibCreateFolder"
-	   AppPrivateLibFile="$FjPrivateLibCreateFolder/CreatePrivateLib-$AppName"
+	   mkdir -p "$FjPrivateLibWork"
 	fi
 }
 
 function GetMissingLib(){
-    firejail --ignore=quiet "$PrivateLibDebug" $AppName 2>&1 | tee "$AppPrivateLibFile"
-    NoSuchFile=$(cat "$AppPrivateLibFile" | grep "No such file or directory" )
+    firejail --ignore=quiet "$PrivateLibDebug" $AppName 2>&1 | tee "$FjCreatePrivateLib-$AppName"
+    NoSuchFile=$(cat "$FjCreatePrivateLib-$AppName" | grep "No such file or directory" )
     if [[ "$NoSuchFile" = *"error while loading shared libraries"* ]]; then
             MissingLib=$(echo "$NoSuchFile" | cut -d':' -f3 | tr -d '[:space:]' )
         elif ! [[ "$NoSuchFile" = *"/usr/lib/"* ]]; then
@@ -90,13 +89,13 @@ if ! [[ $AppName = "" ]] ; then
 	    #echo "Debug: NoSuchFile = $NoSuchFile"
 	    #echo "Debug: MissingLib = $MissingLib"
 	done
-	echo | tee -a "$AppPrivateLibFile"
-	echo "Private-Lib ="| tee -a "$AppPrivateLibFile"
-	echo "$PrivateLib" | tee -a "$AppPrivateLibFile"
-	echo | tee -a "$AppPrivateLibFile"
+	echo | tee -a "$FjCreatePrivateLib-$AppName"
+	echo "Private-Lib ="| tee -a "$FjCreatePrivateLib-$AppName"
+	echo "$PrivateLib" | tee -a "$FjCreatePrivateLib-$AppName"
+	echo | tee -a "$FjCreatePrivateLib-$AppName"
 fi
-echo "Press return to quit"
-read Quit
-echo "Bye :)" | tee -a "$AppPrivateLibFile"
+#echo "Press return to quit"
+#read Quit
+echo "Bye :)" | tee -a "$FjCreatePrivateLib-$AppName"
 echo
 

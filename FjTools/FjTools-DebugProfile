@@ -26,16 +26,6 @@
 source FjTools-Shared
 
  ### ### Functions ### ###
-function GetFileName(){
-    mkdir -p "$DebugWork"
-    i=1
-    printf -v Index "%03d" $i
-	while [ -e "$DebugWork/$Index--$AppName.debug" ] ; do
-        i=$(($i+1))
-        printf -v Index "%03d" $i
-	done
-    DebugFile="$DebugWork/$Index--$AppName.debug"
-}
 
 function GetAppName(){
     echo "FjTools Firejail debug wrapper $1"
@@ -50,9 +40,12 @@ function GetAppName(){
 }
 
 function BackUpProfile(){
-    cp $EtcFirejail/$AppName.profile $DebugWork/$Index--$AppName.profile 2>/dev/null
-    cp $EtcFirejail/$AppName.local $DebugWork/$Index--$AppName.local 2>/dev/null
-    cp $EtcFirejail/$AppName.net $DebugWork/$Index--$AppName.net 2>/dev/null
+    cp -f $FjDebugWork/$AppName.profile $FjDebugWork/$AppName.profile.back 2>/dev/null
+    cp -f $FjDebugWork/$AppName.local $FjDebugWork/$AppName.local.back 2>/dev/null
+    cp -f $FjDebugWork/$AppName.net $FjDebugWork/$AppName.net.back 2>/dev/null
+    cp -f $EtcFirejail/$AppName.profile $FjDebugWork/$AppName.profile 2>/dev/null
+    cp -f $EtcFirejail/$AppName.local $FjDebugWork/$AppName.local 2>/dev/null
+    cp -f $EtcFirejail/$AppName.net $FjDebugWork/$AppName.net 2>/dev/null
 }
 
 
@@ -62,8 +55,7 @@ function BackUpProfile(){
  ### ### Main ### ###
 GetAppName
 if ! [[ $AppName = "" ]] ; then
-    DebugWork="$FjWorkFolder/$AppName"
-    GetFileName
+    mkdir -p "$FjDebugWork"
     Launch="y"
     until ! [[ "$Launch" = "y"  ]] ; do
         BackUpProfile

@@ -150,7 +150,7 @@ GetAppName
 
 # Does user wish to continue ???
 if ! [[ "$AppName" = "" ]] ; then
-    mkdir -p "$FjDependencyFolder"
+    mkdir -p "$FjDependencyWork"
 	GetInstalled
 
 	# Reset log file
@@ -180,9 +180,9 @@ if ! [[ "$AppName" = "" ]] ; then
     echo | tee -a "$FjDependencyChainLog-$AppName"
 
     # Overwrite results files
-    echo "$DependencyChain" > "$FjDependencyChainFile-$AppName"
-    echo "$LibSoLibraryChain" > "$FjDependencyLibraryFile-$AppName"
-    echo "$DependencyNotFoundChain" > "$FjDependencyNotFoundFile-$AppName"
+    echo "$DependencyChain" > "$FjDependencyChain-$AppName"
+    echo "$LibSoLibraryChain" > "$FjDependencyLibraries-$AppName"
+    echo "$DependencyNotFoundChain" > "$FjDependencyNotFound-$AppName"
 
 fi
 

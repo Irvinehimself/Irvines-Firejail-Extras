@@ -44,8 +44,9 @@ Hdden=$'\e[8m'  # Hidden
 End=$'\e[0m'    # Reset
 # End colours
 
-# Paths
+ ### ### Paths ### ###
 
+# system
 EtcFirejail="/etc/firejail"
 UsrBinFirejail="/usr/bin/firejail"
 
@@ -57,35 +58,42 @@ Etc="/etc"
 
 NotifyIcon="/usr/share/pixmaps/firetools.png"
 
+# FjSymlinks
 FjSymlinks="$UsrLocalBin/FjSymlinks"
 FjSymlinksBack="$FjSymlinks""Back"
-FjWorkFolder="${HOME}/Desktop/FjTools-WorkFolder"
 
-FjPrivateLibFolder="$FjWorkFolder/PrivateLibWork"
-FjPrivateLibCreateFolder="$FjWorkFolder/PrivateLibWork/CreatePrivateLib"
-FjPrivateLibGuessFolder="$FjWorkFolder/PrivateLibWork/GuessPrivateLib"
 
-FjGuessPrivateLibFile="$FjPrivateLibGuessFolder/GuessPrivateLib"
-FjPrivateLibSoFile="$FjPrivateLibGuessFolder/Libraries"
-FjPrivateLibNotFoundFile="$FjPrivateLibGuessFolder/NotFound"
+# FjWork
+FjWork="${HOME}/Documents/FjToolsWork"
+FjInstalledPkgs="$FjWork/InstalledPkgs"
 
-FjPrivateEtcFolder="$FjWorkFolder/PrivateEtcWork"
-FjPrivateEtcCreateFolder="$FjWorkFolder/PrivateEtcWork/CreatePrivateEtc"
-FjPrivateEtcGuessFolder="$FjWorkFolder/PrivateEtcWork/GuessPrivateEtc"
+# Debug
+FjDebugWork="$FjWork/DebugProfiles"
 
-FjGuessPrivateEtcFile="$FjPrivateEtcGuessFolder/GuessPrivateEtc"
-FjGuessPrivateEtcNoPkgOwnsFile="$FjPrivateEtcGuessFolder/GuessPrivateEtcNoPkgOwns"
-FjPrivateEtcNotFoundFile="$FjPrivateEtcGuessFolder/NotFound"
+FjBackupProfiles="$FjWork/BackupProfiles"
 
-FjDependencyFolder="$FjWorkFolder/Dependencies"
-FjDependencyChainFile="$FjDependencyFolder/DependencyChain"
-FjDependencyChainLog="$FjDependencyFolder/DependencyChainLog"
-FjDependencyLibraryFile="$FjDependencyFolder/Libraries"
-FjDependencyNotFoundFile="$FjDependencyFolder/NotFound"
+# private-lib
+FjPrivateLibWork="$FjWork/PrivateLib/"
+FjCreatePrivateLib="$FjPrivateLibWork/CreatePrivateLib"
+FjGuessPrivateLib="$FjPrivateLibWork/GuessPrivateLib"
+FjPrivateLibSo="$FjPrivateLibWork/Libraries"
+FjPrivateLibNotFound="$FjPrivateLibWork/NotFound"
 
-FjInstalledPkgsFile="$FjDependencyFolder/InstalledPkgs"
+# private-etc
+FjPrivateEtcWork="$FjWork/PrivateEtcWork"
+FjGuessPrivateEtc="$FjPrivateEtcWork/GuessPrivateEtc"
+FjPrivateEtcNoPkgOwns="$FjPrivateEtcWork/Etc-NoPkgOwns"
+FjPrivateEtcNotFound="$FjPrivateEtcWork/NotFound"
 
-# End paths
+# Dependency Chain
+FjDependencyWork="$FjWork/Dependencies"
+FjDependencyChain="$FjDependencyWork/DependencyChain"
+FjDependencyChainLog="$FjDependencyWork/Log"
+FjDependencyLibraries="$FjDependencyWork/Libraries"
+FjDependencyNotFound="$FjDependencyWork/NotFound"
+
+
+ ### ### End paths
 
 # Global constants and variables
 DependencyChain=""
@@ -111,7 +119,7 @@ function GetPkgDepends(){
 }
 
 function GetInstalled(){
-    pacman -Q  > "$FjInstalledPkgsFile"
+    pacman -Q  > "$FjInstalledPkgs"
 }
 
 function GetProvides(){
@@ -141,7 +149,7 @@ function GetProvidedBy(){
     while read Line ; do
         Pkg=$(echo $Line | cut -d'/' -f2)
         # Is it installed?
-        TmpGrepInstalled=$(cat $FjInstalledPkgsFile | grep "$Pkg " | cut -d' ' -f1)
+        TmpGrepInstalled=$(cat $FjInstalledPkgs | grep "$Pkg " | cut -d' ' -f1)
         if ! [[ "$TmpGrepInstalled" = "" ]] ; then
             # Yes, it's a possibility. Could it provide the required package?
             TmpGrepProvides=$(GetProvides "$Pkg" | grep " $TmpMissingPkg")
