@@ -90,7 +90,7 @@ Further, be warned, when`machine-id` is not present in `private-etc`, trying to 
 1. If successful, use *bisection* to eliminate unneeded shared objects.
 1. Otherwise, use the provided "chop marks" to systematically test each section of the `GuessPrivateLib-firefox` file to see if it provides the missing functionality.
 1. Once you find the required section, use *bisection* to eliminate unneeded shared objects.
-1. Run further tests for core functionality and repeat steps 6, 7 and 8 as needed.
+1. Run further tests for core functionality and repeat steps 4 through 8 as needed.
 
 In the case of Firefox, after resolving internet connectivity, successive tests revealed the following functionality to be missing:
 1. YouTube sound
