@@ -7,7 +7,7 @@ Extra profiles, local customisations and tools for Firejail
 * [**Local customisations**](#local-customisations)
   * [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
 * [**Example -- Creating Firefox private-lib**](#example----creating-firefox-private-lib)
-* [**FjTools**](#fjtools)
+* [**Appendix -- FjTools**](#appendix----fjtools)
   1. [FjTools-Shared](#fjtools-shared)
   1. [FjTools-Includes](#fjtools-includes)
   1. [FjTools-DisableSymlinks](#fjtools-disablesymlinks)
@@ -105,7 +105,7 @@ Each of these issues had to be resolved individually before it was possible to t
 [*Return to contents*](#contents)
 
 
-## FjTools
+## Appendix -- FjTools
 This is a set of bash shells that provide extra functionality for controlling Firejail and writing profiles. It hs it's own work folder, `${HOME}/Documents/FjToolsWork`, which can be changed in `FjTools-Shared`. Additionally, the various tools will create their own subfolders in which to store their results.
 
 Currently, it consists of:
