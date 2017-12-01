@@ -6,6 +6,7 @@ Extra profiles, local customisations and tools for Firejail
 * [**Profiles**](#profiles)
 * [**Local customisations**](#local-customisations)
   * [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
+* [**Example -- Creating Firefox private-lib**](#example----creating-firefox-private-lib)
 * [**FjTools**](#fjtools)
   1. [FjTools-Shared](#fjtools-shared)
   1. [FjTools-Includes](#fjtools-includes)
@@ -19,7 +20,6 @@ Extra profiles, local customisations and tools for Firejail
   1. [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs)
   1. [FjTools-GetAppDependencies](#fjtools-getappdependencies)
   1. [FjTools-GuessMissingEtcs](#fjtools-guessmissingetcs)
-* [**Example -- Creating Firefox private-lib**](#example----creating-firefox-private-lib)
 
 ## Introduction
 My current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org). Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of two parts:
@@ -67,6 +67,43 @@ In my home setup, I mirror my laptop screen to my Tv and have a shell with launc
 Further, be warned, when`machine-id` is not present in `private-etc`, trying to toggle between the 'built-in' and 'HDMI' speakers **while playing streaming media**  will crash audio output for everything except the browser. On the other hand, if you are not currently playing streaming media, then you can toggle between the 'built-in' and 'HDMI' speakers with no ill effect, irrespective of whether the browser is open or not.
 
 [*Return to contents*](#contents)
+
+## Example -- Creating Firefox private-lib
+*Note*: In what follows it will help to have a basic understanding of [bisection](https://en.wikipedia.org/wiki/Bisection_method)
+
+*Step 1:*
+1. Run [*FjTools-CreatePrivateLib*](#fjtools-createprivatelib) and enter `firefox`
+1. Navigate to your work folder, open the file `CreatePrivateLib-firefox` and, ignoring any errors or warnings, copy the `private-lib` string into `firefox.local`
+1. Using a terminal, launch firefox with the new firejail profile.
+   * *Note:* If, for example, as in the case of `transmission-gtk`, `private-lib` has no entries, temporarily use `private-lib none` to proceed to the next step.
+1. Scroll through the expected GTK messages, until you find errors and warnings about missing files and add the indicated folders and libraries to your `private-lib`.
+   1. Typically, the missing GTK libraries might be: *"gtk-3.0, gdk-pixbuf-2.0 and libcanberra-gtk3.so.0"*
+   1. You may need to use your file search utility to find containing folders.
+   1. If the file search fails to find a missing folder, use something like: `ls /usr/lib | grep "canberra"` to get a list of missing shared objects. By continually *bisecting* the resulting list and discarding the half that doesn't work you can quickly narrow it down to a single shared object library.
+1. Repeat steps 3 through 5 until there are no more GTK errors. (Ignore the depreciation warnings, they are normal)
+
+*Step 2:*
+1. Test the application for basic functionality: In the case of Firefox, there was no internet connectivity
+1. Run [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) and enter `firefox`
+1. Make a backup copy of the resulting file `GuessPrivateLib-firefox`
+1. Try the list `Libraries-firefox` to see if provides the missing functionality.
+1. If successful, use *bisection* to eliminate unneeded shared objects.
+1. Otherwise, use the provided "chop marks" to systematically test each section of the `GuessPrivateLib-firefox` file to see if it provides the missing functionality.
+1. Once you find the required section, use *bisection* to eliminate unneeded shared objects.
+1. Run further tests for core functionality and repeat steps 6, 7 and 8 as needed.
+
+In the case of Firefox, after resolving internet connectivity, successive tests revealed the following functionality to be missing:
+1. YouTube sound
+1. Libraries for multiple HTML5 video codecs (eg, H264)
+1. Libraries for multiple audio codecs
+1. Libraries for switching to HDMI audio
+
+Each of these issues had to be resolved individually before it was possible to test the next issue on the list. However, testing systematically in the manner outlined, it only took about twenty minutes to have a fully functional `private-lib`
+
+*As an aside, porn sites are a good place to test streaming media*
+
+[*Return to contents*](#contents)
+
 
 ## FjTools
 This is a set of bash shells that provide extra functionality for controlling Firejail and writing profiles. It hs it's own work folder, `${HOME}/Documents/FjToolsWork`, which can be changed in `FjTools-Shared`. Additionally, the various tools will create their own subfolders in which to store their results.
@@ -127,7 +164,6 @@ Like the Firejail `private-lib` feature itself, this is pretty much still experi
 * It only tries to get the \<app\> to launch and ignores warnings. (See the inline notes for the shell)
 * If the \<app\>  launches, it may immediately crash. (See my inline notes about `private-lib` in the Chromium based Opera and Inox browser's `.local` customisation files)
 * Even if it launches, you will probably have to use `stderr` to manually find missing files for Gtk
-  * Typically, the missing GTK libraries might be: *"gtk-3.0, gdk-pixbuf-2.0 and libcanberra-gtk3.so.0"*
 * After all this, your are still going to have to make an educated guess about what is needed to enable missing functionality. To help with this task, I wrote the complementary [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) which greatly eases the task of guessing the libraries missed by *FjTools-CreatePrivateLib*.
 
 *See* the provided [example](#example----creating-firefox-private-lib) for a detailed guide to usage and a general description of the methodology.
@@ -154,40 +190,5 @@ This is the work horse for [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglib
 Much like [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs), it attempts to find all the files in `/etc` owned by an applications dependencies. This list can then be quickly [bisected](https://en.wikipedia.org/wiki/Bisection_method) to to remove unneeded entries.
 
 *Note:* *FjTools-GuessMissingEtcs* also creates a list of files in `/etc` which are not owned by any package. This includes things like: *hostname and machine-id*, which may, or may not be needed for certain functionality. See [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
-
-[*Return to contents*](#contents)
-
-## Example -- Creating Firefox private-lib
-*Note*: In what follows it will help to have a basic understanding of [bisection](https://en.wikipedia.org/wiki/Bisection_method)
-
-*Step 1:*
-1. Run [*FjTools-CreatePrivateLib*](#fjtools-createprivatelib) and enter `firefox`
-1. Navigate to your work folder, open the file `CreatePrivateLib-firefox` and, ignoring any errors or warnings, copy the `private-lib` string into `firefox.local`
-1. Using a terminal, launch firefox with the new firejail profile.
-   * *Note:* If, for example, as in the case of `transmission-gtk`, `private-lib` has no entries, temporarily use `private-lib none` to proceed to the next step.
-1. Scroll through the expected GTK messages, until you find errors and warnings about missing files and add the indicated folders and libraries to your `private-lib`.
-   1. You may need to use your file search utility to find containing folders.
-   1. If the file search fails to find a missing folder, use something like: `ls /usr/lib | grep "canberra"` to get a list of missing shared objects. By continually *bisecting* the resulting list and discarding the half that doesn't work you can quickly narrow it down to a single shared object library.
-1. Repeat steps 3 through 5 until there are no more GTK errors. (Ignore the depreciation warnings, they are normal)
-
-*Step 2:*
-1. Test the application for basic functionality: In the case of Firefox, there was no internet connectivity
-1. Run [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) and enter `firefox`
-1. Make a backup copy of the resulting file `GuessPrivateLib-firefox`
-1. Try the list `Libraries-firefox` to see if provides the missing functionality.
-1. If successful, use *bisection* to eliminate unneeded shared objects.
-1. Otherwise, use the provided "chop marks" to systematically test each section of the `GuessPrivateLib-firefox` file to see if it provides the missing functionality.
-1. Once you find the required section, use *bisection* to eliminate unneeded shared objects.
-1. Run further tests for core functionality and repeat steps 6, 7 and 8 as needed.
-
-In the case of Firefox, after resolving internet connectivity, successive tests revealed the following functionality to be missing:
-1. YouTube sound
-1. Libraries for multiple HTML5 video codecs (eg, H264)
-1. Libraries for multiple audio codecs
-1. Libraries for switching to HDMI audio
-
-Each of these issues had to be resolved individually before it was possible to test the next issue on the list. However, testing systematically in the manner outlined, it only took about twenty minutes to have a fully functional `private-lib`
-
-*As an aside, porn sites are a good place to test streaming media*
 
 [*Return to contents*](#contents)
