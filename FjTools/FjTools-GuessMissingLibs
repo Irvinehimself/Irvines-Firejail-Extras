@@ -24,12 +24,9 @@
 # Guess an applications missing shared objects
 
 source FjTools-Shared
+source FjTools-Includes
 
  ### ### Functions ### ###
- function EchoToScreen(){
-    echo "$1"
-    echo
-}
 
 function GetAppName(){
     # If AppName has not been assigned manually, then ask user
@@ -55,21 +52,27 @@ function GetPrivateLibSugestions(){
     local PkgOwner="Dummy"
     local DepTest="Dummy"
     local Count="0"
+    local PrivateLibString=""
     ls "$UsrLib" |\
+    (
     while read Line ; do
         PkgOwner=$(GetPckgOwner "$UsrLib/$Line")
         #EchoToScreen "$Line is owned by $PkgOwner"
         if [[ "$DependencyChain" = *",$PkgOwner,"* ]] ; then
-            EchoToScreen "Adding $Line to GuessPrivateLib-$AppName"
-            echo "$Line" >> "$FjGuessPrivateLib-$AppName"
+            EchoToScreen "Adding $Line to bisection string"
+            PrivateLibString="$PrivateLibString,$Line"
             ((Count++))
-            if [[ "$Count" = "$BinaryChop"  ]] ; then
+            if [[ "$Count" = "$BisectionChop"  ]] ; then
                 Count="0"
-                EchoToScreen "Adding binary chop marker to GuessPrivateLib-$AppName"
-                echo "### ### ### ### ### ### Binary Chop ### ### ### ### ### ###" >> "$FjGuessPrivateLib-$AppName"
+                EchoToScreen "Adding bisection chop to GuessPrivateLib-$AppName"
+                AddBisectionChopToFile "$PrivateLibString" "$FjGuessPrivateLib-$AppName"
+                PrivateLibString=""
             fi
         fi
     done
+    EchoToScreen "Adding final chop to GuessPrivateLib-$AppName"
+    AddBisectionChopToFile "$PrivateLibString" "$FjGuessPrivateLib-$AppName"
+    )
 }
 
  ### End functions
@@ -85,6 +88,6 @@ if ! [[ "$AppName" = "" ]] ; then
     cp $FjDependencyLibraries-$AppName $FjPrivateLibSo-$AppName
     cp $FjDependencyNotFound-$AppName $FjPrivateLibNotFound-$AppName
     EchoToScreen "You can find the private-lib suggestions at $FjGuessPrivateLib-$AppName"
-    EchoToScreen "Hit return to quit"
-    read Quit
+    #EchoToScreen "Hit return to quit"
+    #read Quit
 fi
