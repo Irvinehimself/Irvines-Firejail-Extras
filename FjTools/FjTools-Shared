@@ -81,7 +81,7 @@ FjPrivateLibSo="$FjPrivateLibWork/Libraries"
 FjPrivateLibNotFound="$FjPrivateLibWork/NotFound"
 
 # private-etc
-FjPrivateEtcWork="$FjWork/PrivateEtcWork"
+FjPrivateEtcWork="$FjWork/PrivateEtc"
 FjGuessPrivateEtc="$FjPrivateEtcWork/GuessPrivateEtc"
 FjPrivateEtcNoPkgOwns="$FjPrivateEtcWork/Etc-NoPkgOwns"
 FjPrivateEtcNotFound="$FjPrivateEtcWork/NotFound"
@@ -101,7 +101,7 @@ DependencyChain=""
 LibSoLibraryChain=""
 DependencyNotFoundChain=""
 
-BinaryChop="64"
+BisectionChop="64"
 SleepDelay="1"
 SleepSuffix="m"
 

@@ -25,6 +25,11 @@
 
 source FjTools-Shared
 
+function EchoToScreen(){
+    echo "$1"
+    echo
+}
+
 function CheckOwner() {
     while read Line ; do
         ### Use package manager to check if profile is owned by firejail
@@ -43,4 +48,10 @@ function CopyLsGrep(){
     while read Line ; do
         cp "$1/$Line" $3
     done
+}
+
+function AddBisectionChopToFile(){
+	echo "### Bisection Chop ###" >> "$2"
+	echo "$1" >> "$2"
+	echo >> $2
 }
