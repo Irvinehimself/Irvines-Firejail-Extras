@@ -86,7 +86,7 @@ Further, be warned, when`machine-id` is not present in `private-etc`, trying to 
 1. Test the application for basic functionality: In the case of Firefox, there was no internet connectivity
 1. Run [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) and enter `firefox`
 1. Make a backup copy of the resulting file `GuessPrivateLib-firefox`
-1. Try the list `Libraries-firefox` to see if provides the missing functionality.
+1. Try the list `Libraries-firefox` to see if it provides the missing functionality.
 1. If successful, use *bisection* to eliminate unneeded shared objects.
 1. Otherwise, use the provided "chop marks" to systematically test each section of the `GuessPrivateLib-firefox` file to see if it provides the missing functionality.
 1. Once you find the required section, use *bisection* to eliminate unneeded shared objects.
@@ -106,7 +106,7 @@ Each of these issues had to be resolved individually before it was possible to t
 
 
 ## Appendix -- FjTools
-This is a set of bash shells that provide extra functionality for controlling Firejail and writing profiles. It hs it's own work folder, `${HOME}/Documents/FjToolsWork`, which can be changed in `FjTools-Shared`. Additionally, the various tools will create their own subfolders in which to store their results.
+This is a set of bash shells that provide extra functionality for controlling Firejail and writing profiles. It has it's own work folder, `${HOME}/Documents/FjToolsWork`, which can be changed in `FjTools-Shared`. Additionally, the various tools will create their own subfolders in which to store their results.
 
 Currently, it consists of:
 
