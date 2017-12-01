@@ -147,7 +147,7 @@ Lists profiles in `/etc/firejail` which are not owned by Firejail
 #### FjTools-DebugProfile
 A wrapper to launch applications in `firejail --debug` mode:
 1. Basically, it's just a quick way to launch a profile in debug mode. However, it has useful features like automatically copying the profile under test, along with it's local customisations, to a backup folder, the contents of which are also backed up.
-1. You should note that there is a great deal of useful in formation to gleaned from `stderr`, so both `stdout` and `stderr` are `tee`ed to the debug log file.
+1. You should note that there is a great deal of useful information to gleaned from `stderr`. So, both `stdout` and `stderr` are `tee`ed to the debug log file.
 
 [*Return to contents*](#contents)
 
@@ -171,7 +171,7 @@ Like the Firejail `private-lib` feature itself, this is pretty much still experi
 [*Return to contents*](#contents)
 
 #### FjTools-GuessMissingLibs
-A complement to *FjTools-CreatePrivateLib*, *FjTools-GuessMissingLibs:* attempts to find all the files in `/usr/lib` owned by an applications dependencies.
+A complement to [*FjTools-CreatePrivateLib*](#fjtools-createprivatelib), *FjTools-GuessMissingLibs:* attempts to find all the files in `/usr/lib` owned by an applications dependencies.
 * **Limitations**
 * The list is extensive and 99.9% of the entries are unneeded. For an Application like Firefox, this would make it completely unusable as a direct copy/paste. So, for convenience, it has "chop marks" to assist in systematically testing for missing functionality.
 * Some dependencies are hard coded to a particular version, these are stored in a separate file. eg `Libraries-firefox`
