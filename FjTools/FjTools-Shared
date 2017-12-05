@@ -86,6 +86,12 @@ FjGuessPrivateEtc="$FjPrivateEtcWork/GuessPrivateEtc"
 FjPrivateEtcNoPkgOwns="$FjPrivateEtcWork/Etc-NoPkgOwns"
 FjPrivateEtcNotFound="$FjPrivateEtcWork/NotFound"
 
+# private-Bin
+FjPrivateBinWork="$FjWork/PrivateBin"
+FjGuessPrivateBin="$FjPrivateBinWork/GuessPrivateBin"
+FjPrivateBinNoPkgOwns="$FjPrivateBinWork/Etc-NoPkgOwns"
+FjPrivateBinNotFound="$FjPrivateBinWork/NotFound"
+
 # Dependency Chain
 FjDependencyWork="$FjWork/Dependencies"
 FjDependencyChain="$FjDependencyWork/DependencyChain"

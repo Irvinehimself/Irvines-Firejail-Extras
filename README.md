@@ -20,6 +20,7 @@ Extra profiles, local customisations and tools for Firejail
   1. [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs)
   1. [FjTools-GetAppDependencies](#fjtools-getappdependencies)
   1. [FjTools-GuessMissingEtcs](#fjtools-guessmissingetcs)
+  1. [FjTools-GuessMissingBins](#fjtools-guessmissingbins)
 
 ## Introduction
 My current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org). Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of two parts:
@@ -69,7 +70,8 @@ Further, be warned, when`machine-id` is not present in `private-etc`, trying to 
 [*Return to contents*](#contents)
 
 ## Example -- Creating Firefox private-lib
-*Note*: In what follows it will help to have a basic understanding of [bisection](https://en.wikipedia.org/wiki/Bisection_method)
+*Note 1*: In what follows it will help to have a basic understanding of [bisection](https://en.wikipedia.org/wiki/Bisection_method)
+*Note 2*: Unfortunately, [FjTools-CreatePrivateLib](#fjtools-createprivatelib), *Step 1*, doesn't work with "Qt" based applications. However, *Step 2* can still be used to reveal valuable information which will help in the creation of a `private-lib`.
 
 *Step 1:*
 1. Run [*FjTools-CreatePrivateLib*](#fjtools-createprivatelib) and enter `firefox`
@@ -161,6 +163,7 @@ Backup and/or restore working copies of `<App>.profile`, `<App>.local` and `<App
 #### FjTools-CreatePrivateLib
 Like the Firejail `private-lib` feature itself, this is pretty much still experimental. However, it did greatly simplify the building of the `private-lib` whitelist for Firefox 57. Which, by the way, is the first non-trivial working example of the `prvate-lib` feature I have seen. (Try `grep "private-lib" /etc/firejai/*` and see how many examples you find!)
 * **Limitations:**
+* Unfortunately, it doesn't currently work with "Qt" based applications. The problem does not affect [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs), and I am actively researching possible solutions.
 * It only tries to get the \<app\> to launch and ignores warnings. (See the inline notes for the shell)
 * If the \<app\>  launches, it may immediately crash. (See my inline notes about `private-lib` in the Chromium based Opera and Inox browser's `.local` customisation files)
 * Even if it launches, you will probably have to use `stderr` to manually find missing files for Gtk
@@ -190,5 +193,10 @@ This is the work horse for [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglib
 Much like [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs), it attempts to find all the files in `/etc` owned by an applications dependencies. This list can then be quickly [bisected](https://en.wikipedia.org/wiki/Bisection_method) to to remove unneeded entries.
 
 *Note:* *FjTools-GuessMissingEtcs* also creates the list `Etc-NoPkgOwns`, which is a list of files in `/etc` which are not owned by any particular package. Most of this list is extremely confidential and may pose a grave security threat if included in `private-etc`. However, some items like: `hostname` and `machine-id`, may, or may not, be needed for certain functionality. See [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
+
+[*Return to contents*](#contents)
+
+#### FjTools-GuessMissingBins
+Like [[FjTools-GuessMissingEtcs](#fjtools-guessmissingetcs), it is another clone of [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs)
 
 [*Return to contents*](#contents)
