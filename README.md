@@ -71,6 +71,7 @@ Further, be warned, when`machine-id` is not present in `private-etc`, trying to 
 
 ## Example -- Creating Firefox private-lib
 *Note 1*: In what follows it will help to have a basic understanding of [bisection](https://en.wikipedia.org/wiki/Bisection_method)
+
 *Note 2*: Unfortunately, [FjTools-CreatePrivateLib](#fjtools-createprivatelib), *Step 1*, doesn't work with "Qt" based applications. However, *Step 2* can still be used to reveal valuable information which will help in the creation of a `private-lib`.
 
 *Step 1:*
@@ -197,6 +198,6 @@ Much like [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs), it attempts t
 [*Return to contents*](#contents)
 
 #### FjTools-GuessMissingBins
-Like [[FjTools-GuessMissingEtcs](#fjtools-guessmissingetcs), it is another clone of [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs)
+Like [FjTools-GuessMissingEtcs](#fjtools-guessmissingetcs), it is another clone of [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs)
 
 [*Return to contents*](#contents)
