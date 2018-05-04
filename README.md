@@ -6,7 +6,6 @@ Extra profiles, local customisations and tools for Firejail
 * [**Profiles**](#profiles)
 * [**Local customisations**](#local-customisations)
   * [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
-* [**Example -- Creating Firefox private-lib**](#example----creating-firefox-private-lib)
 * [**Appendix -- FjTools**](#appendix----fjtools)
   1. [FjTools-Shared](#fjtools-shared)
   1. [FjTools-Includes](#fjtools-includes)
