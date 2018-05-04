@@ -61,6 +61,7 @@ NotifyIcon="/usr/share/pixmaps/firetools.png"
 # FjSymlinks
 FjSymlinks="$UsrLocalBin/FjSymlinks"
 FjSymlinksBack="$FjSymlinks""Back"
+MakePkgConf="/etc/makepkg.conf"
 
 
 # FjWork

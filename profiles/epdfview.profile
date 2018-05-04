@@ -34,6 +34,8 @@ private-dev
 # private-lib
 private-tmp
 
-memory-deny-write-execute
+# Stopped working with memory-deny-write-execute enabled after 5/6-3-2018 update. see the note Firejai-5/6-3-2018-update
+# Probably either dbus or librsvg. (see /home/stupidme/Desktop/Firejail-ExecMemoryProblem folder for elimination work files)
+#memory-deny-write-execute
 noexec ${HOME}
 noexec /tmp

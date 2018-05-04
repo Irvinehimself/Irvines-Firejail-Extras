@@ -1,0 +1,12 @@
+# Local customisations for Vlc
+# Further restrict the vlc.profile
+
+#private-lib vlc,libvlccore.so,libvlccore.so.8,libvlccore.so.8.0.0,libvlc.so,libvlc.so.5,libvlc.so.5.5.0,none,jack,jack,libasound.so.2,none,libcairo-script-interpreter.so,libpulse-simple.so
+
+#libblkid.so.1.1.0,libBrokenLocale-2.26.so,libBrokenLocale.a,libBrokenLocale.so,libBrokenLocale.so.1,libc-2.26.so,libc.a,libcap.so,libcap.so.2,libcap.so.2.25,libcidn-2.26.so,libcidn.so,libcidn.so.1,libcilkrts.so
+
+#libcairo-gobject.so,libcairo-gobject.so.2,libcairo-gobject.so.2.11508.0,libcairo-script-interpreter.so,libcairo-script-interpreter.so.2,libcairo-script-interpreter.so.2.11508.0,libcairo.so,libcairo.so.2,libcairo.so.2.11508.0,
+
+#libblkid.so.1.1.0,libBrokenLocale-2.26.so,libBrokenLocale.a,libBrokenLocale.so,libBrokenLocale.so.1,libc-2.26.so,libc.a,libcairo-gobject.so,libcairo-gobject.so.2,libcairo-gobject.so.2.11508.0,libcairo-script-interpreter.so,libcairo-script-interpreter.so.2,libcairo-script-interpreter.so.2.11508.0,libcairo.so,libcairo.so.2,libcairo.so.2.11508.0,libcap.so,libcap.so.2,libcap.so.2.25,libcidn-2.26.so,libcidn.so,libcidn.so.1,libcilkrts.so
+
+#,audit,cairo,ckport,crt1.o,crti.o,crtn.o,dbus-1.0,ffmpeg2.8,gconv,gcrt1.o,getconf,glib-2.0,ld-2.26.so,ld-linux-x86-64.so.2,liba52.so,liba52.so.0,liba52.so.0.0.0,libanl-2.26.so,libanl.a,libanl.so,libanl.so.1,libasan.so,libasan.so.4,libasan.so.4.0.0,libasyncns.so,libasyncns.so.0,libasyncns.so.0.3.1,libatomic.so,libatomic.so.1,libatomic.so.1.2.0,libblkid.so,libblkid.so.1,

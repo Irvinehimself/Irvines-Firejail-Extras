@@ -13,21 +13,19 @@ Extra profiles, local customisations and tools for Firejail
   1. [FjTools-DisableSymlinks](#fjtools-disablesymlinks)
   1. [FjTools-UnusedProfiles](#fjtools-unusedprofiles)
   1. [FjTools-SymlinkedProfiles](#fjtools-symlinkedprofiles)
+  1. [FjTools-StatusWarnings](#fjtools-statuswarnings)
   1. [FjTools-HomeGrownProfiles](#fjtools-homegrownprofiles)
   1. [FjTools-DebugProfile](#fjtools-debugprofile)
   1. [FjTools-BackupProfile](#fjtools-backupprofile)
-  1. [FjTools-CreatePrivateLib](#fjtools-createprivatelib)
-  1. [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs)
-  1. [FjTools-GetAppDependencies](#fjtools-getappdependencies)
-  1. [FjTools-GuessMissingEtcs](#fjtools-guessmissingetcs)
-  1. [FjTools-GuessMissingBins](#fjtools-guessmissingbins)
+  1. [FjTools-BackupProfile](#fjtools-discardedstuff)
+
 
 ## Introduction
 My current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org). Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of two parts:
 1. **Use Firejail to sandbox everything!!!**
 1. My [apparmor enabled](https://aur.archlinux.org/pkgbase/linux-hardened-apparmor/) linux-hardened kernel
 
-It is the first item on the list that this GitHub project is concerned with. However, it is not just a collection of profiles. The latest versions of Firejail have advanced sand-boxing features such as `private-bin`, `private-lib`, `private-etc` and `private-opt` which can be difficult to implement. So, while the project does contain new profiles and local customisations, it also contains a set of tools and methodologies to simplify the writing of advanced these profiles.
+It is the first item on the list that this GitHub project is concerned with. However, it is not just a collection of profiles. The project also contains various tools that may help make working with Firejail easier.
 
 [*Return to contents*](#contents)
 
@@ -69,45 +67,6 @@ Further, be warned, when`machine-id` is not present in `private-etc`, trying to 
 
 [*Return to contents*](#contents)
 
-## Example -- Creating Firefox private-lib
-*Note 1*: In what follows it will help to have a basic understanding of [bisection](https://en.wikipedia.org/wiki/Bisection_method)
-
-*Note 2*: Unfortunately, because [FjTools-CreatePrivateLib](#fjtools-createprivatelib) doesn't work with "Qt" based applications, neither will *Step 1* of this example. However, *Step 2* can still be used to reveal valuable information which will help in the creation of a `private-lib` for "Qt" libraries.
-
-*Step 1:*
-1. Run [*FjTools-CreatePrivateLib*](#fjtools-createprivatelib) and enter `firefox`
-1. Navigate to your work folder, open the file `CreatePrivateLib-firefox` and, ignoring any errors or warnings, copy the `private-lib` string into `firefox.local`
-1. Using a terminal, launch firefox with the new firejail profile.
-   * *Note:* If, for example, as in the case of `transmission-gtk`, `private-lib` has no entries, temporarily use `private-lib none` to proceed to the next step.
-1. Scroll through the expected GTK messages, until you find errors and warnings about missing files and add the indicated folders and libraries to your `private-lib`.
-   1. Typically, the missing GTK libraries might be: *"gtk-3.0, gdk-pixbuf-2.0 and libcanberra-gtk3.so.0"*
-   1. You may need to use your file search utility to find containing folders.
-   1. If the file search fails to find a missing folder, use something like: `ls /usr/lib | grep "canberra"` to get a list of missing shared objects. By continually *bisecting* the resulting list and discarding the half that doesn't work you can quickly narrow it down to a single shared object library.
-1. Repeat steps 3 through 5 until there are no more GTK errors. (Ignore the depreciation warnings, they are normal)
-
-*Step 2:*
-1. Test the application for basic functionality: In the case of Firefox, there was no internet connectivity
-1. Run [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) and enter `firefox`
-1. Make a backup copy of the resulting file `GuessPrivateLib-firefox`
-1. Try the list `Libraries-firefox` to see if it provides the missing functionality.
-1. If successful, use *bisection* to eliminate unneeded shared objects.
-1. Otherwise, use the provided "chop marks" to systematically test each section of the `GuessPrivateLib-firefox` file to see if it provides the missing functionality.
-1. Once you find the required section, use *bisection* to eliminate unneeded shared objects.
-1. Run further tests for core functionality and repeat steps 4 through 8 as needed.
-
-In the case of Firefox, after resolving internet connectivity, successive tests revealed the following functionality to be missing:
-1. YouTube sound
-1. Libraries for multiple HTML5 video codecs (eg, H264)
-1. Libraries for multiple audio codecs
-1. Libraries for switching to HDMI audio
-
-Each of these issues had to be resolved individually before it was possible to test the next issue on the list. However, testing systematically in the manner outlined, it only took about twenty minutes to have a fully functional `private-lib`
-
-*As an aside, porn sites are a good place to test streaming media*
-
-[*Return to contents*](#contents)
-
-
 ## Appendix -- FjTools
 This is a set of bash shells that provide extra functionality for controlling Firejail and writing profiles. It has it's own work folder, `${HOME}/Documents/FjToolsWork`, which can be changed in `FjTools-Shared`. Additionally, the various tools will create their own subfolders in which to store their results.
 
@@ -126,9 +85,14 @@ Contains the shared functions which a user is unikely to wish to customise.
 [*Return to contents*](#contents)
 
 #### FjTools-DisableSymlinks
-A tool to temporarily disable desktop integration
+A couple of tools to enable/disable desktop integration
 
 *Note*: I keep my firejail symlinks in a custom folder `/usr/local/bin/FjSymlinks/` which I added to my ${PATH}. So, you will need to edit the `$FjSymlinks` variable to your own usage.
+
+[*Return to contents*](#contents)
+
+#### FjTools-StatusWarnings
+A bash to nag you if various security related features, cameras and microphones are disabled/enabled
 
 [*Return to contents*](#contents)
 
@@ -161,43 +125,7 @@ Backup and/or restore working copies of `<App>.profile`, `<App>.local` and `<App
 
 [*Return to contents*](#contents)
 
-#### FjTools-CreatePrivateLib
-Like the Firejail `private-lib` feature itself, this is pretty much still experimental. However, it did greatly simplify the building of the `private-lib` whitelist for Firefox 57. Which, by the way, is the first non-trivial working example of the `prvate-lib` feature I have seen. (Try `grep "private-lib" /etc/firejai/*` and see how many examples you find!)
-* **Limitations:**
-* Unfortunately, it doesn't currently work with "Qt" based applications. The problem does not affect [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs), and I am actively researching possible solutions.
-* It only tries to get the \<app\> to launch and ignores warnings. (See the inline notes for the shell)
-* If the \<app\>  launches, it may immediately crash. (See my inline notes about `private-lib` in the Chromium based Opera and Inox browser's `.local` customisation files)
-* Even if it launches, you will probably have to use `stderr` to manually find missing files for Gtk
-* After all this, your are still going to have to make an educated guess about what is needed to enable missing functionality. To help with this task, I wrote the complementary [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs) which greatly eases the task of guessing the libraries missed by *FjTools-CreatePrivateLib*.
-
-*See* the provided [example](#example----creating-firefox-private-lib) for a detailed guide to usage and a general description of the methodology.
-
-[*Return to contents*](#contents)
-
-#### FjTools-GuessMissingLibs
-A complement to [*FjTools-CreatePrivateLib*](#fjtools-createprivatelib), *FjTools-GuessMissingLibs:* attempts to find all the files in `/usr/lib` owned by an applications dependencies.
-* **Limitations**
-* The list is extensive and 99.9% of the entries are unneeded. For an Application like Firefox, this would make it completely unusable as a direct copy/paste. So, for convenience, it has "chop marks" to assist in systematically testing for missing functionality.
-* Some dependencies are hard coded to a particular version, these are stored in a separate file. eg `Libraries-firefox`
-* Similarly, some dependencies are "provided by" a package other than what the developers originally intended. The algorithm tries to find this replacement package, but, rarely, this may not be possible and require the user to manually search for the "Provides" package. These missing packages are also stored in separate file, eg `NotFound-firefox`
-
-*See* the provided [example](#example----creating-firefox-private-lib) for a detailed guide to usage and a general description of the methodology.
-
-[*Return to contents*](#contents)
-
-#### FjTools-GetAppDependencies
-This is the work horse for [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs), but has so many potential applications, (like for example: guessing `private-bin`, `private-opt` and `private-etc` entries,) I have spun it off as a separate sub-shell. As the name suggests, it uses recursion to generate a 'chain of dependencies' for an application. this 'chain of dependencies' can then be cross-referenced against the owners of the files and folders in your `lib` `bin` `etc` and `opt` directories.
-
-[*Return to contents*](#contents)
-
-#### FjTools-GuessMissingEtcs
-Much like [*FjTools-GuessMissingLibs*](#fjtools-guessmissinglibs), it attempts to find all the files in `/etc` owned by an applications dependencies. This list can then be quickly [bisected](https://en.wikipedia.org/wiki/Bisection_method) to to remove unneeded entries.
-
-*Note:* *FjTools-GuessMissingEtcs* also creates the list `Etc-NoPkgOwns`, which is a list of files in `/etc` which are not owned by any particular package. Most of this list is extremely confidential and may pose a grave security threat if included in `private-etc`. However, some items like: `hostname` and `machine-id`, may, or may not, be needed for certain functionality. See [**Browsers and HDMI audio**](#browsers-and-hdmi-audio)
-
-[*Return to contents*](#contents)
-
-#### FjTools-GuessMissingBins
-Like [FjTools-GuessMissingEtcs](#fjtools-guessmissingetcs), it is another clone of [FjTools-GuessMissingLibs](#fjtools-guessmissinglibs)
+#### FjTools-DiscardedStuff
+Basically a few routines to help with creating `private lib, bin, etc` they have been discarded partly because upstream is working on the problem, and partly because, in my case, Apparmor's `aa-genprof` seems to offer a ready made solution.
 
 [*Return to contents*](#contents)

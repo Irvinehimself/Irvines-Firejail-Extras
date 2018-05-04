@@ -31,7 +31,9 @@ shell none
 private-bin QMLPlayer
 private-dev
 # private-etc
-# private-lib
+
+#private-lib qt
+
 private-tmp
 
 # memory-deny-write-execute
