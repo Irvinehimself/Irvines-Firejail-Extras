@@ -13,8 +13,8 @@ private-bin opera,bash,sh
 # I believe this is related to Chromium/Inox/Opera's built in sandbox, see https://github.com/netblue30/firejail/issues/922
 
 # NOTE: Before enabling HDMI audio with '/etc/machine-id' see https://github.com/Irvinehimself/Irvines-Firejail-Extras#browsers-and-hdmi-audio
-private-etc group,resolv.conf,fonts
-# private-etc group,resolv.conf,fonts,machine-id
+# private-etc group,resolv.conf,fonts
+private-etc group,resolv.conf,fonts,machine-id
 
 
 private-opt none
