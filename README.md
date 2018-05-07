@@ -125,6 +125,6 @@ Backup and/or restore working copies of `<App>.profile`, `<App>.local` and `<App
 [*Return to contents*](#contents)
 
 #### FjTools-DiscardedStuff
-Basically a few routines to help with creating `private lib, bin, etc` they have been discarded partly because upstream is working on the problem, and partly because, in my case, Apparmor's `aa-genprof` seems to offer a ready made solution.
+Basically a few routines to help with creating `private lib, bin, etc` they have been discarded partly because upstream is working on the problem. Also, I discovered [LDD(1)](http://man7.org/linux/man-pages/man1/ldd.1.html)  which, along with Apparmor's `aa-genprof`, seem to offer a ready made solutions
 
 [*Return to contents*](#contents)
