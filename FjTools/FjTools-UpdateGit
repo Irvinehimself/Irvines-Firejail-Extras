@@ -1,0 +1,73 @@
+#!/bin/bash
+
+###############################################
+# Copyright (C) 2017  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# FjTools is a collection of extra profiles, local customisations and
+# tools for Firejail. The project home page can be found at
+# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+#
+# FjTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# FjTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+###############################################
+
+# copy's all the profiles not  owned by Firejail to my git folder
+
+source FjTools-Shared
+source FjTools-Includes
+
+# Private Paths
+GitHome="${HOME}/Git/Irvines-Firejail-Extras"
+GitProfiles="$GitHome/profiles"
+GitLocals="$GitHome/local-customisations"
+GitTools="$GitHome/FjTools"
+
+# End Private Paths
+
+# Prompts, Messages and Strings
+ChLocalCustomisations="The following '.local' customisations further restrict the upstream profile:"
+ChNotYetSubmitted="The following profiles have not yet been submitted for inclusion upstream:"
+GrepTestLocals="# Further restrict the"
+GrepTestProfiles="will be automatically replaced when"
+
+# End Prompts, Messages and Strings
+
+function UpdateContentLists(){
+	echo "Updating $1"
+	echo "$2" > "$GitHome/$1"
+	echo >> "$GitHome/$1"
+	cd "$3"
+    grep -l "$4" * >> "$GitHome/$1"
+}
+
+ ### ### Start Main ### ###
+echo "Updating profiles"
+# copy all the homegrown profiles to my git folder
+CopyLsGrep "$EtcFirejail" "profile" "$GitProfiles"
+
+echo "Updating local customisations"
+# copy local customisations to my git folder
+CopyLsGrep "$EtcFirejail" "local" "$GitLocals"
+
+echo "Updating FjTools"
+# copy FjTools to my git folder
+CopyLsGrep "$UsrLocalBin" "FjTools" "$GitTools"
+
+# Update content lists
+UpdateContentLists "RestrictiveDotLocals" "$ChLocalCustomisations" "$GitLocals" "$GrepTestLocals"
+
+UpdateContentLists "NotYetSubmitted" "$ChNotYetSubmitted" "$GitProfiles" "$GrepTestProfiles"
+
+#echo "Press return to quit"
+#read "Quit"
+echo "Bye :)"

@@ -1,0 +1,9 @@
+# My global customisations
+
+# Disable internet connectivity globally
+net none
+
+# Enable apparmor globally
+apparmor
+
+

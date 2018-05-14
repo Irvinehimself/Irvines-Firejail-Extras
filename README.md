@@ -1,5 +1,7 @@
-# Irvines-Firejail-Extras
-Extra profiles, local customisations and tools for Firejail
+# Irvines-Hardening-Project
+Profiles, local customisations and tools for Firejail and AppArmor
+
+***Under Reconstction***
 
 ## Contents
 * [**Introduction**](#introduction)
@@ -20,11 +22,13 @@ Extra profiles, local customisations and tools for Firejail
 
 
 ## Introduction
-My current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org). Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of two parts:
-1. **Use Firejail to sandbox everything!!!**
+My current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org). Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of the following parts:
+1. Use Firejail to sandbox **ALL** top level applications
 1. My [apparmor enabled](https://aur.archlinux.org/pkgbase/linux-hardened-apparmor/) linux-hardened kernel
+1. Write restrictive Apparmor profiles for sensitive low level daemons. eg `NetworkManager`, `openvpn`, `wpa-supplicant`, `gvfsd`, `udisks2`, `tumblerd`, .... etc
+1. Write tools, particularly for Firejail, to help automate the process of managing the enviroment.
 
-It is the first item on the list that this GitHub project is concerned with. However, it is not just a collection of profiles. The project also contains various tools that may help make working with Firejail easier.
+***Under Reconstction***
 
 [*Return to contents*](#contents)
 

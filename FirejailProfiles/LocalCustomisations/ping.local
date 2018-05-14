@@ -1,0 +1,6 @@
+# Local customisations for ping
+
+# Enable internet, (disabled in my globals.local)
+ignore net
+
+ignore apparmor

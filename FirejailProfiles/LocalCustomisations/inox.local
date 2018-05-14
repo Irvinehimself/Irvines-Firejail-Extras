@@ -1,0 +1,27 @@
+# Local customisations for Inox
+# Further restrict the inox.profile
+
+include /etc/firejail/disable-devel.inc
+
+caps.keep sys_chroot,sys_admin
+nogroups
+shell none
+
+private-bin inox
+
+# NOTE: Once built, private-lib fails with: "The setuid sandbox is not running as root. Common causes:".
+# I believe this is related to Chromium/Inox/Opera's built in sandbox, see https://github.com/netblue30/firejail/issues/922
+
+# NOTE: Before enabling HDMI audio with '/etc/machine-id' see https://github.com/Irvinehimself/Irvines-Firejail-Extras#browsers-and-hdmi-audio
+private-etc group,resolv.conf,fonts
+# private-etc group,resolv.conf,fonts,machine-id
+
+private-dev
+private-opt none
+private-tmp
+
+noexec ${HOME}
+noexec /tmp
+
+# Enable internet, (disabled in my globals.local)
+ignore net

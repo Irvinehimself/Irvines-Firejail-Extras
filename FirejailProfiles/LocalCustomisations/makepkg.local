@@ -1,0 +1,11 @@
+# Local customisations for makepkg
+# Further restrict the makepkg.profile
+
+# Deny access to everything in ${HOME} except my build folder and ${HOME}/.gnupg
+whitelist ~/Git
+whitelist ~/.gnupg
+
+# Enable internet, (disabled in my globals.local)
+ignore net
+# apparmor breaks official kernel PKGBUILDS
+ignore apparmor

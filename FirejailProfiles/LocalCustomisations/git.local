@@ -1,0 +1,5 @@
+# Local customisations for git
+
+
+# Enable internet, (disabled in my globals.local)
+ignore net
