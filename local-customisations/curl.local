@@ -1,5 +1,0 @@
-# Local customisations for curl
-
-
-# Enable internet, (disabled in my globals.local)
-ignore net

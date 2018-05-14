@@ -1,4 +1,0 @@
-# Local customisations for  wget
-
-# Enable internet, (disabled in my globals.local)
-ignore net

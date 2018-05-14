@@ -1,4 +1,0 @@
-# Local customisations for Keepass
-
-# apparmor breaks Keepass
-ignore apparmor
