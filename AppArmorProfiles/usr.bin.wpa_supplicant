@@ -1,0 +1,30 @@
+# vim:syntax=apparmor
+# AppArmor policy for wpa_supplicant
+# Author: irvine mcminn at gmail dot com
+# GPL3
+
+#include <tunables/home>
+#include <tunables/proc>
+#include <tunables/kernelvars>
+#include <tunables/multiarch>
+
+/usr/bin/wpa_supplicant {
+  #include <abstractions/base>
+  # Site-specific additions and overrides.
+  #include <local/usr.bin.wpa_supplicant>
+
+  capability mknod,
+  capability net_admin,
+  capability net_raw,
+  capability sys_module,
+
+  signal receive set=io peer=/usr/bin/wpa_supplicant,
+  signal send set=io peer=/usr/bin/wpa_supplicant,
+
+  owner /dev/rfkill r,
+  owner /proc/sys/net/ipv4/conf/wlp2s0/drop_gratuitous_arp rw,
+  owner /proc/sys/net/ipv4/conf/wlp2s0/drop_unicast_in_l2_multicast rw,
+  owner /proc/sys/net/ipv6/conf/wlp2s0/drop_unicast_in_l2_multicast rw,
+  owner /proc/sys/net/ipv6/conf/wlp2s0/drop_unsolicited_na rw,
+
+}

@@ -1,6 +1,7 @@
 usr.lib.udisks2.udisksd
 usr.lib.gvfsd
 usr.lib.tumbler-1.tumblerd
-usr.bin.wpa_supplicant
 usr.bin.NetworkManager
+usr.bin.wpa_supplicant
 usr.bin.pulseaudio
+
