@@ -8,10 +8,10 @@ My current long term project is to experiment with building a high-security Os u
 1. Write restrictive Apparmor profiles for sensitive low level daemons. eg `NetworkManager`, `openvpn`, `wpa-supplicant`, `gvfsd`, `udisks2`, `tumblerd`, .... etc
 1. Write tools, particularly for Firejail, to help manage the enviroment.
 
-I have split things up into three main sections
-* [Firejail profiles and local customisations](https://github.com/Irvinehimself/Irvines-Hardening-Project/tree/master/FirejailProfiles)
-* [Tools to manage Firejail profile](https://github.com/Irvinehimself/Irvines-Hardening-Project/tree/master/FjTools)
-* [Apparmor profiles for daemons and low level utilites]()
+I have split things up into the following sections
+* [Firejail profiles and local customisations](https://github.com/Irvinehimself/Irvines-Hardening-Project/tree/master/Firejail)
+* [Tools to manage Firejail profiles](https://github.com/Irvinehimself/Irvines-Hardening-Project/tree/master/FjTools)
+* [Apparmor profiles for daemons and low level utilites](https://github.com/Irvinehimself/Irvines-Hardening-Project/tree/master/AppArmor)
 
 For your convenience, each section has it's own readme with the important details
 
