@@ -28,11 +28,13 @@ source FjTools-Includes
 
 # Private Paths
 GitHome="${HOME}/Git/Irvines-Hardening-Project"
-GitFirejailProfiles="$GitHome/FirejailProfiles"
-GitFirejailLocals="$GitHome/FirejailProfiles/LocalCustomisations"
+GitFirejail="$GitHome/Firejail"
+GitFirejailProfiles="$GitFirejail/Profiles"
+GitFirejailLocals="$GitFirejail/LocalCustomisations"
 GitTools="$GitHome/FjTools"
-GitApparmorProfileList="$GitHome/AppArmor-ProfileList"
-GitAppArmorProfiles="$GitHome/apparmor.d"
+GitApparmor="$GitHome/AppArmor"
+GitApparmorProfileList="$GitApparmor/AppArmor-ProfileList"
+GitAppArmorProfiles="$GitApparmor/apparmor.d"
 GitAppArmorLocals="$GitAppArmorProfiles/local"
 
 # End Private Paths
@@ -45,12 +47,12 @@ GrepTestProfiles="will be automatically replaced when"
 
 # End Prompts, Messages and Strings
 
-function UpdateContentLists(){
+function UpdateFirejailContentLists(){
 	echo "Updating $1"
-	echo "$2" > "$GitHome/$1"
-	echo >> "$GitHome/$1"
+	echo "$2" > "$GitFirejail/$1"
+	echo >> "$GitFirejail/$1"
 	cd "$3"
-    grep -l "$4" *"$5" >> "$GitHome/$1"
+    grep -l "$4" *"$5" >> "$GitFirejail/$1"
 }
 
 function UpdateApparmor(){
@@ -78,9 +80,9 @@ echo "Updating FjTools"
 CopyLsGrep "$UsrLocalBin" "FjTools" "$GitTools"
 
 # Update content lists
-UpdateContentLists "Firejail-RestrictiveLocalCustomisations" "$ChLocalCustomisations" "$GitFirejailLocals" "$GrepTestLocals" ".local"
+UpdateFirejailContentLists "Firejail-RestrictiveLocalCustomisations" "$ChLocalCustomisations" "$GitFirejailLocals" "$GrepTestLocals" ".local"
 
-UpdateContentLists "Firejail-ProfilesNotYetSubmittedUpstream" "$ChNotYetSubmitted" "$GitFirejailProfiles" "$GrepTestProfiles" ".profile"
+UpdateFirejailContentLists "Firejail-ProfilesNotYetSubmittedUpstream" "$ChNotYetSubmitted" "$GitFirejailProfiles" "$GrepTestProfiles" ".profile"
 
 # Update Apparmor stuff
 UpdateApparmor

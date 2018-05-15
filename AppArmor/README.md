@@ -18,7 +18,7 @@ For example, just scratch the surface of common `logprof` suggestions and we fin
 
 Remember, that this list is not exhaustive, just indicative of how weak some of the standard abstractions really are.
 
-Of course, depending on the context, some abstractions are quite safe and far too useful to ignore, the `audio` abstraction for `pulseaudio` being a case in point. Suffice to say: Any abstractions I am using have been carefully vetted and, and in case interested parties do have them, I have included copies, along with the requisite tunables.
+Of course, depending on the context, some abstractions are quite safe and far too useful to ignore, the `audio` abstraction for `pulseaudio` being a case in point. Suffice to say: Any abstractions I am using have been carefully vetted and, and in case interested parties do have not them, I have included copies, along with the requisite tunables.
 
 
 
