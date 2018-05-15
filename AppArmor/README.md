@@ -7,7 +7,7 @@ Still under development: I had all the profiles working in ***enforce*** mode us
 For example, just scratch the surface of common `logprof` suggestions and we find:
 * Ptrace is wide open for abuse
 * Dbus is completely unrestricted
-* #Plus my personal favourites:
+* ***Plus my personal favourites:
 	* /{usr/,}bin/* Pixr,
 	* /{usr/,}sbin/* Pixr,
 	* /usr/local/bin/* Pixr,
