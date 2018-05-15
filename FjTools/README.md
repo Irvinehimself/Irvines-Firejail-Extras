@@ -14,9 +14,6 @@ Currently, it consists of:
   1. [FjTools-DebugProfile](#fjtools-debugprofile)
   1. [FjTools-DiscardedStuff](#fjtools-discardedstuff)
 
-
-
-
 #### FjTools-Shared
 Contains the shared paths and distro specific functions used by FjTools which a user may wish to customise. I only use Arch Linux, so I can't test or develop versions of FjTools for other distros. However, if you wish to port the tools, I will be only to glad to help, and suggest, as a first step, you open an issue.
 
