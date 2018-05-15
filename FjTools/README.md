@@ -12,8 +12,8 @@ Currently, it consists of:
   1. [FjTools-StatusWarnings](#fjtools-statuswarnings)
   1. [FjTools-HomeGrownProfiles](#fjtools-homegrownprofiles)
   1. [FjTools-DebugProfile](#fjtools-debugprofile)
-  1. [FjTools-BackupProfile](#fjtools-backupprofile)
-  1. [FjTools-BackupProfile](#fjtools-discardedstuff)
+  1. [FjTools-DiscardedStuff](#fjtools-discardedstuff)
+
 
 
 
@@ -63,14 +63,7 @@ A wrapper to launch applications in `firejail --debug` mode:
 
 [*Return to contents*](#contents)
 
-#### FjTools-BackupProfile
-Backup and/or restore working copies of `<App>.profile`, `<App>.local` and `<App>.net` to `${HOME}/Documents/FjToolsWork/BackupProfiles/`
-1. The difference between this backup function and the one above, is that `FjTools-DebugProfile` automatically makes backups of the profile being tested, which may or may not work. As the name suggests, however, this backup function is used to backup important milestones.
-1. Additionaly, it has an option to  backup **ALL** the local customisations and homegrown profiles in `/etc/firejail`
-
-[*Return to contents*](#contents)
-
 #### FjTools-DiscardedStuff
-Basically a few routines to help with creating `private lib, bin, etc` they have been discarded partly because upstream is working on the problem. Also, I discovered [LDD(1)](http://man7.org/linux/man-pages/man1/ldd.1.html)  which, along with Apparmor's `aa-logprof`, seem to offer a ready made solutions
+Basically a few routines to help with creating `private lib, bin, etc` they have been discarded partly because upstream is working on the problem. Also, I discovered [LDD(1)](http://man7.org/linux/man-pages/man1/ldd.1.html)  which, along with Apparmor's `aa-logprof`, seem to offer a ready made solution
 
 [*Return to contents*](#contents)
