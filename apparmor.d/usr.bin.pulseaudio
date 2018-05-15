@@ -1,0 +1,98 @@
+# Last Modified: Tue May 15 16:08:56 2018
+#include <tunables/home>
+#include <tunables/kernelvars>
+#include <tunables/proc>
+
+# vim:syntax=apparmor
+# Combined AppArmor policy for Pulse Audio
+# Author: irvine mcminn at gmail dot com
+# GPL3
+
+
+/usr/bin/pulseaudio flags=(complain) {
+  #include <abstractions/audio>
+  #include <abstractions/dbus-session-strict>
+  #include <abstractions/dri-enumerate>
+  #include <local/usr.bin.pulseaudio>
+
+  signal receive set=cont peer=unconfined,
+  signal receive set=term peer=unconfined,
+
+  deny /usr/share/applications/ r,
+  deny /usr/share/applications/*.desktop r,
+  deny owner /**/orcexec.* mrw,
+
+  /dev/urandom r,
+  /etc/ld.so.cache r,
+  /etc/ld.so.preload r,
+  /proc/asound/card0/ r,
+  /proc/asound/card0/pcm*/ r,
+  /proc/asound/card0/pcm*/sub0/status r,
+  /run/systemd/users/???? r,
+  /run/udev/data/+sound:card0 r,
+  /run/udev/data/c116:* r,
+  /sys/bus/ r,
+  /sys/class/ r,
+  /sys/class/sound/ r,
+  /sys/devices/pci0000:00/0000:00:1f.3/sound/card0/pcmC0D*/pcm_class r,
+  /sys/devices/system/cpu/ r,
+  /sys/devices/system/cpu/online r,
+  /sys/devices/virtual/dmi/id/*_vendor r,
+  /sys/devices/virtual/sound/timer/uevent r,
+  /usr/bin/pulseaudio mrix,
+  /usr/lib/gconv/gconv-modules r,
+  /usr/lib/libFLAC.so.* mr,
+  /usr/lib/libX11-xcb.so.* mr,
+  /usr/lib/libX11.so.* mr,
+  /usr/lib/libXau.so.* mr,
+  /usr/lib/libXdmcp.so.* mr,
+  /usr/lib/libasound.so.* mr,
+  /usr/lib/libasyncns.so.* mr,
+  /usr/lib/libc-*.so mr,
+  /usr/lib/libcap.so.* mr,
+  /usr/lib/libdbus-1.so.* mr,
+  /usr/lib/libdl-*.so mr,
+  /usr/lib/libgcrypt.so.* mr,
+  /usr/lib/libgomp.so.* mr,
+  /usr/lib/libgpg-error.so.* mr,
+  /usr/lib/libltdl.so.* mr,
+  /usr/lib/liblz4.so.* mr,
+  /usr/lib/liblzma.so.* mr,
+  /usr/lib/libm-*.so mr,
+  /usr/lib/libogg.so.* mr,
+  /usr/lib/liborc-0.4.so.* mr,
+  /usr/lib/libpthread-*.so mr,
+  /usr/lib/libpulse.so.* mr,
+  /usr/lib/libresolv-*.so mr,
+  /usr/lib/librt-*.so mr,
+  /usr/lib/libsndfile.so.* mr,
+  /usr/lib/libsoxr.so.* mr,
+  /usr/lib/libspeexdsp.so.* mr,
+  /usr/lib/libsystemd.so.* mr,
+  /usr/lib/libtdb.so.* mr,
+  /usr/lib/libudev.so.* mr,
+  /usr/lib/libvorbis.so.* mr,
+  /usr/lib/libvorbisenc.so.* mr,
+  /usr/lib/libxcb.so.* mr,
+  /usr/lib/locale/locale-archive r,
+  /usr/lib/pulse-11.1/modules/lib*.so mr,
+  /usr/lib/pulse-11.1/modules/module-*.so mr,
+  /usr/lib/pulseaudio/libpulsecommon-*.so mr,
+  /usr/lib/pulseaudio/libpulsecore-*.so mr,
+  /usr/share/locale/en_GB/LC_MESSAGES/libc.mo r,
+  /usr/share/locale/locale.alias r,
+  /usr/share/pulseaudio/alsa-mixer/paths/analog-*.conf r,
+  /usr/share/pulseaudio/alsa-mixer/paths/analog-*.conf.common r,
+  /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-?.conf r,
+  /usr/share/pulseaudio/alsa-mixer/profile-sets/default.conf r,
+  owner /home/*/ r,
+  owner /home/*/.Xauthority r,
+  owner /home/*/.config/pulse/ r,
+  owner /home/*/.config/pulse/* rw,
+  owner /home/*/.config/pulse/cookie rk,
+  owner /home/*/.esd_auth rwk,
+  owner /proc/*/fd/ r,
+  owner /tmp/.esd-????/ rw,
+  owner /tmp/.esd-????/socket w,
+
+}

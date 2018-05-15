@@ -1,0 +1,45 @@
+# Last Modified: Tue May 15 13:58:15 2018
+# vim:syntax=apparmor
+# AppArmor policy for wpa_supplicant
+# Author: irvine mcminn at gmail dot com
+# GPL3
+
+
+/usr/bin/wpa_supplicant flags=(complain) {
+  #include <local/usr.bin.wpa_supplicant>
+
+  capability mknod,
+  capability net_admin,
+  capability net_raw,
+  capability sys_module,
+
+  signal receive set=cont peer=unconfined,
+  signal receive set=io peer=/usr/bin/wpa_supplicant,
+  signal receive set=term peer=unconfined,
+  signal send set=io peer=/usr/bin/wpa_supplicant,
+
+  owner /dev/null rw,
+  owner /dev/rfkill r,
+  owner /dev/urandom r,
+  owner /etc/ld.so.cache r,
+  owner /etc/ld.so.preload r,
+  owner /proc/sys/net/ipv4/conf/wlp2s0/drop_gratuitous_arp rw,
+  owner /proc/sys/net/ipv4/conf/wlp2s0/drop_unicast_in_l2_multicast rw,
+  owner /proc/sys/net/ipv6/conf/wlp2s0/drop_unicast_in_l2_multicast rw,
+  owner /proc/sys/net/ipv6/conf/wlp2s0/drop_unsolicited_na rw,
+  owner /usr/lib/libc-*.so mr,
+  owner /usr/lib/libcrypto.so.* mr,
+  owner /usr/lib/libdbus-1.so.* mr,
+  owner /usr/lib/libdl-*.so mr,
+  owner /usr/lib/libgcrypt.so.* mr,
+  owner /usr/lib/libgpg-error.so.* mr,
+  owner /usr/lib/liblz4.so.* mr,
+  owner /usr/lib/liblzma.so.* mr,
+  owner /usr/lib/libnl-3.so.* mr,
+  owner /usr/lib/libnl-genl-3.so.* mr,
+  owner /usr/lib/libpthread-*.so mr,
+  owner /usr/lib/librt-*.so mr,
+  owner /usr/lib/libssl.so.* mr,
+  owner /usr/lib/libsystemd.so.* mr,
+
+}

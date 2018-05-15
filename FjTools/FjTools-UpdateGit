@@ -27,10 +27,13 @@ source FjTools-Shared
 source FjTools-Includes
 
 # Private Paths
-GitHome="${HOME}/Git/Irvines-Firejail-Extras"
-GitProfiles="$GitHome/profiles"
-GitLocals="$GitHome/local-customisations"
+GitHome="${HOME}/Git/Irvines-Hardening-Project"
+GitFirejailProfiles="$GitHome/FirejailProfiles"
+GitFirejailLocals="$GitHome/FirejailProfiles/LocalCustomisations"
 GitTools="$GitHome/FjTools"
+GitApparmorProfileList="$GitHome/AppArmor-ProfileList"
+GitAppArmorProfiles="$GitHome/apparmor.d"
+GitAppArmorLocals="$GitAppArmorProfiles/local"
 
 # End Private Paths
 
@@ -47,26 +50,40 @@ function UpdateContentLists(){
 	echo "$2" > "$GitHome/$1"
 	echo >> "$GitHome/$1"
 	cd "$3"
-    grep -l "$4" * >> "$GitHome/$1"
+    grep -l "$4" *"$5" >> "$GitHome/$1"
+}
+
+function UpdateApparmor(){
+    echo "Updating AppArmor profiles"
+    cat "$GitApparmorProfileList" | grep -v "#" |\
+    while read Line ; do
+        if ! [[ "$Line" == "" ]] ; then
+        	cp "/etc/apparmor.d/$Line" "$GitAppArmorProfiles/$Line"
+        	cp "/etc/apparmor.d/local/$Line" "$GitAppArmorLocals/$Line"
+        fi
+    done
 }
 
  ### ### Start Main ### ###
 echo "Updating profiles"
 # copy all the homegrown profiles to my git folder
-CopyLsGrep "$EtcFirejail" "profile" "$GitProfiles"
+CopyLsGrep "$EtcFirejail" "profile" "$GitFirejailProfiles"
 
 echo "Updating local customisations"
 # copy local customisations to my git folder
-CopyLsGrep "$EtcFirejail" "local" "$GitLocals"
+CopyLsGrep "$EtcFirejail" "local" "$GitFirejailLocals"
 
 echo "Updating FjTools"
 # copy FjTools to my git folder
 CopyLsGrep "$UsrLocalBin" "FjTools" "$GitTools"
 
 # Update content lists
-UpdateContentLists "RestrictiveDotLocals" "$ChLocalCustomisations" "$GitLocals" "$GrepTestLocals"
+UpdateContentLists "Firejail-RestrictiveLocalCustomisations" "$ChLocalCustomisations" "$GitFirejailLocals" "$GrepTestLocals" ".local"
 
-UpdateContentLists "NotYetSubmitted" "$ChNotYetSubmitted" "$GitProfiles" "$GrepTestProfiles"
+UpdateContentLists "Firejail-ProfilesNotYetSubmittedUpstream" "$ChNotYetSubmitted" "$GitFirejailProfiles" "$GrepTestProfiles" ".profile"
+
+# Update Apparmor stuff
+UpdateApparmor
 
 #echo "Press return to quit"
 #read "Quit"
