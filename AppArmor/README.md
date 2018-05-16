@@ -2,7 +2,7 @@
 Profiles and local customisations for AppArmor
 
 ## Overview
-Still under development: All profiles are back to working in *enforce* mode after I ditched the [Canonical abstractions](#note1: abstractions).
+Still under development: All profiles are back to working in *enforce* mode after I ditched the [Canonical abstractions](#note--abstractions).
 
 ## Urgent TODO list, (mostly checking stuff.)
 1. Check up on `signal`:
@@ -23,7 +23,7 @@ Still under development: All profiles are back to working in *enforce* mode afte
    * mount,
    * remount,
    * umount,
-   The question is: Should I include `pivot_root`, in the above list?
+   * The question is: Should I include `pivot_root`, in the above list?
 1. The rest of it is just running these profiles and checking for errors; finding stuff that is blocked but I actually need, and of course checking for stuff that is permitted but unnecessary :)
 
 ## Whats next?
@@ -41,7 +41,7 @@ I have a list, (which is constanly under review,) of things which need confineme
 ## Far, far away in the future:
 Upgrade the default profiles for `ping` and `traceroute`??? The problem is that the `base` abstraction is very permissive when it comes to `ptrace`, `signals` `sockets` ... etc. You need to read it for yourself, but it permits a lot of undesirable capabilities that most applications shouldn't need.
 
-## Note1: abstractions
+## Note--abstractions
 Some of the common abstractions, particularly `base`, `plugins-common` and most of the `ubuntu-*` stuff is way, way too permissive to provide adequate confinement.
 
 For example, just scratch the surface of common `logprof` suggestions and we find:
