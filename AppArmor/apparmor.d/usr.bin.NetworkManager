@@ -1,11 +1,11 @@
-# Last Modified: Tue May 15 16:08:56 2018
+# Last Modified: Wed May 16 04:38:35 2018
 # vim:syntax=apparmor
 # Combined AppArmor policy for NetworkManager and OpenVpn
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
-/usr/bin/NetworkManager flags=(complain) {
+/usr/bin/NetworkManager {
   #include <abstractions/dbus-session-strict>
   #include <local/usr.bin.NetworkManager>
 
@@ -18,9 +18,12 @@
   capability setuid,
   capability sys_module,
 
-  signal receive set=cont peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=term peer=unconfined,
+  deny signal receive set=kill peer=unconfined,
+
   signal receive set=term peer=/usr/bin/NetworkManager,
-  signal receive set=term peer=unconfined,
   signal send set=term peer=/usr/bin/NetworkManager,
   signal send set=term peer=/usr/bin/NetworkManager//null-/usr/bin/openvpn,
 

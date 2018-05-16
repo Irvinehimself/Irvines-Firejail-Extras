@@ -1,4 +1,4 @@
-# Last Modified: Tue May 15 16:08:56 2018
+# Last Modified: Wed May 16 04:24:36 2018
 #include <tunables/home>
 #include <tunables/kernelvars>
 #include <tunables/proc>
@@ -9,14 +9,16 @@
 # GPL3
 
 
-/usr/bin/pulseaudio flags=(complain) {
+/usr/bin/pulseaudio {
   #include <abstractions/audio>
   #include <abstractions/dbus-session-strict>
   #include <abstractions/dri-enumerate>
   #include <local/usr.bin.pulseaudio>
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=term peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=term peer=unconfined,
+  deny signal receive set=kill peer=unconfined,
 
   deny /usr/share/applications/ r,
   deny /usr/share/applications/*.desktop r,

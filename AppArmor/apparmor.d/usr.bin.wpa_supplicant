@@ -1,11 +1,11 @@
-# Last Modified: Tue May 15 13:58:15 2018
+# Last Modified: Wed May 16 04:24:36 2018
 # vim:syntax=apparmor
 # AppArmor policy for wpa_supplicant
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
-/usr/bin/wpa_supplicant flags=(complain) {
+/usr/bin/wpa_supplicant {
   #include <local/usr.bin.wpa_supplicant>
 
   capability mknod,
@@ -13,9 +13,12 @@
   capability net_raw,
   capability sys_module,
 
-  signal receive set=cont peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=term peer=unconfined,
+  deny signal receive set=kill peer=unconfined,
+
   signal receive set=io peer=/usr/bin/wpa_supplicant,
-  signal receive set=term peer=unconfined,
   signal send set=io peer=/usr/bin/wpa_supplicant,
 
   owner /dev/null rw,

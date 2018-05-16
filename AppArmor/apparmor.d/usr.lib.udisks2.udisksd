@@ -1,4 +1,4 @@
-# Last Modified: Tue May 15 16:08:56 2018
+# Last Modified: Wed May 16 04:46:43 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -7,7 +7,7 @@
 # GPL3
 
 
-/usr/lib/udisks2/udisksd flags=(complain) {
+/usr/lib/udisks2/udisksd {
   #include <abstractions/dri-enumerate>
   #include <local/usr.lib.udisks2.udisksd>
 
@@ -15,8 +15,17 @@
   capability sys_admin,
   capability sys_rawio,
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=int peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=term peer=unconfined,
+  deny signal receive set=kill peer=unconfined,
+
+  signal receive set=term peer=/usr/lib/udisks2/udisksd,
+  signal send set=term peer=/usr/lib/udisks2/udisksd,
+
+  mount,
+  remount,
+  umount,
 
   /usr/bin/dumpe2fs mrix,
   /usr/bin/eject mrix,

@@ -1,4 +1,4 @@
-# Last Modified: Tue May 15 16:08:56 2018
+# Last Modified: Wed May 16 04:24:36 2018
 @{EXTDOCS1} = /run/media/*/Docs/
 @{EXTDOCS2} = /run/media/*/ExternalShared/
 @{EXTDOCS3} = /run/media/*/ArchSel/
@@ -11,15 +11,18 @@
 # GPL3
 
 
-/usr/lib/tumbler-1/tumblerd flags=(complain) {
+/usr/lib/tumbler-1/tumblerd {
   #include <abstractions/freedesktop.org>
   #include <local/usr.lib.tumbler-1.tumblerd>
 
   capability dac_read_search,
 
-  signal receive set=cont peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=term peer=unconfined,
+  deny signal receive set=kill peer=unconfined,
+
   signal receive set=term peer=/usr/lib/tumbler-1/tumblerd,
-  signal receive set=term peer=unconfined,
   signal send set=term peer=/usr/lib/tumbler-1/tumblerd,
 
   /dev/null r,
@@ -187,9 +190,6 @@
   /usr/share/thumbnailers/gsf-office.thumbnailer r,
   /usr/share/thumbnailers/librsvg.thumbnailer r,
   /usr/share/zoneinfo/** r,
-  owner @{EXTDOCS1}** r,
-  owner @{EXTDOCS2}** r,
-  owner @{EXTDOCS3}** r,
   owner /home/*/.cache/thumbnails/large/ r,
   owner /home/*/.cache/thumbnails/normal/ r,
   owner /home/*/.cache/thumbnails/normal/*.png rw,
@@ -201,5 +201,8 @@
   owner /proc/*/fd/ r,
   owner /tmp/gsf-thumbnailer-* rw,
   owner /tmp/tumbler-*.png rw,
+  owner @{EXTDOCS1}** r,
+  owner @{EXTDOCS2}** r,
+  owner @{EXTDOCS3}** r,
 
 }

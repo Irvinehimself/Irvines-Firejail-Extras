@@ -1,21 +1,24 @@
-# Last Modified: Tue May 15 16:08:56 2018
+# Last Modified: Wed May 16 04:24:36 2018
 # vim:syntax=apparmor
 # AppArmor policy for gvfs
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
-/usr/lib/gvfsd flags=(complain) {
+/usr/lib/gvfsd {
   #include <local/usr.lib.gvfsd>
 
   capability dac_read_search,
   capability sys_admin,
 
-  signal receive set=cont peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=term peer=unconfined,
+  deny signal receive set=kill peer=unconfined,
+
   signal receive set=hup peer=/usr/lib/gvfsd,
   signal receive set=rtmin+0 peer=/usr/lib/gvfsd,
   signal receive set=term peer=/usr/lib/gvfsd,
-  signal receive set=term peer=unconfined,
   signal send set=hup peer=/usr/lib/gvfsd,
   signal send set=rtmin+0 peer=/usr/lib/gvfsd,
   signal send set=term peer=/usr/lib/gvfsd,
