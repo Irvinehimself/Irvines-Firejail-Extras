@@ -13,10 +13,11 @@
   capability net_raw,
   capability sys_module,
 
-  deny signal receive set=exists peer=unconfined,
   deny signal receive set=cont peer=unconfined,
-  deny signal receive set=term peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
+  deny signal receive set=term peer=unconfined,
 
   signal receive set=io peer=/usr/bin/wpa_supplicant,
   signal send set=io peer=/usr/bin/wpa_supplicant,

@@ -2,7 +2,9 @@
 Profiles and local customisations for AppArmor
 
 ## Overview
-Still under development: All profiles are back to working in *enforce* mode after I ditched the [Canonical abstractions](#note--abstractions).
+Still under development: All the [Canonical abstractions](#note--abstractions) have been ditched and things are progressing nicely. Everything is working in *enforce* mode and running `aa-logprof`, most profiles do not need any refinement. I am almost ready to start making them pretty, with a nice layout and inline notes. The main profile that still needs a little bit of work is `usr.lib.udisks2.udisksd`. It is working with *thumb drives*, *external drives*, *external video players* etc, etc. At that the moment, I have been switching stuff around to make sure things are not tied to a specific *usb socket* and checking functionality like *mount*, *unmount* and *eject*. I still have a few things to check, but everything is looking good.
+
+The other thing I am thinking of doing is making the profiles portable by using a couple of abstraction eg `@BIN={/bin/,/sbin/,/usr/bin/,/usr/sbin/}` and `@LIB={/lib/,/usr/lib/}`. Since I only use *Arch Linux*, this wouldn't actually be for my benefit, but it would make it easier for others to try the profiles out.
 
 ## Urgent TODO list, (mostly checking stuff.)
 1. Check up on `signal`:
@@ -11,6 +13,7 @@ Still under development: All profiles are back to working in *enforce* mode afte
      *  deny signal receive set=cont peer=unconfined,
      *  deny signal receive set=term peer=unconfined,
      *  deny signal receive set=kill peer=unconfined,
+     *  deny signal receive set=int peer=unconfined,
    * An example of what is permitted, (for gvfsd) :
      * signal receive set=hup peer=/usr/lib/gvfsd,
      * signal receive set=rtmin+0 peer=/usr/lib/gvfsd,
@@ -18,13 +21,13 @@ Still under development: All profiles are back to working in *enforce* mode afte
      * signal send set=hup peer=/usr/lib/gvfsd,
      * signal send set=rtmin+0 peer=/usr/lib/gvfsd,
      * signal send set=term peer=/usr/lib/gvfsd,
-   * Particularly with reference to `deny signal receive set=kill peer=unconfined`, this may not be the best setup?
+   * Even though the vulnerability was fixed with `Address Space Layout Randomization` updates, after reading about the [POSIX Signals Security Bypass Vulnerability](https://tools.cisco.com/security/center/viewAlert.x?alertId=30107),  I am leaning towards denying all `signal receive .... peer=unconfined,` Although, on my system, the low level applications I am currently dealing with would like the capability,they don't seem to actually need it.
 1. Obviously, `usr.lib.udisks2.udisksd` needs broad authority over `mounts`, and I have added:
    * mount,
    * remount,
    * umount,
    * The question is: Should I include `pivot_root`, in the above list?
-1. The rest of it is just running these profiles and checking for errors; finding stuff that is blocked but I actually need, and of course checking for stuff that is permitted but unnecessary :)
+1. As stated above, the rest of it is just running these profiles and checking for errors; finding stuff that is blocked but I actually need, and of course checking for stuff that is permitted but unnecessary :)
 
 ## Whats next?
 I have a list, (which is constanly under review,) of things which need confinement

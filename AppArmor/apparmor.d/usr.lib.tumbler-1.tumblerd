@@ -1,4 +1,4 @@
-# Last Modified: Wed May 16 04:24:36 2018
+# Last Modified: Wed May 16 16:43:58 2018
 @{EXTDOCS1} = /run/media/*/Docs/
 @{EXTDOCS2} = /run/media/*/ExternalShared/
 @{EXTDOCS3} = /run/media/*/ArchSel/
@@ -17,22 +17,28 @@
 
   capability dac_read_search,
 
-  deny signal receive set=exists peer=unconfined,
   deny signal receive set=cont peer=unconfined,
-  deny signal receive set=term peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
+  deny signal receive set=term peer=unconfined,
 
   signal receive set=term peer=/usr/lib/tumbler-1/tumblerd,
   signal send set=term peer=/usr/lib/tumbler-1/tumblerd,
 
+  deny /proc/cpuinfo r,
+  deny /proc/stat r,
+  deny /sys/devices/system/cpu/ r,
+  deny /sys/devices/system/cpu/online r,
+  deny /usr/share/fonts/.uuid r,
+
   /dev/null r,
+  /etc/fonts/** r,
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
   /etc/xdg/tumbler/tumbler.rc r,
   /proc/filesystems r,
   /proc/sys/vm/overcommit_memory r,
-  /sys/devices/system/cpu/ r,
-  /sys/devices/system/cpu/online r,
   /usr/bin/gsf-office-thumbnailer mrix,
   /usr/lib/gconv/ISO8859-*.so mr,
   /usr/lib/gconv/gconv-modules r,
@@ -179,6 +185,7 @@
   /usr/lib/tumbler-1/plugins/ r,
   /usr/lib/tumbler-1/plugins/cache/tumbler-xdg-cache.so mr,
   /usr/lib/tumbler-1/plugins/tumbler-*-thumbnailer.so mr,
+  /usr/share/fonts/ r,
   /usr/share/locale/** r,
   /usr/share/poppler/cMap/ r,
   /usr/share/poppler/cidToUnicode/ r,
@@ -190,6 +197,7 @@
   /usr/share/thumbnailers/gsf-office.thumbnailer r,
   /usr/share/thumbnailers/librsvg.thumbnailer r,
   /usr/share/zoneinfo/** r,
+  owner /home/*/.cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-7 rw,
   owner /home/*/.cache/thumbnails/large/ r,
   owner /home/*/.cache/thumbnails/normal/ r,
   owner /home/*/.cache/thumbnails/normal/*.png rw,

@@ -1,4 +1,4 @@
-# Last Modified: Wed May 16 04:24:36 2018
+# Last Modified: Wed May 16 15:26:41 2018
 # vim:syntax=apparmor
 # AppArmor policy for gvfs
 # Author: irvine mcminn at gmail dot com
@@ -11,10 +11,11 @@
   capability dac_read_search,
   capability sys_admin,
 
-  deny signal receive set=exists peer=unconfined,
   deny signal receive set=cont peer=unconfined,
-  deny signal receive set=term peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
+  deny signal receive set=term peer=unconfined,
 
   signal receive set=hup peer=/usr/lib/gvfsd,
   signal receive set=rtmin+0 peer=/usr/lib/gvfsd,
@@ -22,6 +23,10 @@
   signal send set=hup peer=/usr/lib/gvfsd,
   signal send set=rtmin+0 peer=/usr/lib/gvfsd,
   signal send set=term peer=/usr/lib/gvfsd,
+
+  deny /proc/stat r,
+  deny /sys/devices/system/cpu/ r,
+  deny /sys/devices/system/cpu/online r,
 
   /dev/fuse rw,
   /dev/null rw,
@@ -50,6 +55,7 @@
   /usr/lib/gvfsd-fuse mrix,
   /usr/lib/gvfsd-network mrix,
   /usr/lib/gvfsd-trash mrix,
+  /usr/lib/libavahi-common.so.* r,
   /usr/lib/libblkid.so.* mr,
   /usr/lib/libc-*.so mr,
   /usr/lib/libdbus-1.so.* mr,

@@ -1,4 +1,4 @@
-# Last Modified: Wed May 16 04:38:35 2018
+# Last Modified: Wed May 16 18:34:46 2018
 # vim:syntax=apparmor
 # Combined AppArmor policy for NetworkManager and OpenVpn
 # Author: irvine mcminn at gmail dot com
@@ -18,15 +18,18 @@
   capability setuid,
   capability sys_module,
 
-  deny signal receive set=exists peer=unconfined,
   deny signal receive set=cont peer=unconfined,
-  deny signal receive set=term peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
+  deny signal receive set=term peer=unconfined,
 
   signal receive set=term peer=/usr/bin/NetworkManager,
   signal send set=term peer=/usr/bin/NetworkManager,
   signal send set=term peer=/usr/bin/NetworkManager//null-/usr/bin/openvpn,
 
+  deny /sys/devices/system/cpu/ r,
+  deny /sys/devices/system/cpu/online r,
   deny /usr/bin/bash x,
   deny /usr/bin/kmod x,
   deny owner /etc/modprobe.d/ r,
@@ -36,9 +39,12 @@
   deny owner /usr/bin/bash mr,
   deny owner /usr/bin/kmod mr,
 
+  /etc/ld.so.cache r,
+  /etc/ld.so.preload r,
   /home/*/.cert/nm-openvpn/*.pem r,
   /proc/*/stat r,
   /usr/bin/openvpn mrix,
+  /usr/lib/libnm.so.* r,
   /usr/lib/nm-openvpn-service mrix,
   /usr/lib/nm-openvpn-service-openvpn-helper mrix,
   owner /dev/net/tun rw,
@@ -51,8 +57,6 @@
   owner /etc/group r,
   owner /etc/host.conf r,
   owner /etc/hosts r,
-  owner /etc/ld.so.cache r,
-  owner /etc/ld.so.preload r,
   owner /etc/nsswitch.conf r,
   owner /etc/passwd r,
   owner /etc/resolv.conf* rw,
@@ -108,7 +112,6 @@
   owner /sys/devices/pci0000:00/0000:00:1c.?/0000:0?:00.0/net/*p*s0/phys_port_id r,
   owner /sys/devices/pci0000:00/0000:00:1c.?/0000:0?:00.0/net/*p*s0/uevent r,
   owner /sys/devices/pci0000:00/0000:00:1c.?/0000:0?:00.0/uevent r,
-  owner /sys/devices/system/cpu/online r,
   owner /sys/devices/virtual/net/lo/ r,
   owner /sys/devices/virtual/net/lo/dev_id r,
   owner /sys/devices/virtual/net/lo/ifindex r,
