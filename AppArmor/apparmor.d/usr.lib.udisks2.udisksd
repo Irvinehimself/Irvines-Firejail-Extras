@@ -58,7 +58,7 @@
   owner /proc/swaps r,
   owner /run/media/ w,
   owner /run/media/*/*/ w,
-  owner /run/media/stupidme/ w,
+  owner /run/media/*/ w,
   owner /run/mount/utab rw,
   owner /run/mount/utab.* rw,
   owner /run/mount/utab.lock rwk,
