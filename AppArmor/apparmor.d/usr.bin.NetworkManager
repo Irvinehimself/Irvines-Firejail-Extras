@@ -1,4 +1,4 @@
-# Last Modified: Wed May 16 18:34:46 2018
+# Last Modified: Thu May 17 17:42:28 2018
 # vim:syntax=apparmor
 # Combined AppArmor policy for NetworkManager and OpenVpn
 # Author: irvine mcminn at gmail dot com

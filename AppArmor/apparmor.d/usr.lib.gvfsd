@@ -1,4 +1,4 @@
-# Last Modified: Wed May 16 15:26:41 2018
+# Last Modified: Thu May 17 17:36:17 2018
 # vim:syntax=apparmor
 # AppArmor policy for gvfs
 # Author: irvine mcminn at gmail dot com
@@ -24,10 +24,6 @@
   signal send set=rtmin+0 peer=/usr/lib/gvfsd,
   signal send set=term peer=/usr/lib/gvfsd,
 
-  deny /proc/stat r,
-  deny /sys/devices/system/cpu/ r,
-  deny /sys/devices/system/cpu/online r,
-
   /dev/fuse rw,
   /dev/null rw,
   /dev/urandom r,
@@ -36,8 +32,11 @@
   /etc/ld.so.preload r,
   /proc/*/mounts r,
   /proc/filesystems r,
+  /proc/stat r,
   /run/mount/utab r,
   /run/user/*/gvfs/ r,
+  /sys/devices/system/cpu/ r,
+  /sys/devices/system/cpu/online r,
   /usr/bin/fusermount mrix,
   /usr/lib/gconv/gconv-modules r,
   /usr/lib/gio/modules/ r,
