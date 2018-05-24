@@ -13,17 +13,17 @@ Since I only use *Arch Linux*, which has a rational file system layout, dependin
 An uptodate list of profiles is available [here](https://github.com/Irvinehimself/Irvines-Hardening-Project/blob/master/AppArmor/AppArmor-ProfileList), but currently it consists of:
 
 * usr.lib.udisks2.udisksd
-  * Running in `enforce` mode, but still needs some work
+  * Running in `enforce`mode, ----  checked ----- completed
 * usr.lib.gvfsd
-  * Running in `enforce` mode, needs tidying up and checking
+  * Running in `enforce`mode, ----  checked ----- completed
 * usr.lib.tumbler-1.tumblerd
-  * Running in `enforce` mode, needs tidying up and checking
+  * Running in `enforce`mode, ----  checked ----- completed
 * usr.bin.NetworkManager
-  * Running in `enforce` mode, needs tidying up
+  * Running in `enforce`mode, ----  checked ----- completed
 * usr.bin.wpa_supplicant
-  * Running in `enforce` ---- completed?
+  * Running in `enforce`mode, ----  checked ----- completed
 * usr.bin.pulseaudio
-  * Running in `enforce` mode, needs tidying up and checking
+  * Running in `enforce`mode, ----  checked ----- completed
 
 #### Whats next?
 I have a list, (which is constanly under review,) of things which need confinement
