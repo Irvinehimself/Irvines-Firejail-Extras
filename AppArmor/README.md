@@ -2,13 +2,15 @@
 Profiles and local customisations for AppArmor
 
 #### Overview
-Still under development: All the [Canonical abstractions](#note--abstractions) have been ditched and things are progressing nicely. Everything is working in *enforce* mode and running `aa-logprof`, most profiles do not need any refinement. I have started to makings pretty retty, with a nice layout and inline notes. The main profile that still needs a little bit of work is `usr.lib.udisks2.udisksd`. It is working with *thumb drives*, *external drives*, *external video players* etc, etc. At that the moment, I have been switching stuff around to make sure things are not tied to a specific *usb socket* and checking functionality like *mount*, *unmount* and *eject*. I still have a few things to check, but everything is looking good.
+The AppArmor part of this project is to write profiles for low level daemons that need more specific AppArmor confinement than that provided by the generic *firejail-default* profile. For the most part, I am concentrating on daemons and applications that either live in user space, or have some input/output function.
+
+Note:  All the [Canonical abstractions](#note--abstractions) have been ditched.
 
 #### Portability
 Since I only use *Arch Linux*, which has a rational file system layout, depending on your distro, you may have to tweak `/usr/bin/` and `/usr/lib/` to the particular mix of: `/bin/`,`/sbin/`, `/usr/bin/`, .... `/lib/`, `/lib64/` and `/usr/lib/` used by your distro of choice.
 
-#### Profiles
-An uptodate list of the profiles I am working on is available [here](https://github.com/Irvinehimself/Irvines-Hardening-Project/blob/master/AppArmor/AppArmor-ProfileList), but currently it connsists of:
+#### Finished profiles
+An uptodate list of profiles is available [here](https://github.com/Irvinehimself/Irvines-Hardening-Project/blob/master/AppArmor/AppArmor-ProfileList), but currently it consists of:
 
 * usr.lib.udisks2.udisksd
   * Running in `enforce` mode, but still needs some work
@@ -23,18 +25,12 @@ An uptodate list of the profiles I am working on is available [here](https://git
 * usr.bin.pulseaudio
   * Running in `enforce` mode, needs tidying up and checking
 
-
-#### Urgent TODO list, (mostly checking stuff.)
-1. Obviously, `usr.lib.udisks2.udisksd` needs broad authority over `mounts`, and I have added:
-   * mount,
-   * remount,
-   * umount,
-   * The question is: Should I include `pivot_root`, in the above list?
-1. As stated above, the rest of it is just running these profiles and checking for errors; finding stuff that is blocked but I actually need, and of course checking for stuff that is permitted but unnecessary :)
-
 #### Whats next?
 I have a list, (which is constanly under review,) of things which need confinement
 1. Almost certainly AppArmor:
+   * gvfs-metadata.service
+   * gvfs-udisks2-volume-monitor.service
+   * xfce4-notifyd.service
    * Drill
    * Etherape
    * Iftop

@@ -1,4 +1,4 @@
-# Last Modified: Thu May 17 17:36:17 2018
+# Last Modified: Thu May 24 13:57:11 2018
 # vim:syntax=apparmor
 # AppArmor policy for gvfs
 # Author: irvine mcminn at gmail dot com
@@ -8,15 +8,18 @@
 /usr/lib/gvfsd {
   #include <local/usr.lib.gvfsd>
 
+  # ### allow capabilities
   capability dac_read_search,
   capability sys_admin,
 
+  # ### deny signal
   deny signal receive set=cont peer=unconfined,
   deny signal receive set=exists peer=unconfined,
   deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
   deny signal receive set=term peer=unconfined,
 
+  # ### allow signal
   signal receive set=hup peer=/usr/lib/gvfsd,
   signal receive set=rtmin+0 peer=/usr/lib/gvfsd,
   signal receive set=term peer=/usr/lib/gvfsd,
@@ -24,37 +27,63 @@
   signal send set=rtmin+0 peer=/usr/lib/gvfsd,
   signal send set=term peer=/usr/lib/gvfsd,
 
+  # ### allow owner $HOME
+  owner /home/*/.config/dconf/user r,
+  owner /home/*/.local/share/Trash/files/ r,
+  owner /home/*/.local/share/Trash/info/* r,
+
+  # ### allow owner /etc/
+  owner /etc/nsswitch.conf r,
+  owner /etc/passwd r,
+
+  # ### allow owner /proc/
+  owner /proc/*/fd/ r,
+  owner /proc/*/mountinfo r,
+
+  # ### allow owner /root/
+  owner /root/.gvfs/ r,
+
+  # ### allow owner /run/user/
+  owner /run/user/*/dconf/user rw,
+  owner /run/user/*/gvfs/ rw,
+
+  # ### allow owner /usr/lib/
+  owner /usr/lib/libnss_files-*.so mr,
+
+  # ### allow /dev/
   /dev/fuse rw,
   /dev/null rw,
   /dev/urandom r,
+
+  # ### allow /etc/
   /etc/fuse.conf r,
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
+
+  # ### allow /proc/
   /proc/*/mounts r,
   /proc/filesystems r,
   /proc/stat r,
+
+  # ### allow /run/
   /run/mount/utab r,
   /run/user/*/gvfs/ r,
+
+  # ### allow /sys/
   /sys/devices/system/cpu/ r,
   /sys/devices/system/cpu/online r,
+
+  # ### allow /usr/bin/
   /usr/bin/fusermount mrix,
-  /usr/lib/gconv/gconv-modules r,
-  /usr/lib/gio/modules/ r,
-  /usr/lib/gio/modules/giomodule.cache r,
-  /usr/lib/gio/modules/libdconfsettings.so mr,
-  /usr/lib/gio/modules/libgiognomeproxy.so mr,
-  /usr/lib/gio/modules/libgiognutls.so mr,
-  /usr/lib/gio/modules/libgiolibproxy.so mr,
-  /usr/lib/gio/modules/libgioremote-volume-monitor.so mr,
-  /usr/lib/gio/modules/libgsettingsgconfbackend.so mr,
-  /usr/lib/gio/modules/libgvfsdbus.so mr,
+
+  # ### allow /usr/lib/
   /usr/lib/gvfs/libgvfscommon.so mr,
   /usr/lib/gvfs/libgvfsdaemon.so mr,
   /usr/lib/gvfsd-dnssd mrix,
   /usr/lib/gvfsd-fuse mrix,
   /usr/lib/gvfsd-network mrix,
   /usr/lib/gvfsd-trash mrix,
-  /usr/lib/libavahi-common.so.* r,
+  /usr/lib/libavahi-common.so.* mr,
   /usr/lib/libblkid.so.* mr,
   /usr/lib/libc-*.so mr,
   /usr/lib/libdbus-1.so.* mr,
@@ -95,22 +124,31 @@
   /usr/lib/libuuid.so.* mr,
   /usr/lib/libz.so.* mr,
   /usr/lib/locale/locale-archive r,
+
+  # ### allow /usr/lib/gconv/
+  /usr/lib/gconv/gconv-modules r,
+
+  # ### allow /usr/lib/gio/modules/
+  /usr/lib/gio/modules/ r,
+  /usr/lib/gio/modules/giomodule.cache r,
+  /usr/lib/gio/modules/libdconfsettings.so mr,
+  /usr/lib/gio/modules/libgiognomeproxy.so mr,
+  /usr/lib/gio/modules/libgiognutls.so mr,
+  /usr/lib/gio/modules/libgiolibproxy.so mr,
+  /usr/lib/gio/modules/libgioremote-volume-monitor.so mr,
+  /usr/lib/gio/modules/libgsettingsgconfbackend.so mr,
+  /usr/lib/gio/modules/libgvfsdbus.so mr,
+
+  # ### allow /usr/share/glib-2.0/
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
+
+  # ### allow /usr/share/gvfs/
   /usr/share/gvfs/** r,
-  /usr/share/locale/en_GB/LC_MESSAGES/glib20.mo r,
-  /usr/share/locale/en_GB/LC_MESSAGES/gvfs.mo r,
-  /usr/share/locale/en_GB/LC_MESSAGES/libc.mo r,
+
+  # ### allow /usr/share/locale/
+  /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
+  /usr/share/locale/*/LC_MESSAGES/gvfs.mo r,
+  /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/locale.alias r,
-  owner /etc/nsswitch.conf r,
-  owner /etc/passwd r,
-  owner /home/*/.config/dconf/user r,
-  owner /home/*/.local/share/Trash/files/ r,
-  owner /home/*/.local/share/Trash/info/* r,
-  owner /proc/*/fd/ r,
-  owner /proc/*/mountinfo r,
-  owner /root/.gvfs/ r,
-  owner /run/user/*/dconf/user rw,
-  owner /run/user/*/gvfs/ rw,
-  owner /usr/lib/libnss_files-*.so mr,
 
 }

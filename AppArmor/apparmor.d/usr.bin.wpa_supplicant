@@ -25,39 +25,39 @@
   #include <local/usr.bin.wpa_supplicant>
 
 
-  # ### Capabilities
+  # ### allow capabilities
   capability mknod,
   capability net_admin,
   capability net_raw,
   capability sys_module,
 
-  # ### Signal deny
+  # ### deny signal
   deny signal receive set=cont peer=unconfined,
   deny signal receive set=exists peer=unconfined,
   deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
   deny signal receive set=term peer=unconfined,
 
-  # ### Signal allow
+  # ### allow signal
   signal receive set=io peer=/usr/bin/wpa_supplicant,
   signal send set=io peer=/usr/bin/wpa_supplicant,
 
-  # ### /dev/
+  # ### allow owner /dev/
   owner /dev/null rw,
   owner /dev/rfkill r,
   owner /dev/urandom r,
 
-  # ### /etc/
+  # ### allow owner /etc/
   owner /etc/ld.so.cache r,
   owner /etc/ld.so.preload r,
 
-  # ### /proc/
+  # ### allow owner /proc/net/
   owner /proc/sys/net/ipv4/conf/wlp2s0/drop_gratuitous_arp rw,
   owner /proc/sys/net/ipv4/conf/wlp2s0/drop_unicast_in_l2_multicast rw,
   owner /proc/sys/net/ipv6/conf/wlp2s0/drop_unicast_in_l2_multicast rw,
   owner /proc/sys/net/ipv6/conf/wlp2s0/drop_unsolicited_na rw,
 
-  # ### /usr/lib/
+  # ### allow owner /usr/lib/
   owner /usr/lib/libc-*.so mr,
   owner /usr/lib/libcrypto.so.* mr,
   owner /usr/lib/libdbus-1.so.* mr,
