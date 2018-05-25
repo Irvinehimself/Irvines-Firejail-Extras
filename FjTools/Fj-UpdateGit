@@ -18,13 +18,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+# along with Fj-Tools.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################
 
 # copy's all the profiles not  owned by Firejail to my git folder
 
-source FjTools-Shared
-source FjTools-Includes
+source Fj-Shared
+source Fj-Includes
 
 # Private Paths
 GitHome="${HOME}/Git/Irvines-Hardening-Project"
@@ -67,6 +67,9 @@ function UpdateApparmor(){
 }
 
  ### ### Start Main ### ###
+
+SetTerminalTitle "Fj-UpdateGit"
+
 echo "Updating profiles"
 # copy all the homegrown profiles to my git folder
 CopyLsGrep "$EtcFirejail" "profile" "$GitFirejailProfiles"
@@ -77,7 +80,7 @@ CopyLsGrep "$EtcFirejail" "local" "$GitFirejailLocals"
 
 echo "Updating FjTools"
 # copy FjTools to my git folder
-CopyLsGrep "$UsrLocalBin" "FjTools" "$GitTools"
+CopyLsGrep "$UsrLocalBin" "Fj-" "$GitTools"
 
 # Update content lists
 UpdateFirejailContentLists "Firejail-RestrictiveLocalCustomisations" "$ChLocalCustomisations" "$GitFirejailLocals" "$GrepTestLocals" ".local"

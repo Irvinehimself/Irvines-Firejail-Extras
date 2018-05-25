@@ -18,24 +18,27 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+# along with Fj-Tools.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################
 
-# This shell re-enables firejail symlinks after they have been disabled by FjTools-DisableSymlinks
+# This shell disables firejail symlinks by renaming my symlinking folder and, thus taking it out of the $PATH
 
-source FjTools-Shared
+source Fj-Shared
 
-function EnableSymlinks(){
-	echo "Disabling Firejail symlinks"
+function DisableSymlinks(){
+	echo "Enabling Firejail symlinks"
 	echo "Sorry, need root password"
-	sudo mv "$FjSymlinksBack" "$FjSymlinks"
-	# Enable symlinks for makepkg
-	sudo sed -i 's/#PATH=/PATH=/g' "$MakePkgConf"
-	sudo sed -i 's/#export /export "/g' "$MakePkgConf"
-}
+	sudo mv "$FjSymlinks" "$FjSymlinksBack"
+	# Disable symlinks for makepkg
+	sudo sed -i 's/PATH=/#PATH=/g' "$MakePkgConf"
+	sudo sed -i 's/export /#export "/g' "$MakePkgConf"
 
+}
 
  ### End Functions
 
  ### ### Main ### ###
-EnableSymlinks
+
+SetTerminalTitle "Fj-DisableSymlinks"
+
+DisableSymlinks

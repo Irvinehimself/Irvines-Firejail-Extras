@@ -18,24 +18,19 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+# along with Fj-Tools.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################
 
-# This shell disables firejail symlinks by renaming my symlinking folder and, thus taking it out of the $PATH
+# Lists symlinked Firejail profiles
 
-source FjTools-Shared
+source Fj-Shared
 
-function DisableSymlinks(){
-	echo "Enabling Firejail symlinks"
-	echo "Sorry, need root password"
-	sudo mv "$FjSymlinks" "$FjSymlinksBack"
-	# Disable symlinks for makepkg
-	sudo sed -i 's/PATH=/#PATH=/g' "$MakePkgConf"
-	sudo sed -i 's/export /#export "/g' "$MakePkgConf"
 
-}
+ ### Start Main
 
- ### End Functions
+SetTerminalTitle "Fj-SymlinkedProfiles"
 
- ### ### Main ### ###
-DisableSymlinks
+echo -e ${Dimd}"The following firejail profiles have been symlinked:"${End}${Cyn}
+ls -la "$FjSymlinks" | grep "$UsrBinFirejail" | rev | cut -d'>' -f2 | cut -d' ' -f2 | rev  | column -x
+echo -e ${End}${Dimd}"(Hit return to close)"${End}
+read Quit

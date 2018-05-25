@@ -18,12 +18,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+# along with Fj-Tools.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################
 
 # shared functions that are not specific to a particular distro
 
-source FjTools-Shared
+source Fj-Shared
 
 function EchoToScreen(){
     echo "$1"

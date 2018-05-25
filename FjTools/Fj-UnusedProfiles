@@ -18,12 +18,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with ArchAudit-Report.  If not, see <http://www.gnu.org/licenses/>.
+# along with Fj-Tools.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################
 
 # Shell to find unused Firejail profiles
 
-source FjTools-Shared
+source Fj-Shared
 
  ### Prompts
 PrmptMsg1="Create firejail symlinks in $FjSymlinks ? y/n"
@@ -33,6 +33,9 @@ PrmptMsg2="Enter profile name, null string to terminate"
 
 
  ### ### ### Start Main ### ### ###
+
+SetTerminalTitle "Fj-UnusedProfiles"
+
 printf '%-50s%-50s\n' ${Dimd}${Ulnd}"PROFILE NAME"${End} ${Dimd}${Ulnd}"OWNER'S NAME"${End}
 ls "$EtcFirejail" | grep "profile" |\
     while read Line ; do

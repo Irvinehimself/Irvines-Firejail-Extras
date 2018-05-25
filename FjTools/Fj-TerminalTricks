@@ -1,0 +1,78 @@
+#!/bin/bash
+
+###############################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# FjTools is a collection of extra profiles, local customisations and
+# tools for Firejail. The project home page can be found at
+# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+#
+# FjTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# FjTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Fj-Tools.  If not, see <http://www.gnu.org/licenses/>.
+###############################################
+
+# Declarations to define colours and functions to control appearance of terminal
+
+# text colours and styles
+Red=$'\e[1;31m' # Red
+Grn=$'\e[1;32m' # Green
+Yel=$'\e[1;33m' # Yellow
+Blu=$'\e[1;34m' # Blue
+Mag=$'\e[1;35m' # Magenta
+Cyn=$'\e[1;36m' # Cyan
+
+Bold=$'\e[1m'   # Bold
+Itlc=$'\e[3m'   # Italic
+Dimd=$'\e[2m'   # Dimmed
+Ulnd=$'\e[4m'   # Underlined
+Blnk=$'\e[5m'   # Blinking
+Invrt=$'\e[7m'  # Invert colours
+Hdden=$'\e[8m'  # Hidden
+
+End=$'\e[0m'    # Reset
+
+# example: printf "%s\n" "Text in ${Red}red${End}, white and ${Blu}blue${End}."
+
+# Screen Colours
+BgDef=$'\e[49m'			# Default
+BgWht=$'\e[107m'		# White
+BgBlk=$'\e[40m'			# Black
+BgRed=$'\e[41m'			# Red
+BgGrn=$'\e[42m'			# Green
+BgYel=$'\e[43m'			# Yellow
+BgBlu=$'\e[44m'			# Blue
+BgMag=$'\e[45m'			# Magenta
+BgCyn=$'\e[46m'			# Cyan
+BgLgtGry=$'\e[47m'	    # LightGray
+BgDrkGry=$'\e[100m'		# DarkGray
+BgLgtRed=$'\e[101m'		# LightRed
+BgLgtGrn=$'\e[102m'		# LightGreen
+BgLgtYel=$'\e[103m'		# LightYellow
+BgLgtBlu=$'\e[104m'		# LightBlue
+BgLgtMag=$'\e[105m'		# LightMagenta
+BgLgtCyn=$'\e[106m'		# LightCyan
+
+# example: printf ${BgDrkGry} ; clear
+
+function SetTerminalBgColour() {
+    printf $1 ; clear
+}
+
+# Terminal title
+function SetTerminalTitle() {
+    printf "\033]0;$1\007"
+}
+
+function SetTerminalSize() {
+    printf "\033[8;$1;$2t"
+}
