@@ -5,7 +5,7 @@ Currently, it consists of:
 
 ## Contents
   1. [Fj-Shared](#fj-shared)
-  1. [Fj-Shared](#fj-terminaltricks)
+  1. [Fj-TerminalTricks](#fj-terminaltricks)
   1. [Fj-Includes](#fj-includes)
   1. [Fj-DisableSymlinks](#fj-disablesymlinks)
   1. [Fj-UnusedProfiles](#fj-unusedprofiles)
