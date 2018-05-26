@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#scan completed downloads
+
+DownloadDir="$HOME/Downloads"
+Sophos="$HOME/Pictures/LauncherIcons/Sophos.png"
+SophosClear="$HOME/Pictures/LauncherIcons/SophosClear.png"
+SophosAlert="$HOME/Pictures/LauncherIcons/SophosAlert.png"
+DisplayTime="2000"
+
+
+function LaunchAvScan(){
+    notify-send -u NORMAL -t "$DisplayTime" "Patience! Scanning $1" --icon="$Sophos"
+    AvTestResult=$(savscan -f -all -archive -loopback -pua -suspicious  "$1" | grep ">>> ")
+	if ! [[ "$AvTestResult" == "" ]] ; then
+            notify-send -u CRITICAL -t 0 "$AvTestResult" --icon="$SophosAlert"
+        else
+                notify-send -u NORMAL -t "$DisplayTime" "All clear $1" --icon="$SophosClear"
+	fi
+}
+
+###### Main ######
+
+inotifywait -qmr -e moved_to  --format '%w%f' $DownloadDir | \
+while read Line ; do
+    ### eliminate the intermediate file path, ".org.chromium.Chromium.", for Opera and other Chromium based browsers
+    if [[ "$(echo $Line | grep '.org.chromium.Chromium.')" == "" ]] ; then
+        LaunchAvScan "$Line" &
+	fi
+done
