@@ -8,7 +8,7 @@ Sadly, Linux is not well served with good quality, *free* antivirus products whi
 For economic reasons, (it's free,) I chose to go with [Sophos](https://www.sophos.com/en-us/products/free-tools/sophos-antivirus-for-linux.aspx). As to be expected, support is fairly minimal:
 1. You have to compile it from source. (Not difficult, even for novices)
 1. No *GUI*, it's controlled from the command line.
-1. But, once set up, it has automatic *on-access* scanning. Since this can, occasionally, be fairly resource intensive, it needs some tweaking to only run *on-access* scans of folders in ${HOME}
+1. Once set up, it has automatic *on-access* scanning. Since this can, occasionally, be fairly resource intensive, it needs some tweaking to only run *on-access* scans of folders in ${HOME}
 
 Anyway, this section of my project contains various shells to provide some common Window's features to Linux anti-virus products. Like I say, because it is free, I am using Sophos. If you can afford a paid subscription of another product, then you will need to tweak any line which calls `savscan`.
 
