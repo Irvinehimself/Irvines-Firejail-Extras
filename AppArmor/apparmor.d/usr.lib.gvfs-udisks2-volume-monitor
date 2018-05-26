@@ -1,4 +1,6 @@
 # Last Modified: Sat May 26 17:03:30 2018
+#include <tunables/home>
+
 # vim:syntax=apparmor
 # Combined AppArmor policy for gvfs-udisks2-volume-monitor
 # Author: irvine mcminn at gmail dot com
