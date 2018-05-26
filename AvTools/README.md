@@ -19,9 +19,9 @@ Anyway, this section of my project contains various shells to provide common Win
 Below is a summary of the shells I am currently using:
 
 #### SophosAv--WatchDownloads
-Without turning off my various security features, **ALL** of my browser and torrenting uploads and downloads must go through my download folder. `SophosAv--WatchDownloads` watches that folder and detects when a download is finished. After which, it launches a **full** anti-virus scan of the completed download. For best results, it should be started either as a `service`, or through your `auto-start` file or folder.
+Without turning off my various security features, **ALL** of my browser downloads, uploads and torrents must go through the Download folder. `SophosAv--WatchDownloads` watches that folder and detects when a download is finished. After which, it launches a **full** anti-virus scan of the completed download. For best results, it should be started either as a `service`, or through your `auto-start` file or folder.
 
-**Note1:** Because, when torrenting, multiple files can finish downloading at the same time, you have to give the scanner time to finish scanning all the files
+**Note1:** When torrenting, multiple files can finish downloading at the same time, you have to give the scanner time to finish scanning all the files
 
 #### ThunarAvScan
 This shell provides *on-demand* scans of selected files through your file manager's *RMB* menu. The basic usage is to add `ThunarAvScan %f` to your file manager's context menu which, in Thunar, is easily achieved by launching `Custom Actions`, which is available under the `Edit -> configure custom actions` menu.
