@@ -21,7 +21,7 @@ Below is a summary of the shells I am currently using:
 #### SophosAv--WatchDownloads
 As you may have noticed, **ALL** of my uploads and downloads go through my download folder. This shell watches that folder and detects when a download is finished. After which, it launches a full scan of the completed download.
 
-**Note1:** Because, when torrenting multiple files can finish downloading at the same time, you have to give the scanner time to finish scanning all the files
+**Note1:** Because, when torrenting, multiple files can finish downloading at the same time. As a result, you have to give the scanner time to finish scanning all the files
 
 #### ThunarAvScan
 This shell provides *on-demand* scans of selected files through your file manager's *RMB* menu. The basic usage is to add `ThunarAvScan %f` to your file managers context menu which, in Thunar, is easily achieved by launching `Custom Actions`, which is available under the `Edit -> configure custom actions` menu.
@@ -30,8 +30,8 @@ This shell provides *on-demand* scans of selected files through your file manage
 
 The above caveat is not actually as big a problem as it might seem. For general file browsing, eg download folders and various work directories, I launch a sandboxed Thunar instance either from the panel or from desktop menus. Any directories I browse not only get an *on-access quick-scan*, but if I casually launch `something bad`, it will be confined by both the Thunar sandbox and the `firejail-default` AppArmor profile.
 
-However, for system maintenance, using `key bindings`, I can launch either an un-sandboxed instance of Thunar, or even launch Thunar as `root`. At this point, the ability to launch a **Full** antivirus scan of a suspicious file from the context menu becomes invaluable.
+However, for system maintenance, using `key bindings`, I can launch either an un-sandboxed instance of Thunar, or even launch Thunar as `root`. At this point, the ability to launch a **full** antivirus scan of a suspicious file from the context menu becomes invaluable.
 
-**Note3** Even when *file-browsing* with un-sandboxed instances of Thunar, when you access a folder, `savscan` still launches a *quick-scan* of a it's contents
+**Note3** Even when *file-browsing* with un-sandboxed instances of Thunar, when you access a folder, `savscan` still launches a *quick-scan* of it's contents before potential malware has a chance to do anything bad.
 
 

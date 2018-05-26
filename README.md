@@ -12,6 +12,7 @@ I have split things up into the following sections
 * [Firejail profiles and local customisations](https://github.com/Irvinehimself/Irvines-Hardening-Project/tree/master/Firejail)
 * [Tools to manage Firejail profiles](https://github.com/Irvinehimself/Irvines-Hardening-Project/tree/master/FjTools)
 * [Apparmor profiles for daemons and low level utilites](https://github.com/Irvinehimself/Irvines-Hardening-Project/tree/master/AppArmor)
+* [Anti-virus tools](https://github.com/Irvinehimself/Irvines-Hardening-Project/tree/master/AvScanner)
 
 For your convenience, each section has it's own readme with the important details
 
