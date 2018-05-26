@@ -43,7 +43,7 @@
 
 
   # ### allow owner ${HOME}
-  owner /home/*/.cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-7 rw,
+  owner /home/*/.cache/fontconfig/*.cache-7 rw,
   owner /home/*/.cache/thumbnails/large/ r,
   owner /home/*/.cache/thumbnails/normal/ r,
   owner /home/*/.cache/thumbnails/normal/*.png rw,
@@ -52,6 +52,7 @@
   owner /home/*/.local/share/mime/mime.cache r,
   owner /home/*/Desktop/** r,
   owner /home/*/Documents/** r,
+  owner /home/*/Shared/** r,
 
   # ### allow owner /proc/
   owner /proc/*/fd/ r,
