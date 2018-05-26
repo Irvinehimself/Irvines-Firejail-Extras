@@ -44,6 +44,7 @@
   deny owner /**/orcexec.* mrw,
   deny owner /proc/*/stat r,
   deny owner /home/*/ r,
+  deny owner /home/*/ w,
 
   # ### allow owner $HOME
   owner /home/*/.Xauthority r,

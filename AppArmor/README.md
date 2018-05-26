@@ -2,7 +2,7 @@
 Profiles and local customisations for AppArmor
 
 #### Overview
-The AppArmor part of this project is to write profiles for low level daemons that need more specific AppArmor confinement than that provided by the generic *firejail-default* profile. For the most part, I am concentrating on daemons and applications that either live in user space, or have some input/output function.
+The AppArmor part of this project is to write profiles for low level daemons that would benefit from more specific AppArmor confinement than that provided by the generic *firejail-default* profile. For the most part, I am concentrating on daemons and applications that either live in user space, or have some input/output function.
 
 Note:  All the [Canonical abstractions](#note--abstractions) have been ditched.
 
@@ -12,32 +12,42 @@ Since I only use *Arch Linux*, which has a rational file system layout, dependin
 #### Finished profiles
 An uptodate list of profiles is available [here](https://github.com/Irvinehimself/Irvines-Hardening-Project/blob/master/AppArmor/AppArmor-ProfileList), but currently it consists of:
 
-* usr.lib.udisks2.udisksd
-  * Running in `enforce`mode, ----  checked ----- completed
-* usr.lib.gvfsd
-  * Running in `enforce`mode, ----  checked ----- completed
-* usr.lib.tumbler-1.tumblerd
-  * Running in `enforce`mode, ----  checked ----- completed
-* usr.bin.NetworkManager
-  * Running in `enforce`mode, ----  checked ----- completed
-* usr.bin.wpa_supplicant
-  * Running in `enforce`mode, ----  checked ----- completed
-* usr.bin.pulseaudio
-  * Running in `enforce`mode, ----  checked ----- completed
+1. **usr.lib.udisks2.udisksd**
+   * `enforce mode`  ----  `checked` ----- `completed`
+1. **usr.lib.gvfsd**
+   * `enforce mode`  ----  `checked` ----- `completed`
+1. **usr.lib.tumbler-1.tumblerd**
+   * `enforce mode`  ----  `checked` ----- `completed`
+1. **usr.bin.NetworkManager**
+   * `enforce mode`  ----  `checked` ----- `completed`
+1. **usr.bin.wpa_supplicant**
+   * `enforce mode` ----  `checked` ----- `completed`
+1. **usr.bin.pulseaudio**
+   * `enforce mode`  ----  `checked` ----- `completed`
+1. **usr.lib.gvfsd-metadata**
+   * `complain mode` ----  `started`
+1. **usr.lib.gvfs-udisks2-volume-monitor**
+   * `complain mode` ----  `started`
+1. **usr.lib.xfce4.notifyd.xfce4-notifyd**
+   * `complain mode` ----  `started`
+1. **usr.bin.nm-applet**
+   * `complain mode` ----  `started`
+1. **usr.bin.ffplay**
+   * `complain mode` ----  `started`
+1. **usr.bin.ffmpeg**
+   * `complain mode` ----  `not started`
+1. **usr.bin.ffmpegthumbnailer**
+   * `complain mode` ----  `not started`
 
 #### Whats next?
 I have a list, (which is constanly under review,) of things which need confinement
-1. Almost certainly AppArmor:
-   * gvfs-metadata.service
-   * gvfs-udisks2-volume-monitor.service
-   * xfce4-notifyd.service
+1. Not yet started, but certainly AppArmor:
    * Drill
    * Etherape
    * Iftop
    * Iptraf
    * Nethogs
-1. Possibly Apparmor, but Firejail, (with the `firejail-default` Apparmor profile) may be more appropriate
-   * ffmpeg
+1. Possibly Apparmor, but Firejail, (with the generic `firejail-default` Apparmor profile) may be more appropriate
    * imagemagick
 
 #### Far, far away in the future:

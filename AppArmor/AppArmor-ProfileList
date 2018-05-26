@@ -1,5 +1,6 @@
 # The current state of my Apparmor profiles project
 
+# Completed
 usr.lib.udisks2.udisksd
 usr.lib.gvfsd
 usr.lib.tumbler-1.tumblerd
@@ -7,3 +8,11 @@ usr.bin.NetworkManager
 usr.bin.wpa_supplicant
 usr.bin.pulseaudio
 
+# Under development
+usr.lib.gvfsd-metadata
+usr.lib.gvfs-udisks2-volume-monitor
+usr.bin.ffmpeg
+usr.bin.ffmpegthumbnailer
+usr.bin.ffplay
+usr.bin.nm-applet
+usr.lib.xfce4.notifyd.xfce4-notifyd

@@ -1,0 +1,9 @@
+# vim:syntax=apparmor
+# Combined AppArmor policy for ffmpegthumbnailer
+# Author: irvine mcminn at gmail dot com
+# GPL3
+
+
+/usr/bin/ffmpegthumbnailer flags=(complain) {
+
+}

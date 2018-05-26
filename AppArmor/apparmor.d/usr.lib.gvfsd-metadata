@@ -1,0 +1,43 @@
+# Last Modified: Sat May 26 17:03:30 2018
+# vim:syntax=apparmor
+# Combined AppArmor policy for gvfsd-metadata
+# Author: irvine mcminn at gmail dot com
+# GPL3
+
+
+/usr/lib/gvfsd-metadata flags=(complain) {
+  /etc/ld.so.cache r,
+  /etc/ld.so.preload r,
+  /proc/filesystems r,
+  /run/udev/data/b8:17 r,
+  /run/udev/data/b8:3 r,
+  /run/udev/data/b8:4 r,
+  /sys/devices/pci0000:00/0000:00:14.0/usb2/2-1/2-1:1.0/host4/target4:0:0/4:0:0:0/block/sdb/sdb1/uevent r,
+  /sys/devices/pci0000:00/0000:00:17.0/ata2/host1/target1:0:0/1:0:0:0/block/sda/sda3/uevent r,
+  /sys/devices/pci0000:00/0000:00:17.0/ata2/host1/target1:0:0/1:0:0:0/block/sda/sda4/uevent r,
+  /usr/lib/gconv/gconv-modules r,
+  /usr/lib/gvfs/libgvfscommon.so mr,
+  /usr/lib/libblkid.so.* mr,
+  /usr/lib/libc-*.so mr,
+  /usr/lib/libdl-*.so mr,
+  /usr/lib/libffi.so.* mr,
+  /usr/lib/libgio-2.0.so.* mr,
+  /usr/lib/libglib-2.0.so.* mr,
+  /usr/lib/libgmodule-2.0.so.* mr,
+  /usr/lib/libgobject-2.0.so.* mr,
+  /usr/lib/libgudev-1.0.so.* mr,
+  /usr/lib/libmount.so.* mr,
+  /usr/lib/libpcre.so.* mr,
+  /usr/lib/libpthread-*.so mr,
+  /usr/lib/libresolv-*.so mr,
+  /usr/lib/librt-*.so mr,
+  /usr/lib/libselinux.so.* mr,
+  /usr/lib/libudev.so.* mr,
+  /usr/lib/libuuid.so.* mr,
+  /usr/lib/libz.so.* mr,
+  /usr/lib/locale/locale-archive r,
+  /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
+  /usr/share/locale/*/LC_MESSAGES/gvfs.mo r,
+  /usr/share/locale/locale.alias r,
+
+}

@@ -1,8 +1,10 @@
 # Last Modified: Thu May 17 17:38:53 2018
+# Allowed external mass storage devices
 @{EXTDOCS1} = /run/media/*/Docs/
 @{EXTDOCS2} = /run/media/*/Docs1-ntfs/
 @{EXTDOCS3} = /run/media/*/Docs2-ntfs/
-
+# Note: By design, it cannot catalogue thumb-drives or any other 'un-trusted'
+# portable mass storage device
 #include <tunables/home>
 
 # vim:syntax=apparmor
