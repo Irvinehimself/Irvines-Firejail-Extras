@@ -1,4 +1,4 @@
-# Last Modified: Sat May 26 17:03:30 2018
+# Last Modified: Sun May 27 16:45:53 2018
 # vim:syntax=apparmor
 # Combined AppArmor policy for gvfsd-metadata
 # Author: irvine mcminn at gmail dot com
@@ -6,6 +6,7 @@
 
 
 /usr/lib/gvfsd-metadata flags=(complain) {
+  /dev/urandom r,
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
   /proc/filesystems r,
@@ -39,5 +40,10 @@
   /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
   /usr/share/locale/*/LC_MESSAGES/gvfs.mo r,
   /usr/share/locale/locale.alias r,
+  owner /home/*/.local/share/gvfs-metadata/ r,
+  owner /home/*/.local/share/gvfs-metadata/home-*.log rw,
+  owner /home/*/.local/share/gvfs-metadata/home-*.log.* rw,
+  owner /home/*/.local/share/gvfs-metadata/home.* rw,
+  owner /home/*/.local/share/gvfs-metadata/home rw,
 
 }

@@ -1,3 +1,4 @@
+# Last Modified: Sun May 27 16:45:53 2018
 # vim:syntax=apparmor
 # Combined AppArmor policy for ffmpegthumbnailer
 # Author: irvine mcminn at gmail dot com
@@ -5,5 +6,18 @@
 
 
 /usr/bin/ffmpegthumbnailer flags=(complain) {
+
+  /usr/lib/libavcodec.so.* mr,
+  /usr/lib/libavfilter.so.* mr,
+  /usr/lib/libavformat.so.* mr,
+  /usr/lib/libavutil.so.* mr,
+  /usr/lib/libc-*.so mr,
+  /usr/lib/libdl-*.so mr,
+  /usr/lib/libffmpegthumbnailer.so.* mr,
+  /usr/lib/libgcc_s.so.* mr,
+  /usr/lib/libstdc++.so.* mr,
+  owner /home/*/Desktop/** r,
+  owner /home/*/Documents/** r, r,
+  owner /home/*/Desktop/** w,
 
 }

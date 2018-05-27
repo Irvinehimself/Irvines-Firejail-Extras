@@ -37,7 +37,7 @@ An uptodate list of profiles is available [here](https://github.com/Irvinehimsel
 1. **usr.bin.ffmpeg**
    * `complain mode` ----  `not started`
 1. **usr.bin.ffmpegthumbnailer**
-   * `complain mode` ----  `not started`
+   * `complain mode` ----  `started`
 
 #### Whats next?
 I have a list, (which is constanly under review,) of things which need confinement

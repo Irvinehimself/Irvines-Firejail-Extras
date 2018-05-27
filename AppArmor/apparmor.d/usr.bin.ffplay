@@ -1,4 +1,4 @@
-# Last Modified: Sat May 26 17:03:30 2018
+# Last Modified: Sun May 27 16:45:53 2018
 # vim:syntax=apparmor
 # Combined AppArmor policy for ffplay
 # Author: irvine mcminn at gmail dot com
@@ -6,6 +6,8 @@
 
 
 /usr/bin/ffplay flags=(complain) {
+  deny signal receive set=hup peer=unconfined,
+
   /dev/dri/ r,
   /dev/shm/ r,
   /dev/urandom r,
@@ -150,16 +152,18 @@
   /usr/lib/libz.so.* mr,
   /usr/lib/locale/locale-archive r,
   /usr/lib/pulseaudio/libpulsecommon-*.so mr,
-  /usr/share/X11/locale/C/XLC_LOCALE r,
-  /usr/share/X11/locale/compose.dir r,
   /usr/share/X11/locale/*.UTF-8/Compose r,
   /usr/share/X11/locale/*.UTF-8/XLC_LOCALE r,
+  /usr/share/X11/locale/C/XLC_LOCALE r,
+  /usr/share/X11/locale/compose.dir r,
   /usr/share/X11/locale/locale.alias r,
   /usr/share/X11/locale/locale.dir r,
   /usr/share/icons/Adwaita/index.theme r,
   /usr/share/zoneinfo/** r,
-  owner /run/media/*/Docs/* r,
+  owner /home/*/Desktop/** r,
+  owner /home/*/Documents/** r,
   owner /home/*/.icons/default/index.theme r,
+  owner /run/media/*/Docs/* r,
   owner /tmp/.Xauth* r,
 
 }
