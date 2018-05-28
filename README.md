@@ -1,5 +1,4 @@
-# The-Beggars-Hardening-project
-Profiles, local customisations and tools for Firejail and AppArmor
+# The Beggars Hardening Project
 
 ## Overview
 My current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org). Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of the following parts:
@@ -9,10 +8,10 @@ My current long term project is to experiment with building a high-security Os u
 1. Write tools, particularly for Firejail, to help manage the enviroment.
 
 I have split things up into the following sections
-* [Firejail profiles and local customisations](https://github.com/Irvinehimself/The-Beggars-Hardening-project/tree/master/Firejail)
-* [Tools to manage Firejail profiles](https://github.com/Irvinehimself/The-Beggars-Hardening-project/tree/master/FjTools)
-* [Apparmor profiles for daemons and low level utilites](https://github.com/Irvinehimself/The-Beggars-Hardening-project/tree/master/AppArmor)
-* [Anti-virus tools](https://github.com/Irvinehimself/The-Beggars-Hardening-project/tree/master/AvScanner)
+* [Firejail profiles and local customisations](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/Firejail)
+* [Tools to manage Firejail profiles](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/FjTools)
+* [Apparmor profiles for daemons and low level utilites](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/AppArmor)
+* [Anti-virus tools](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/AvScanner)
 
 For your convenience, each section has it's own readme with the important details
 

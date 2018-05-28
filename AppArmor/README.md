@@ -10,7 +10,7 @@ Note:  All the [Canonical abstractions](#note--abstractions) have been ditched.
 Since I only use *Arch Linux*, which has a rational file system layout, depending on your distro, you may have to tweak `/usr/bin/` and `/usr/lib/` to the particular mix of: `/bin/`,`/sbin/`, `/usr/bin/`, .... `/lib/`, `/lib64/` and `/usr/lib/` used by your distro of choice.
 
 #### Finished profiles
-An uptodate list of profiles is available [here](https://github.com/Irvinehimself/The-Beggars-Hardening-project/blob/master/AppArmor/AppArmor-ProfileList), but currently it consists of:
+An uptodate list of profiles is available [here](https://github.com/Irvinehimself/TheBeggarsHardeningProject/blob/master/AppArmor/AppArmor-ProfileList), but currently it consists of:
 
 1. **usr.lib.udisks2.udisksd**
    * `enforce mode`  ----  `checked` ----- `completed`
