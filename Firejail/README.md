@@ -1,4 +1,4 @@
-# Profiles and local customisations
+# Firejail profiles and local customisations
 
 ## Contents
 * [**Profiles**](#profiles)
@@ -9,7 +9,7 @@
 ## Profiles
 I intend to post any Firejail profiles I have written, along with my local customisations of upstream profiles. While several of my profiles have already been accepted for inclusion upstream, the majority have not yet been submitted, (Note: for reason that I will explain where appropriate, some profiles, while useful in the context of my hardening project, will never be submitted upstream).
 
-For convenience, the file [Firejail-ProfilesNotYetSubmittedUpstream](https://github.com/Irvinehimself/Irvines-Hardening-Project/blob/master/Firejail/Firejail-ProfilesNotYetSubmittedUpstream) contains an an automatically updated list of all my unsubmitted `profiles`.
+For convenience, the file [Firejail-ProfilesNotYetSubmittedUpstream](https://github.com/Irvinehimself/The-Beggars-Hardening-project/blob/master/Firejail/Firejail-ProfilesNotYetSubmittedUpstream) contains an an automatically updated list of all my unsubmitted `profiles`.
 
 The following are my un-submitted `profiles` most likely to be of interest to a casual visitor:
 ```
@@ -26,7 +26,7 @@ showfoto.profile    : Basically a wrapper for the parent Digikam profile provide
 [*Return to contents*](#contents)
 
 ## Local customisations
-Currently, most of my local customisations are concerned with globally enabling apparmor confinement and/or disabling internet connectivity. However, I have recently started work on strengthening internet connected profiles. Mainly, this is to be achieved through creating whitelists for: `private-bin`, `private-lib`, `private-etc` and `private-opt`. The intention is to make these customisations **very** restrictive, while maintaining core functionality. For convenience, the file [`RestrictiveLocalCustomisations`](https://github.com/Irvinehimself/Irvines-Hardening-Project/blob/master/Firejail/Firejail-RestrictiveLocalCustomisations) contains an an automatically updated list of all my `local` customisations which **further restrict** upstream profiles.
+Currently, most of my local customisations are concerned with globally enabling apparmor confinement and/or disabling internet connectivity. However, I have recently started work on strengthening internet connected profiles. Mainly, this is to be achieved through creating whitelists for: `private-bin`, `private-lib`, `private-etc` and `private-opt`. The intention is to make these customisations **very** restrictive, while maintaining core functionality. For convenience, the file [`RestrictiveLocalCustomisations`](https://github.com/Irvinehimself/The-Beggars-Hardening-project/blob/master/Firejail/Firejail-RestrictiveLocalCustomisations) contains an an automatically updated list of all my `local` customisations which **further restrict** upstream profiles.
 
 The following are the `.local` customisations most likely to be of interest to a casual visitor:
 ```
