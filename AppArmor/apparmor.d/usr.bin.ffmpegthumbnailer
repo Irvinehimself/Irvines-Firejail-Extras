@@ -16,8 +16,6 @@
   /usr/lib/libffmpegthumbnailer.so.* mr,
   /usr/lib/libgcc_s.so.* mr,
   /usr/lib/libstdc++.so.* mr,
-  owner /home/*/Desktop/** r,
-  owner /home/*/Documents/** r,
-  owner /home/*/Desktop/** w,
+  owner /home/*/Desktop/** rw,
 
 }

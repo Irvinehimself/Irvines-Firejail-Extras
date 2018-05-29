@@ -39,6 +39,8 @@ An uptodate list of profiles is available [here](https://github.com/Irvinehimsel
 1. **usr.bin.ffmpegthumbnailer**
    * `complain mode` ----  `started`
 
+**Note on profiles marked `completed`: On the basis that: *If they didn't need it before, they don't need it now*, I am still adding `deny` actions to these profiles.
+
 #### Whats next?
 I have a list, (which is constanly under review,) of things which need confinement
 1. Not yet started, but certainly AppArmor:

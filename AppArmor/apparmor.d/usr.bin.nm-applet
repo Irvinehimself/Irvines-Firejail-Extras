@@ -1,4 +1,4 @@
-# Last Modified: Sat May 26 17:03:30 2018
+# Last Modified: Tue May 29 06:16:18 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -10,6 +10,12 @@
 /usr/bin/nm-applet flags=(complain) {
   #include <abstractions/freedesktop.org>
 
+  deny ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+  deny owner /proc/*/fd/ r,
+  deny owner /proc/*/fdinfo/* r,
+  deny owner /proc/*/maps r,
+  deny owner /proc/*/stat r,
+
   /dev/dri/ r,
   /dev/shm/ r,
   /dev/urandom r,
@@ -17,7 +23,6 @@
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
   /etc/machine-id r,
-  /etc/pulse/client.conf r,
   /proc/filesystems r,
   /sys/devices/pci0000:00/0000:00:02.0/device r,
   /sys/devices/pci0000:00/0000:00:02.0/subsystem_device r,
@@ -174,6 +179,7 @@
   /usr/share/X11/locale/*.UTF-8/XLC_LOCALE r,
   /usr/share/X11/locale/locale.alias r,
   /usr/share/X11/locale/locale.dir r,
+  /usr/share/fonts/TTF/LiberationSans-Bold.ttf r,
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
   /usr/share/gtk-3.0/settings.ini r,
   /usr/share/locale/*/LC_MESSAGES/NetworkManager-openvpn.mo r,
@@ -187,18 +193,15 @@
   /usr/share/locale/*/LC_MESSAGES/nm-applet.mo r,
   /usr/share/locale/locale.alias r,
   /usr/share/zoneinfo/** r,
-  owner /home/*/.cache/event-sound-cache.tdb.df9bcf4d31bf40799e17abd33c069d46.x86_64-unknown-linux-gnu rwk,
+  owner /home/*/.cache/event-sound-cache.tdb.*.x86_64-unknown-linux-gnu rwk,
   owner /home/*/.config/dconf/user r,
   owner /home/*/.config/gtk-3.0/gtk.css r,
   owner /home/*/.config/gtk-3.0/settings.ini r,
-  owner /home/*/.config/pulse/cookie rk,
   owner /home/*/.icons/ r,
   owner /home/*/.local/share/icons/ r,
   owner /home/*/.local/share/icons/** r,
   owner /home/*/.local/share/mime/mime.cache r,
-  owner /proc/*/fd/ r,
   owner /run/user/*/dconf/user rw,
-  owner /run/user/*/pulse/ rw,
-  owner /tmp/.XauthyZTsGw r,
+  owner /tmp/.Xauth* r,
 
 }

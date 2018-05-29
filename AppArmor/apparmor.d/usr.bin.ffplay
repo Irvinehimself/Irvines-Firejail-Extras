@@ -161,9 +161,7 @@
   /usr/share/icons/Adwaita/index.theme r,
   /usr/share/zoneinfo/** r,
   owner /home/*/Desktop/** r,
-  owner /home/*/Documents/** r,
   owner /home/*/.icons/default/index.theme r,
-  owner /run/media/*/Docs/* r,
   owner /tmp/.Xauth* r,
 
 }

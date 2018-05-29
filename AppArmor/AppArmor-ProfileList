@@ -16,3 +16,4 @@ usr.bin.ffmpegthumbnailer
 usr.bin.ffplay
 usr.bin.nm-applet
 usr.lib.xfce4.notifyd.xfce4-notifyd
+usr.local.bin.CheckLinuxhardenedUpdate

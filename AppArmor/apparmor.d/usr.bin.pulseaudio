@@ -1,4 +1,4 @@
-# Last Modified: Thu May 24 13:57:11 2018
+# Last Modified: Tue May 29 06:16:19 2018
 #include <tunables/home>
 #include <tunables/kernelvars>
 #include <tunables/proc>
@@ -13,95 +13,49 @@
   #include <abstractions/audio>
   #include <abstractions/dbus-session-strict>
   #include <abstractions/dri-enumerate>
-  #include <local/usr.bin.pulseaudio>
 
-  # ### allow capabilities
-
-  # ### deny signal
   deny signal receive set=cont peer=unconfined,
   deny signal receive set=exists peer=unconfined,
   deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
   deny signal receive set=term peer=unconfined,
 
-  # ### allow signal
   signal receive set=exists peer=/usr/bin/pulseaudio,
   signal send set=exists peer=/usr/bin/pulseaudio,
 
-  # ### deny /proc/
+  deny ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+
+  deny /proc/*/maps r,
+  deny /proc/*/stat r,
   deny /proc/cpuinfo r,
   deny /proc/stat r,
-
-  # ### deny /sys/
   deny /sys/devices/system/cpu/ r,
   deny /sys/devices/system/cpu/online r,
-
-  # ### deny /usr/share/
   deny /usr/share/applications/ r,
   deny /usr/share/applications/*.desktop r,
-
-  # ### deny owner
   deny owner /**/orcexec.* mrw,
-  deny owner /proc/*/stat r,
   deny owner /home/*/ r,
   deny owner /home/*/ w,
+  deny owner /proc/*/fd/ r,
+  deny owner /proc/*/fdinfo/* r,
 
-  # ### allow owner $HOME
-  owner /home/*/.Xauthority r,
-  owner /home/*/.config/pulse/ r,
-  owner /home/*/.config/pulse/* rw,
-  owner /home/*/.config/pulse/cookie rk,
-  owner /home/*/.esd_auth rwk,
-
-  # ### allow owner /proc/
-  owner /proc/*/fd/ r,
-  owner /tmp/.Xauth* r,
-  owner /tmp/.esd-????/ rw,
-  owner /tmp/.esd-????/socket w,
-
-  # ### allow /dev/
   /dev/urandom r,
-
-  # ### allow /etc/
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
-
-  # ### allow /proc/
   /proc/asound/card0/ r,
   /proc/asound/card0/pcm*/ r,
   /proc/asound/card0/pcm*/sub0/status r,
-
-  # ### allow /run/
   /run/systemd/users/???? r,
   /run/udev/data/+sound:card0 r,
   /run/udev/data/c116:* r,
-
-  # ### allow /sys/
   /sys/bus/ r,
   /sys/class/ r,
   /sys/class/sound/ r,
   /sys/devices/pci0000:00/0000:00:1f.3/sound/card0/pcmC0D*/pcm_class r,
   /sys/devices/virtual/dmi/id/*_vendor r,
   /sys/devices/virtual/sound/timer/uevent r,
-
-  # ### allow /usr/bin/
   /usr/bin/pulseaudio mrix,
-
-  # ### allow /usr/lib/gconv/
   /usr/lib/gconv/gconv-modules r,
-
-  # ### allow /usr/lib/locale/
-  /usr/lib/locale/locale-archive r,
-
-  # ### allow /usr/lib/pulseaudio/
-  /usr/lib/pulseaudio/libpulsecommon-*.so mr,
-  /usr/lib/pulseaudio/libpulsecore-*.so mr,
-
-  # ### allow /usr/lib/pulse-11.1/modules/
-  /usr/lib/pulse-11.1/modules/lib*.so mr,
-  /usr/lib/pulse-11.1/modules/module-*.so mr,
-
-  # ### allow /usr/lib/
   /usr/lib/libFLAC.so.* mr,
   /usr/lib/libX11-xcb.so.* mr,
   /usr/lib/libX11.so.* mr,
@@ -135,15 +89,24 @@
   /usr/lib/libvorbis.so.* mr,
   /usr/lib/libvorbisenc.so.* mr,
   /usr/lib/libxcb.so.* mr,
-
-  # ### allow /usr/share/locale/
+  /usr/lib/locale/locale-archive r,
+  /usr/lib/pulse-11.1/modules/lib*.so mr,
+  /usr/lib/pulse-11.1/modules/module-*.so mr,
+  /usr/lib/pulseaudio/libpulsecommon-*.so mr,
+  /usr/lib/pulseaudio/libpulsecore-*.so mr,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/locale.alias r,
-
-  # ### allow /usr/share/locale/pulseaudio/alsa-mixer/
   /usr/share/pulseaudio/alsa-mixer/paths/analog-*.conf r,
   /usr/share/pulseaudio/alsa-mixer/paths/analog-*.conf.common r,
   /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-?.conf r,
   /usr/share/pulseaudio/alsa-mixer/profile-sets/default.conf r,
+  owner /home/*/.Xauthority r,
+  owner /home/*/.config/pulse/ r,
+  owner /home/*/.config/pulse/* rw,
+  owner /home/*/.config/pulse/cookie rk,
+  owner /home/*/.esd_auth rwk,
+  owner /tmp/.Xauth* r,
+  owner /tmp/.esd-????/ rw,
+  owner /tmp/.esd-????/socket w,
 
 }

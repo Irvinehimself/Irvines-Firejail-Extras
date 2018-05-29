@@ -27,7 +27,7 @@ source Fj-Shared
 source Fj-Includes
 
 # Private Paths
-GitHome="${HOME}/Git/Irvines-Hardening-Project"
+GitHome="${HOME}/Git/TheBeggarsHardeningProject"
 GitFirejail="$GitHome/Firejail"
 GitFirejailProfiles="$GitFirejail/Profiles"
 GitFirejailLocals="$GitFirejail/LocalCustomisations"
