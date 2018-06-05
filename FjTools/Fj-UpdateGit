@@ -128,5 +128,9 @@ echo "Updating HsTools"
 CopyLsGrep "$UsrLocalBin" "Hs-" "$GitHsTools"
 CopyLsGrep "$UserSystemd" "Hs-" "$GitHsTools/UserSystemd"
 
+sudo cp "$UsrLocalBin/Hsr-PartitionMonitor" "$GitHsTools/Hsr-PartitionMonitor"
+sudo chown ${USER}:${USER} "$GitHsTools/Hsr-PartitionMonitor"
+sudo chmod 750 "$GitHsTools/Hsr-PartitionMonitor"
+
 ReadQuit ""
 echo "Bye :)"

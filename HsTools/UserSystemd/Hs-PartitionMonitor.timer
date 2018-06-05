@@ -1,0 +1,10 @@
+[Unit]
+Description=Check for unused mounts
+
+[Timer]
+OnCalendar=*:00/15:00
+# every 15 minutes see
+# https://unix.stackexchange.com/questions/126786/systemd-timer-every-15-minutes
+
+[Install]
+WantedBy=timers.target

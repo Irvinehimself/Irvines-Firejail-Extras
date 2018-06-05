@@ -1,0 +1,116 @@
+#!/bin/bash
+
+##########################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# HsTools is a collection of monitoring and general security tools to make
+# it easier to adopt good habits. The project home page can be found at
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# HsTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# HsTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with HsTools.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
+
+# Common functions and constants for Hs-Tools
+
+source Fj-TerminalTricks
+
+# Paths and constants
+DocsMount="${HOME}/Docs"
+SharedMount="${HOME}/Shared"
+UsbMounts="${HOME}/Usbs"
+
+RootPartition="Arch"
+
+Letters=( {a..z} )
+
+function CheckKeyIndex() {
+    KeyIndex="0"
+    for Letter in ${Letters[@]} ; do
+        if ! [[ "$Letter" == "$Key" ]] ; then
+                ((KeyIndex++))
+            else
+                    break
+        fi
+    done
+}
+
+function CheckKey() {
+	CheckKeyIndex
+	if [[ "$Count" -gt "$KeyIndex" ]] ; then
+	        if [[ "${PartitionArray[$KeyIndex]}" == "$RootPartition" ]] ; then
+	                    KeyCheck="${Blu}root${End} ${Dimd}partition.${End}"
+	                else
+                            if [[ "${IsMountedArray[$KeyIndex]}" == *"not mounted"* ]] ; then
+	                               KeyCheck="${Blu}${PartitionArray[$KeyIndex]}${End} ${Dimd}is not mounted.${End}"
+                                else
+                                        KeyCheck="${Blu}${PartitionArray[$KeyIndex]}${End} ${Dimd}is already mounted.${End}"
+	                        fi
+	        fi
+	    else
+	            KeyCheck="${Blu}drive${End} ${Dimd}doesn't exist.${End}"
+	fi
+}
+
+function GetMountString(){
+	ls -l /dev/disk/by-label | grep -v "total" |\
+	while read Line ; do
+    	echo $Line | cut -d' ' -f9
+    	echo $Line | cut -d'/' -f3
+	done
+}
+
+function GetIsMounted() {
+	if [[ "$(cat /proc/self/mounts | grep -w  $2)" == "" ]] ; then
+	        IsMountedArray[$1]="${Dimd}${Mag}not mounted${End}"
+	    else
+	            IsMountedArray[$1]="${Dimd}${Grn}mounted${End}"
+	fi
+}
+
+function GetPartitionArray(){
+	MountString=$(GetMountString)
+	Count="0" ; Index="0"
+	for Line in ${MountString[@]} ; do
+	   case $Index in
+	       "0") PartitionArray[$Count]="$Line"
+	            ((Index++));;
+	       "1") DeviceArray[$Count]="$Line"
+                GetIsMounted $Count $Line
+                Index="0"
+                ((Count++));;
+	   esac
+	done
+}
+
+function GetMount() {
+    GetPartitionArray
+	echo -e "${Dimd}$1${End}"
+	Count="0"
+    for Partition in ${PartitionArray[@]} ; do
+        printf "%-50s ${Dimd}---   ${End} %-50s \n" "(${Grn}${Letters[Count]}${End}): ${Blu}$Partition${End}" "${IsMountedArray[$Count]}"
+        ((Count++))
+    done
+    ReadKey
+}
+
+function FindMountPoint() {
+	case ${PartitionArray[$KeyIndex]} in
+	    Shared) MountPoint="$SharedMount";;
+	      Docs) MountPoint="$DocsMount";;
+	         *) MountPoint="$UsbMounts/${PartitionArray[$KeyIndex]}";;
+	esac
+}
+
+
+

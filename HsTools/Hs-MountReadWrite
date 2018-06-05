@@ -1,0 +1,67 @@
+#!/bin/bash
+
+##########################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# HsTools is a collection of monitoring and general security tools to make
+# it easier to adopt good habits. The project home page can be found at
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# HsTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# HsTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with HsTools.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
+
+# Bash to mount partitions and external drives
+
+source Hs-Shared
+
+MountPrompt="Which device would you like to mount?"
+
+function QueryMountReadWrite() {
+    ReadKey "${Dimd}Do wish to mount${End} ${Blu}${PartitionArray[$KeyIndex]}${End} ${Dimd}as (R)ead only or read (W)rite${End}"
+    if ! [[ "$Key" == "w" ]] ; then
+            ReadWrite="read only"
+            Rw="-r"
+        else
+                ReadWrite="read write"
+                Rw="-w"
+    fi
+}
+
+function MountDevice() {
+	echo -e "${Yel}Passed checks:${End} ${Dimd}mounting${End} ${Blu}${DeviceArray[$KeyIndex]}${End} ${Dimd}$ReadWrite at${End} ${Blu}$MountPoint${End}"
+	Error=${Dimd}${Mag}$(sudo mount "$Rw" "/dev/${DeviceArray[$KeyIndex]}" "$MountPoint" 2>&1 >/dev/null)${End}
+	if ! [[ "$?" = "0" ]] ; then
+	    if ! [[ "$Error" == *"already mounted on"* ]] ; then
+	        rm -r "$MountPoint"
+	    fi
+	    ReadQuit "${Red}Sorry,${End} $Error"
+	fi
+}
+
+# ### ### Main ### ###
+
+
+SetTerminalTitle "MountAsUser"
+GetMount  "$MountPrompt"
+CheckKey
+if [[ "$KeyCheck" == *"is not mounted."* ]] ; then
+        QueryMountReadWrite
+        FindMountPoint
+        mkdir -Zp  "$MountPoint"
+        MountDevice
+    else
+            ReadQuit "${Red}Sorry,${End} $KeyCheck"
+fi
+
+

@@ -1,0 +1,98 @@
+#!/bin/bash
+
+##########################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# HsTools is a collection of monitoring and general security tools to make
+# it easier to adopt good habits. The project home page can be found at
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# HsTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# HsTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with HsTools.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
+
+# Basically a bash to monitor the status of various things like: Firejail symlinks,
+# Mandatory Acess Controls, Webcams, Microphones, ... etc, then nag when they are disabled.
+
+# NOTE: this shell requires extensive customisation to suit the Users setup
+# NOTE: I am running it from a systemd timer
+
+NotifyIcon="${HOME}/Pictures/LauncherIcons/Bash.png"
+NotifyAlarm="${HOME}/Music/Alarm.wav"
+
+
+# WebCam Status
+pid="$(lsof /dev/video0 | grep 'video0')"
+if [[ "$pid" == "" ]] ; then
+        CamPid="inactive"
+    else
+            CamPid="active"
+fi
+# Mic Status
+if [[ $(amixer sget Capture,0 | grep "Front Left:" | grep  "off") == "" ]] ; then
+            MicLR="active"
+    else if [[ $(amixer sget Capture,0 | grep "Front Right:" | grep  "off") == "" ]] ; then
+                MicLR="active"
+        else
+                    MicLR="muted"
+    fi
+fi
+# M.A.C. Status
+if  [[ $(systemctl status apparmor | grep "condition failed") == "" ]] ; then
+            MacStatus="apparmor"
+    else if ! [[ $(sestatus| grep "SELinux status:" | grep "enabled" ) == "" ]] ; then
+                MacStatus="selinux"
+        else
+                    MacStatus="disabled"
+    fi
+fi
+# Firejail status
+if [ -d "/usr/local/bin/FjSymlinks" ]; then
+        FjSymlinks="active"
+    else
+            FjSymlinks="disabled"
+fi
+
+# Set variables
+VpnStatus="$(ip -d a | grep 'tun0')"
+# see https://unix.stackexchange.com/questions/40560/how-to-know-if-a-network-interface-is-tap-tun-bridge-or-physical
+UfwStatus="$(systemctl status ufw | grep 'Active:' | cut -c 12-17)"
+ApmStatus="$(systemctl status apparmor | grep 'Active:' | cut -c 12-17)"
+AvrStatus="$(/opt/sophos-av/bin/savdstatus | cut -d' ' -f4)"
+CamStatus="$CamPid"
+MicStatus="$MicLR"
+
+# Output
+if ! [[ "$UfwStatus" == "active" ]] ; then
+	notify-send -u NORMAL -t 10000 "Ufw disabled" --icon="$NotifyIcon"
+fi
+if [[ "$MacStatus" == "disabled" ]] ; then
+	notify-send -u NORMAL -t 10000 "M.A.C. disabled" --icon="$NotifyIcon"
+fi
+if [[ "$FjSymlinks" == "disabled" ]] ; then
+	notify-send -u NORMAL -t 10000 "Firejail symlinks disabled" --icon="$NotifyIcon"
+fi
+if [[ "$VpnStatus" == "" ]] ; then
+	notify-send -u NORMAL -t 10000 "Vpn disabled" --icon="$NotifyIcon"
+fi
+if ! [[ "$AvrStatus" == "active" ]] ; then
+	notify-send -u NORMAL -t 10000 "On-access Av scan disabled" --icon="$NotifyIcon"
+fi
+if ! [[ "$MicStatus" == "muted" ]] ; then
+	notify-send -u NORMAL -t 10000 "Microphone active" --icon="$NotifyIcon"
+fi
+if ! [[ "$CamStatus" == "inactive" ]] ; then
+	notify-send -u NORMAL -t 10000 "Webcam active" --icon="$NotifyIcon"
+fi
+
+

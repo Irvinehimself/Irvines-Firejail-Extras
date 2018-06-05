@@ -1,0 +1,6 @@
+[Unit]
+Description=Monitor the status of sensitive devices
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/Hs-StatusWarnings

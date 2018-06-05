@@ -1,0 +1,128 @@
+#!/bin/bash
+
+##########################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# HsTools is a collection of monitoring and general security tools to make
+# it easier to adopt good habits. The project home page can be found at
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# HsTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# HsTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with HsTools.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
+
+# Bash to monitor and un-mount inactive partitions and external drives
+
+# NOTE This shell needs to run as root, for security reasons don't use Hs-Shared
+# NOTE Since it runs as root, ${HOME} points to root's home
+
+MyName=$(logname)
+MyHome="/home/$MyName"
+
+NotifyIcon="${MyHome}/Pictures/LauncherIcons/Usb.png"
+
+
+DocsMount="${MyHome}/Docs"
+SharedMount="${MyHome}/Shared"
+UsbMounts="${MyHome}/Usbs"
+
+RootPartition="Arch"
+
+Cache="/tmp/HsCache"
+
+function GetOldIsMountedArray() {
+    if [ -f $FILE $Cache ] ; then
+            OldIsMountedArray="$(cat $Cache)"
+        else
+                OldIsMountedArray=("")
+    fi
+}
+
+function GetMountString(){
+	ls -l /dev/disk/by-label | grep -v "total" |\
+	while read Line ; do
+    	echo $Line | cut -d' ' -f9
+    	echo $Line | cut -d'/' -f3
+	done
+}
+
+function FindMountPoint() {
+	case ${PartitionArray[$KeyIndex]} in
+	    Shared) MountPoint="$SharedMount";;
+	      Docs) MountPoint="$DocsMount";;
+	         *) MountPoint="$UsbMounts/${PartitionArray[$KeyIndex]}";;
+	esac
+}
+
+function GetIsMounted() {
+	if [[ "$(cat /proc/self/mounts | grep -w  $2)" == "" ]] ; then
+	        IsMountedArray[$1]="not-mounted"
+	    else
+	            IsMountedArray[$1]="mounted"
+	fi
+}
+
+function GetPartitionArray(){
+	MountString=$(GetMountString)
+	Count="0" ; Index="0"
+	for Line in ${MountString[@]} ; do
+	   case $Index in
+	       "0") PartitionArray[$Count]="$Line"
+	            ((Index++));;
+	       "1") DeviceArray[$Count]="$Line"
+                GetIsMounted $Count $Line
+                Index="0"
+                ((Count++));;
+	   esac
+	done
+}
+
+function UnMountDevice() {
+	Error=$(sudo umount "/dev/${DeviceArray[$KeyIndex]}" 2>&1 >/dev/null)
+	if [[ "$?" = "0" ]] ; then
+	        rm -r "$MountPoint"
+	        sudo -u ${MyName} notify-send -u NORMAL -t 10000 "Automatic unmount of $MountPoint" --icon="$NotifyIcon"
+	    else
+	            sudo -u ${MyName} notify-send -u NORMAL -t 10000 "$Error" --icon="$NotifyIcon"
+	fi
+}
+
+function AddNewIsMounted() {
+	NewIsMountedArray[$MountIndex]="$Partition"
+	((MountIndex++))
+}
+
+GetPartitionArray
+GetOldIsMountedArray
+KeyIndex="0" ; MountIndex="0"
+for Partition in ${PartitionArray[@]} ; do
+    if ! [[ $Partition == $RootPartition ]] ; then
+        	if [[ "${IsMountedArray[$KeyIndex]}" == "mounted" ]] ; then
+        		if ! [[ $(echo ${OldIsMountedArray[*]} | grep -w $Partition) == "" ]] ; then
+        		    	FindMountPoint
+        		    	Busy="$(sudo fuser -m $MountPoint 2>&1 >/dev/null)"
+        		    	if [[ "$Busy" == "" ]] ; then
+        		    	       UnMountDevice
+        		    	    else
+            	    	            AddNewIsMounted
+        		    	fi
+        		    else
+            	            AddNewIsMounted
+            	fi
+        	fi
+        else
+            AddNewIsMounted
+    fi
+    ((KeyIndex++))
+done
+echo "${NewIsMountedArray[*]}" > "$Cache"

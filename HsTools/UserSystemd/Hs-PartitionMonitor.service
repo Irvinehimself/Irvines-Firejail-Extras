@@ -1,0 +1,6 @@
+[Unit]
+Description=Check for unused mounts
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sudo /usr/local/bin/Hsr-PartitionMonitor
