@@ -1,17 +1,18 @@
 # Last Modified: Tue May 29 06:16:19 2018
 # vim:syntax=apparmor
-# Combined AppArmor policy for xfce4-notifyd
+# AppArmor policy for xfce4-notifyd
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
 /usr/lib/xfce4/notifyd/xfce4-notifyd flags=(complain) {
-  deny ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   deny /proc/*/maps r,
   deny /proc/*/stat r,
   deny owner /proc/*/fd/ r,
   deny owner /proc/*/fdinfo/* r,
+
+  ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
@@ -131,4 +132,5 @@
   owner /home/*/Shared/Pictures/LauncherIcons/* r,
   owner /tmp/.Xauth* r,
 
+  #include <local/usr.lib.xfce4.notifyd.xfce4-notifyd>
 }

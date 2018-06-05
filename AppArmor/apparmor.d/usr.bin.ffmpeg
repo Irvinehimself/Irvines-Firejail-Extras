@@ -1,9 +1,10 @@
 # vim:syntax=apparmor
-# Combined AppArmor policy for ffmpeg
+# AppArmor policy for ffmpeg
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
 /usr/bin/ffmpeg flags=(complain) {
 
+  #include <local/usr.bin.ffmpeg>
 }

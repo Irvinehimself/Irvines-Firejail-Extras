@@ -5,7 +5,7 @@
 #
 # FjTools is a collection of extra profiles, local customisations and
 # tools for Firejail. The project home page can be found at
-# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
 #
 # FjTools is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,10 +40,9 @@ printf '%-50s%-50s\n' ${Dimd}${Ulnd}"PROFILE NAME"${End} ${Dimd}${Ulnd}"OWNER'S 
 ls "$EtcFirejail" | grep "profile" |\
     while read Line ; do
         ProfileName=${Line%%.profile}
-        # Use package manager to check if bin file exists
-        Owner=$(GetPckgOwner $UsrBin/$ProfileName 2>&1)
-        # StndError is redirected to Stndout, So...
-        if [[ ! "$Owner" = *"No such file or directory" ]] ; then
+        FileExists=$(ls $UsrBin/ | grep -x $ProfileName)
+        if [[ ! "$FileExists" = "" ]] ; then
+            Owner=$(GetPckgOwner $UsrBin/$ProfileName 2>&1)
             if [[ "$Owner" = "$NoPckgOwns"* ]] ; then
                 # This deals with un-registered custom tweaks and installs to /usr/bin
                 # In particular, my custom link to /usr/lib/ThunarBulkRename
@@ -56,8 +55,7 @@ ls "$EtcFirejail" | grep "profile" |\
         fi
     done
  ### Option to create symlinks
-echo "$PrmptMsg1"
-read -n1 -s Key
+ReadKey "$PrmptMsg1"
 if  echo "$Key" | grep -iq "y" ; then
     Target="Dummy"
     until [[ "$Target" = "" ]] ; do

@@ -1,5 +1,26 @@
 #!/bin/bash
 
+##########################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# AvTools is a collection of tools to provide some common Window's features
+# to Linux anti-virus products. . The project home page can be found at
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# AvTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# AvTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with AvTools.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
+
 # Usage: add "ThunarAvScan %f" to Thunars RMB context menu
 # Because 'savscan' raises privileges, seccomp will kill it inside Thunar's Firejail sandbox
 
@@ -17,5 +38,3 @@ if [[ "$AvTestResult" == "" ]] ; then
     else
         notify-send -u NORMAL -t 10000 "$AvTestResult" --icon="$SophosAlert"
 fi
-
-

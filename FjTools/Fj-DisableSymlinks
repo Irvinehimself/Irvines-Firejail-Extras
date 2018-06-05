@@ -5,7 +5,7 @@
 #
 # FjTools is a collection of extra profiles, local customisations and
 # tools for Firejail. The project home page can be found at
-# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
 #
 # FjTools is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,22 +23,29 @@
 
 # This shell disables firejail symlinks by renaming my symlinking folder and, thus taking it out of the $PATH
 
+# NOTE This assumes the following modification to the path in 'makepkg.conf' is always the last mod appended to the file
+# PATH=":$PATH"
+# PATH="${PATH/:\/usr\/local\/bin\/FjSymlinks:/:}"
+# export PATH="${PATH#:}"
+# ### see forum https://bbs.archlinux.org/viewtopic.php?pid=1743138
+
 source Fj-Shared
 
 function DisableSymlinks(){
-	echo "Enabling Firejail symlinks"
+	echo "Disabling Firejail symlinks"
 	echo "Sorry, need root password"
 	sudo mv "$FjSymlinks" "$FjSymlinksBack"
 	# Disable symlinks for makepkg
-	sudo sed -i 's/PATH=/#PATH=/g' "$MakePkgConf"
-	sudo sed -i 's/export /#export "/g' "$MakePkgConf"
-
+	head -n -3  "$MakePkgConf" > "$TmpMkpkgConf"
+	echo "#### FIREJAIL SYMLINKS DISABLED" >> "$TmpMkpkgConf"
+	sudo mv "$TmpMkpkgConf" "$MakePkgConf"
 }
 
- ### End Functions
-
- ### ### Main ### ###
+# ### ### Main ### ###
 
 SetTerminalTitle "Fj-DisableSymlinks"
 
-DisableSymlinks
+if [ -d "$FjSymlinks" ]; then
+    DisableSymlinks
+fi
+

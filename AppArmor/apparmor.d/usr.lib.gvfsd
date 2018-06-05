@@ -24,7 +24,7 @@
   signal send set=rtmin+0 peer=/usr/lib/gvfsd,
   signal send set=term peer=/usr/lib/gvfsd,
 
-  deny ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+  ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   /dev/fuse rw,
   /dev/null rw,

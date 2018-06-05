@@ -11,7 +11,8 @@ I have split things up into the following sections
 * [Firejail profiles and local customisations](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/Firejail)
 * [Tools to manage Firejail profiles](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/FjTools)
 * [Apparmor profiles for daemons and low level utilites](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/AppArmor)
-* [Anti-virus tools](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/AvScanner)
+* [Anti-virus tools](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/AvTools)
+* [Security and monitoring tools](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/HsTools)
 
 For your convenience, each section has it's own readme with the important details
 

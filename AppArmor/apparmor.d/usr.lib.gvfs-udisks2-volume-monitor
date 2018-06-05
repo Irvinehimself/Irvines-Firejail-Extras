@@ -2,23 +2,23 @@
 #include <tunables/home>
 
 # vim:syntax=apparmor
-# Combined AppArmor policy for gvfs-udisks2-volume-monitor
+# AppArmor policy for gvfs-udisks2-volume-monitor
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
 /usr/lib/gvfs-udisks2-volume-monitor flags=(complain) {
   #include <abstractions/freedesktop.org>
+  #include <local/usr.lib.gvfs-udisks2-volume-monitor>
 
-  deny ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   deny /proc/*/net/netlink r,
   deny /proc/*/net/packet r,
   deny /proc/*/net/raw r,
-  deny /proc/*/net/unix r,
+  /proc/*/net/unix r,
 
-  deny owner /proc/*/fd/ r,
-  deny owner /proc/*/fdinfo/* r,
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
 
   / r,
   /dev/null rw,

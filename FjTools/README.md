@@ -6,7 +6,6 @@ Currently, it consists of:
 ## Contents
   1. [Fj-Shared](#fj-shared)
   1. [Fj-TerminalTricks](#fj-terminaltricks)
-  1. [Fj-Includes](#fj-includes)
   1. [Fj-DisableSymlinks](#fj-disablesymlinks)
   1. [Fj-UnusedProfiles](#fj-unusedprofiles)
   1. [Fj-SymlinkedProfiles](#fj-symlinkedprofiles)
@@ -27,20 +26,10 @@ Contains declarations and functions to define and control the colour and appeara
 
 [*Return to contents*](#contents)
 
-#### Fj-Includes
-Contains the shared functions which a user is unikely to wish to customise.
-
-[*Return to contents*](#contents)
-
 #### Fj-DisableSymlinks
 A couple of tools to enable/disable desktop integration
 
 *Note*: I keep my firejail symlinks in a custom folder `/usr/local/bin/FjSymlinks/` which I added to my ${PATH}. So, you will need to edit the `$FjSymlinks` variable to your own usage.
-
-[*Return to contents*](#contents)
-
-#### Fj-StatusWarnings
-A bash to nag you if various security related features, cameras and microphones are disabled/enabled
 
 [*Return to contents*](#contents)
 

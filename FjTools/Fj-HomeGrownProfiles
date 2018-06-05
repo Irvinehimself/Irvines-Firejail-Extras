@@ -5,7 +5,7 @@
 #
 # FjTools is a collection of extra profiles, local customisations and
 # tools for Firejail. The project home page can be found at
-# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
 #
 # FjTools is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -47,6 +47,4 @@ ls "$EtcFirejail" | grep "profile" | CheckOwner | column -x
 echo -e ${End}
 echo ${Dimd}"And the following have local customisations:"${End}${Grn}
 ls "$EtcFirejail" | grep "local" | CheckOwner | column -x
-echo -e ${End}
-echo -e ${Dimd}"(Hit return to close)"${End}
-read Quit
+ReadQuit "${End}"

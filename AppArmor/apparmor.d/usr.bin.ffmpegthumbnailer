@@ -1,6 +1,6 @@
 # Last Modified: Sun May 27 16:45:53 2018
 # vim:syntax=apparmor
-# Combined AppArmor policy for ffmpegthumbnailer
+# AppArmor policy for ffmpegthumbnailer
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
@@ -18,4 +18,5 @@
   /usr/lib/libstdc++.so.* mr,
   owner /home/*/Desktop/** rw,
 
+  #include <local/usr.bin.ffmpegthumbnailer>
 }

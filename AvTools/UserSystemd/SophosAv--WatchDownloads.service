@@ -1,0 +1,9 @@
+[Unit]
+Description=Watches downloads folder and scans for malware
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/SophosAv--WatchDownloads
+
+[Install]
+WantedBy=default.target

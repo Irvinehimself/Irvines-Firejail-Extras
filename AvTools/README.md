@@ -19,6 +19,9 @@ Below is a summary of the shells I am currently using:
 #### SophosAv--WatchDownloads
 Unless I turn off my various security features, **ALL** of my browser downloads, uploads and torrents must go through the Download folder. `SophosAv--WatchDownloads` monitors that folder and detects when a download is finished. After which, it launches a **full** anti-virus scan of the completed download. For best results, it should be started either as a `service`, or through your `auto-start` file or folder.
 
+For your convenience, I have included my `SophosAv--WatchDownloads.service` which should be placed in `${HOME}/.config/systemd/user/`. After which, of course, it should be enabled with `systemctl --user enable --now SophosAv--WatchDownloads.service`
+
+
 *Note1:* When torrenting, multiple files can finish downloading at the same time, you have to give the scanner time to finish scanning all the files
 
 #### ThunarAvScan

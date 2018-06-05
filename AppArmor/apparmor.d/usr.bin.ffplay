@@ -1,11 +1,13 @@
 # Last Modified: Sun May 27 16:45:53 2018
 # vim:syntax=apparmor
-# Combined AppArmor policy for ffplay
+# AppArmor policy for ffplay
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
 /usr/bin/ffplay flags=(complain) {
+  #include <local/usr.bin.ffplay>
+
   deny signal receive set=hup peer=unconfined,
 
   /dev/dri/ r,

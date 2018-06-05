@@ -1,0 +1,168 @@
+#!/bin/bash
+
+###############################################
+# Copyright (C) 2017  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# FjTools is a collection of extra profiles, local customisations and
+# tools for Firejail. The project home page can be found at
+# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+#
+# FjTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# FjTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Fj-Tools.  If not, see <http://www.gnu.org/licenses/>.
+###############################################
+
+# Ideally, if I have got things correct, any problems with porting the collection of
+# tools to other distro's can be solved solely by editing the paths in this common
+# library, (FjTools-Shared,) of FjTools
+
+source Fj-TerminalTricks
+
+ ### ### Paths ### ###
+
+# system
+EtcFirejail="/etc/firejail"
+UsrBinFirejail="/usr/bin/firejail"
+
+UsrLocalBin="/usr/local/bin"
+UsrBin="/usr/bin"
+
+UsrLib="/usr/lib"
+Etc="/etc"
+
+NotifyIcon="/usr/share/pixmaps/firetools.png"
+
+# FjSymlinks
+FjSymlinks="$UsrLocalBin/FjSymlinks"
+FjSymlinksBack="$FjSymlinks""Back"
+MakePkgConf="/etc/makepkg.conf"
+
+
+# FjWork
+FjWork="${HOME}/Documents/FjToolsWork"
+FjInstalledPkgs="$FjWork/InstalledPkgs"
+
+# Debug
+FjDebugWork="$FjWork/DebugProfiles"
+FjDebugLog="$FjDebugWork/DebugLog"
+
+FjBackupProfiles="$FjWork/BackupProfiles"
+
+# private-lib
+FjPrivateLibWork="$FjWork/PrivateLib/"
+FjCreatePrivateLib="$FjPrivateLibWork/CreatePrivateLib"
+FjGuessPrivateLib="$FjPrivateLibWork/GuessPrivateLib"
+FjPrivateLibSo="$FjPrivateLibWork/Libraries"
+FjPrivateLibNotFound="$FjPrivateLibWork/NotFound"
+
+# private-etc
+FjPrivateEtcWork="$FjWork/PrivateEtc"
+FjGuessPrivateEtc="$FjPrivateEtcWork/GuessPrivateEtc"
+FjPrivateEtcNoPkgOwns="$FjPrivateEtcWork/Etc-NoPkgOwns"
+FjPrivateEtcNotFound="$FjPrivateEtcWork/NotFound"
+
+# private-Bin
+FjPrivateBinWork="$FjWork/PrivateBin"
+FjGuessPrivateBin="$FjPrivateBinWork/GuessPrivateBin"
+FjPrivateBinNoPkgOwns="$FjPrivateBinWork/Etc-NoPkgOwns"
+FjPrivateBinNotFound="$FjPrivateBinWork/NotFound"
+
+# Dependency Chain
+FjDependencyWork="$FjWork/Dependencies"
+FjDependencyChain="$FjDependencyWork/DependencyChain"
+FjDependencyChainLog="$FjDependencyWork/Log"
+FjDependencyLibraries="$FjDependencyWork/Libraries"
+FjDependencyNotFound="$FjDependencyWork/NotFound"
+
+
+ ### ### End paths
+
+# Global constants and variables
+DependencyChain=""
+LibSoLibraryChain=""
+DependencyNotFoundChain=""
+
+BisectionChop="64"
+SleepDelay="1"
+SleepSuffix="m"
+
+# Distro specific functions and variables that will need editing for non-arch distros
+
+NoPckgOwns="error: No package owns"
+WasNotFound="was not found"
+NoDepends="None"
+
+function GetPckgOwner(){
+    echo "$(pacman -Qoq $1)"
+}
+
+function GetPkgDepends(){
+    echo "$(pacman -Si "$1" 2>&1 | grep 'Depends On\|was not found' | cut -d':' -f2 | xargs)"
+}
+
+function GetInstalled(){
+    pacman -Q  > "$FjInstalledPkgs"
+}
+
+function GetProvides(){
+    echo "$(pacman -Si $1 | grep 'Provides')"
+}
+
+function RemoveVersionQualifier(){
+    if [[ "$1" = *">"* ]] ; then
+            TmpSrchStr="$(echo $1 | cut -d'>' -f1)"
+        elif [[ "$1" = *"<"* ]] ; then
+                TmpSrchStr="$(echo $1 | cut -d'<' -f1)"
+            elif [[ "$1" = *"="* ]] ; then
+                    TmpSrchStr="$(echo $1 | cut -d'=' -f1)"
+                else
+                        TmpSrchStr="$1"
+    fi
+    echo "$TmpSrchStr"
+}
+
+function GetProvidedBy(){
+    local TmpMissingPkg="$1"
+	# Inside piped sub-shell, local variables are irrelevant
+    # Because of redirect in calling function, when debugging, use:
+    # (>&2 echo "Debug: Test2 return Pkg = $Pkg" )
+    # Note, include braces
+    pkgfile -r ".*$TmpMissingPkg.*" |\
+    while read Line ; do
+        Pkg=$(echo $Line | cut -d'/' -f2)
+        # Is it installed?
+        TmpGrepInstalled=$(cat $FjInstalledPkgs | grep "$Pkg " | cut -d' ' -f1)
+        if ! [[ "$TmpGrepInstalled" = "" ]] ; then
+            # Yes, it's a possibility. Could it provide the required package?
+            TmpGrepProvides=$(GetProvides "$Pkg" | grep " $TmpMissingPkg")
+        	if ! [[ "$TmpGrepProvides" = "" ]] ; then
+                # Possible, need to extract substring and remove any versioning qualifier
+                Test1=$(echo $TmpGrepProvides | sed "s/^.*\( $TmpMissingPkg.* \).*$/\1/"  | xargs)
+        	    Test1="$(RemoveVersionQualifier $Test1)"
+        	    if ! [[ "$TmpTest1" = "$TmpMissingPkg" ]] ; then
+                        # Yes, exact match
+                        echo "$Pkg"
+                        return
+                    else
+                            # Could it be at the end of the line
+                            TmpTest2=$(echo $TmpGrepProvides | sed "s/^.*\( $TmpMissingPkg.*\).*$/\1/" | xargs)
+                            Test2="$(RemoveVersionQualifier $Test2)"
+                            if [[ "$TmpTest2" = "$TmpMissingPkg" ]] ; then
+                                	# Yes, exact match at end of line
+                                	echo "$Pkg"
+                                	return
+                            fi
+        	    fi
+        	fi
+        fi
+    done
+}

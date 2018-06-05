@@ -1,13 +1,10 @@
 # Last Modified: Tue May 29 06:16:19 2018
 @{EXTDOCS1} = /run/media/*/Docs/
-@{EXTDOCS2} = /run/media/*/Docs1-ntfs/
-@{EXTDOCS3} = /run/media/*/Docs2-ntfs/
+@{EXTDOCS2} = /run/media/*/Docs1/
+@{EXTDOCS3} = /run/media/*/Docs2/
 
 #include <tunables/home>
 
-# Allowed external mass storage devices
-# Note: By design, it cannot catalogue thumb-drives or any other 'un-trusted'
-# portable mass storage device
 # vim:syntax=apparmor
 # AppArmor policy for tumblerd
 # Author: irvine mcminn at gmail dot com
@@ -29,7 +26,7 @@
   signal receive set=term peer=/usr/lib/tumbler-1/tumblerd,
   signal send set=term peer=/usr/lib/tumbler-1/tumblerd,
 
-  deny ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+  ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   deny /proc/*/stat r,
   deny /proc/cpuinfo r,

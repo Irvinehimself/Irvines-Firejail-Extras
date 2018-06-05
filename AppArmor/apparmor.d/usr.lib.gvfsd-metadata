@@ -1,14 +1,17 @@
 # Last Modified: Tue May 29 06:16:19 2018
 # vim:syntax=apparmor
-# Combined AppArmor policy for gvfsd-metadata
+# AppArmor policy for gvfsd-metadata
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
 /usr/lib/gvfsd-metadata flags=(complain) {
-  deny ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
-  deny owner /proc/*/fd/ r,
-  deny owner /proc/*/fdinfo/* r,
+  #include <local/usr.lib.gvfsd-metadata>
+
+  ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
   owner /proc/*/maps r,
   owner /proc/*/stat r,
 

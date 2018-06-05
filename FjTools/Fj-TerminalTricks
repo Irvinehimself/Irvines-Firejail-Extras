@@ -5,7 +5,7 @@
 #
 # FjTools is a collection of extra profiles, local customisations and
 # tools for Firejail. The project home page can be found at
-# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
 #
 # FjTools is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -64,6 +64,8 @@ BgLgtCyn=$'\e[106m'		# LightCyan
 
 # example: printf ${BgDrkGry} ; clear
 
+PressKeyQuit="${Dimd}(press any key to quit)${End}"
+
 function SetTerminalBgColour() {
     printf $1 ; clear
 }
@@ -75,4 +77,16 @@ function SetTerminalTitle() {
 
 function SetTerminalSize() {
     printf "\033[8;$1;$2t"
+}
+
+function ReadQuit() {
+    echo -e "$1 $PressKeyQuit"
+    read -n1 -s  Quit
+}
+
+function ReadKey() {
+    echo -e "$1"
+    read -n1 -s  Key
+    Key="${Key,,}"      # Lower case
+    # Key="${Key,^^}"   # Upper case
 }

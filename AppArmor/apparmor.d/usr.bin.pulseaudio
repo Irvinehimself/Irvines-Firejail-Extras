@@ -4,7 +4,7 @@
 #include <tunables/proc>
 
 # vim:syntax=apparmor
-# Combined AppArmor policy for Pulse Audio
+# AppArmor policy for Pulse Audio
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
@@ -13,6 +13,7 @@
   #include <abstractions/audio>
   #include <abstractions/dbus-session-strict>
   #include <abstractions/dri-enumerate>
+  #include <local/usr.bin.pulseaudio>
 
   deny signal receive set=cont peer=unconfined,
   deny signal receive set=exists peer=unconfined,
@@ -23,7 +24,7 @@
   signal receive set=exists peer=/usr/bin/pulseaudio,
   signal send set=exists peer=/usr/bin/pulseaudio,
 
-  deny ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+  ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   deny /proc/*/maps r,
   deny /proc/*/stat r,

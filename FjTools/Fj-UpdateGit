@@ -5,7 +5,7 @@
 #
 # FjTools is a collection of extra profiles, local customisations and
 # tools for Firejail. The project home page can be found at
-# https://github.com/Irvinehimself/Irvines-Firejail-Extras
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
 #
 # FjTools is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,18 +24,20 @@
 # copy's all the profiles not  owned by Firejail to my git folder
 
 source Fj-Shared
-source Fj-Includes
 
 # Private Paths
 GitHome="${HOME}/Git/TheBeggarsHardeningProject"
 GitFirejail="$GitHome/Firejail"
 GitFirejailProfiles="$GitFirejail/Profiles"
 GitFirejailLocals="$GitFirejail/LocalCustomisations"
-GitTools="$GitHome/FjTools"
+GitFjTools="$GitHome/FjTools"
+GitHsTools="$GitHome/HsTools"
 GitApparmor="$GitHome/AppArmor"
 GitApparmorProfileList="$GitApparmor/AppArmor-ProfileList"
 GitAppArmorProfiles="$GitApparmor/apparmor.d"
 GitAppArmorLocals="$GitAppArmorProfiles/local"
+GitAvTools="$GitHome/AvTools"
+UserSystemd="${HOME}/.config/systemd/user"
 
 # End Private Paths
 
@@ -46,6 +48,27 @@ GrepTestLocals="# Further restrict the"
 GrepTestProfiles="will be automatically replaced when"
 
 # End Prompts, Messages and Strings
+
+function CheckOwner() {
+    while read Line ; do
+        ### Use package manager to check if profile is owned by firejail
+        ProfileOwner=$(GetPckgOwner $EtcFirejail/$Line 2>/dev/null)
+        ### StndError is redirected to /dev/null, so if owner is a nullstring,
+        ### then it's a homegrown customisation
+        if [[ "$ProfileOwner" = "" ]] ; then
+            #echo "$Line"
+            echo "$Line"
+        fi
+    done
+}
+
+function CopyLsGrep(){
+    ls $1 | grep $2 | CheckOwner |\
+    while read Line ; do
+        cp "$1/$Line" $3
+    done
+}
+
 
 function UpdateFirejailContentLists(){
 	echo "Updating $1"
@@ -66,21 +89,28 @@ function UpdateApparmor(){
     done
 }
 
+function UpdateSophos() {
+    echo "Updating Sophos stuff"
+    cp "$UserSystemd/SophosAv--WatchDownloads.service" "$GitAvTools/UserSystemd/SophosAv--WatchDownloads.service"
+    cp "$UsrLocalBin/SophosAv--WatchDownloads"  "$GitAvTools/SophosAv--WatchDownloads"
+    cp "$UsrLocalBin/ThunarAvScan" "$GitAvTools/ThunarAvScan"
+}
+
  ### ### Start Main ### ###
 
 SetTerminalTitle "Fj-UpdateGit"
 
 echo "Updating profiles"
-# copy all the homegrown profiles to my git folder
+# copy all the homegrown profiles to git folder
 CopyLsGrep "$EtcFirejail" "profile" "$GitFirejailProfiles"
 
 echo "Updating local customisations"
-# copy local customisations to my git folder
+# copy local customisations to git folder
 CopyLsGrep "$EtcFirejail" "local" "$GitFirejailLocals"
 
 echo "Updating FjTools"
-# copy FjTools to my git folder
-CopyLsGrep "$UsrLocalBin" "Fj-" "$GitTools"
+# copy Fj-Tools to git folder
+CopyLsGrep "$UsrLocalBin" "Fj-" "$GitFjTools"
 
 # Update content lists
 UpdateFirejailContentLists "Firejail-RestrictiveLocalCustomisations" "$ChLocalCustomisations" "$GitFirejailLocals" "$GrepTestLocals" ".local"
@@ -90,6 +120,13 @@ UpdateFirejailContentLists "Firejail-ProfilesNotYetSubmittedUpstream" "$ChNotYet
 # Update Apparmor stuff
 UpdateApparmor
 
-#echo "Press return to quit"
-#read "Quit"
+# Update Sophos stuff
+UpdateSophos
+
+echo "Updating HsTools"
+# copy Hs-Tools to git folder
+CopyLsGrep "$UsrLocalBin" "Hs-" "$GitHsTools"
+CopyLsGrep "$UserSystemd" "Hs-" "$GitHsTools/UserSystemd"
+
+ReadQuit ""
 echo "Bye :)"
