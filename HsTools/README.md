@@ -1,7 +1,7 @@
 # Security tools
 
 #### Overview
-This section is focused on monitoring, general security and creating to make it easier to adopt good habits. Since most of these shells run continuously in the background, as per my usual habit, I have included the necessary `systemd  unit files`. However, if `systemd` is not tp your taste, with some minor tweaking you can run them from your `autostart` file or folder.
+This section is focused on monitoring, general security and the tools to make it easier to adopt good habits. Since most of these shells run continuously in the background, as per my usual habit, I have included the necessary `systemd  unit files`. However, if `systemd` is not tp your taste, with some minor tweaking you can run them from your `autostart` file or folder.
 
 #### Hsr-PartitionMonitor
 Dating back to the early days of the Pc, one of the simplest and most effective ways of protecting your personal data was to use partitions. Nowadays, very few people seem to realise this, but partitions should only be mounted on an *as-need* basis, and then only with the minimum permissions needed.
@@ -33,7 +33,7 @@ sudo Hsr-PartitionMonitor
 
 
 #### Hs-MountReadWrite
-The way my system is set up, when mounting partitions and disks, the file manager correctly asks for a password and mounts the drive read only. If I want to mount as read/write, then I have to use `sudo mount sd? $mntpnt`. With a little menu of connected devices, `Hs-MountReadWrite`, (along with `Hs-UnMount`,) offer the choice between mounting `read only` or mounting `read write`. This takes a great deal of the pain out of mounting and unmounting: *Usb's*, *partitions* and *external drives*.
+The way my system is set up, when mounting partitions and disks, the file manager correctly asks for a password and mounts the drive read only. If I want to mount as read/write, then I would normally have to use `sudo mount sd? $mntpnt`, which I find to be a pain. With their own nested panel launcher, `Hs-MountReadWrite`, along with `Hs-UnMount`, create a menu of connected devices, and offer the choice between mounting the selected debice as either `read only` or `read write`. This takes a great deal of the pain out of mounting and unmounting: *Usb's*, *partitions* and *external drives*.
 
 While it is *cli* shell, it has all the features of a *GUI*, and makes mounting/unmounting devices straight forward. As a result, implementing a strict security policy with regard to partitions is not a major chore.
 
