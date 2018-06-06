@@ -33,13 +33,15 @@ sudo Hsr-PartitionMonitor
 
 
 #### Hs-MountReadWrite
-The way my system is set up, when mounting partitions and disks, the file manager correctly asks for a password and mounts the drive read only. If I want to mount as read/write, then I would normally have to use `sudo mount sd? $mntpnt`, which I find to be a pain. With their own nested panel launchers, `Hs-MountReadWrite`, along with `Hs-UnMount`, create a menu of connected devices, and offer the choice between mounting the selected device as either `read only` or `read write`. This takes a great deal of the pain out of mounting and unmounting: *Usb's*, *partitions* and *external drives*.
+The way my system is set up, when mounting partitions and disks, the file manager correctly asks for a password and mounts the drive read only. If I want to mount as read/write, then I would normally have to use `sudo mount sd? $mntpnt`, which I find to be a pain. With their own nested panel launchers, `Hs-MountReadWrite`, along with `Hs-UnMount`, create a menu of connected devices, and offer the choice between mounting the selected device as either `read only` or `read write`. This drastically reduces hassle of mounting and unmounting: *Usb's*, *partitions* and *external drives*.
 
-While it is *cli* shell, it has all the features of a *GUI*, and makes mounting/unmounting devices straight forward. As a result, implementing a strict security policy with regard to partitions is not a major chore.
+While it is *cli* shell, `Hs-MountReadWrite` has all the features of a *GUI*, and makes mounting/unmounting devices straight forward. As a result, implementing a strict security policy with regard to partitions is not a major chore.
 
 
 #### Hs-StatusWarnings
-`Hs-StatusWarnings` is bash to nag you if various security related daemons, devices ... etc, are, as appropriate, *enabled/disabled*, *mounted/unmounted* ... *active/inactive*.
+`Hs-StatusWarnings` is bash to nag you if various security related *daemons*, *devices*, ... *whatever*, are, as appropriate, *enabled/disabled*, *mounted/unmounted* ... *active/inactive*.
 
-Generally, unless you have turned something off or on, you will never know it's their. Even then, the nagging is fairly low key with a little notification popping up periodical to remind you that the camera/microphone is *ON*, or that you have left a partition mounted with *write* permission. Personally, I have a low tolerance for annoyances, and this is just intrusive enough to be useful without becoming irritating.
+Generally, unless you have turned something off or on, you will never know it's their. Even then, the nagging is fairly low key with a little notification popping up periodical to remind you that *the camera/microphone is ON*; *the firewall is OFF*; *Firejail symlinks are DISABLED* ... *whatever*.
+
+Personally, I have a low tolerance for annoyances, and this is just intrusive enough to be useful without becoming irritating.
 
