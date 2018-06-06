@@ -29,7 +29,7 @@ sudo chmod o-rwx /usr/local/bin/Hsr-PartitionMonitor
 ```
 sudo Hsr-PartitionMonitor
 ```
-*cf* [UserSystemd/Hs-PartitionMonitor.service](UserSystemd/Hs-PartitionMonitor.service)
+*For example:* [UserSystemd/Hs-PartitionMonitor.service](UserSystemd/Hs-PartitionMonitor.service)
 
 
 #### Hs-MountReadWrite
