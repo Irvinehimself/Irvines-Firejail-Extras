@@ -10,26 +10,26 @@ For example, on my laptop, generally, the only permanently mounted partitions ar
 
 Anyway, `Hsr-PartitionMonitor` uses `fuser`to periodically check if a drive is currently in use. If not, and it is still not being used the next time it checks, then it will dismount it. This not only minimises the risks of general `snooping hacks`, but also the risks of a `ransom-ware` attack.
 
-**Note1:** Since both `fuser` and `umount` normally require `sudo` and the shell will either be tweaked to run from `auto-start` without user input, or, like mine, running as a service, (again without user input,) you need to add the following to `/etc/sudoers`
+**Install-1:** Since both `fuser` and `umount` normally require `sudo` and the shell will either be tweaked to run from `auto-start` without user input, or, like mine, running as a service, (again without user input,) you need to add the following to `/etc/sudoers`
 
 ```
 ### Run without sudo
 <YourUserName>     ALL=(ALL) NOPASSWD: /usr/local/bin/Hsr-PartitionMonitor
 ```
 
-**Note2:** Additionally, since it now has `root` privileges, to prevent attackers or un-privileged users using the shell as a backdoor, you need to change the permissions so that only `root` can edit it.
+**Install-2:** Additionally, since it now has `root` privileges, to prevent attackers or un-privileged users using the shell as a backdoor, you need to change the permissions so that only `root` can edit it.
 
 ```
 sudo chown root:root /usr/local/bin/Hsr-PartitionMonitor
 sudo chmod o-rwx /usr/local/bin/Hsr-PartitionMonitor
 ```
 
-**Note3:** Although you won't be prompted for the password, you will still need to prepend the command with `sudo`, ie
+**Install-3:** Although you won't be prompted for the password, you will still need to prepend the command with `sudo`, ie
 
 ```
 sudo Hsr-PartitionMonitor
 ```
-*cf with the `UserSystemd/Hs-PartitionMonitor.service` file*
+*cf with [UserSystemd/Hs-PartitionMonitor.service](UserSystemd/Hs-PartitionMonitor.service) *
 
 
 #### Hs-MountReadWrite
