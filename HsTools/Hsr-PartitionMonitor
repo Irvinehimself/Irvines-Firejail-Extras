@@ -24,8 +24,15 @@
 # Bash to monitor and un-mount inactive partitions and external drives
 
 # NOTE This shell needs to run as root, for security reasons don't use Hs-Shared
-# NOTE Since it runs as root, ${HOME} points to root's home
+# Since it will have root priveledges,  for security set the following permissions
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# sudo chown root:root /usr/local/bin/Hsr-PartitionMonitor
+# sudo chmod o-rwx /usr/local/bin/Hsr-PartitionMonitor
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# For details, see https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/HsTools
 
+
+#  Since ${HOME} points to root's home, we need to set the login  users home
 MyName=$(logname)
 MyHome="/home/$MyName"
 
