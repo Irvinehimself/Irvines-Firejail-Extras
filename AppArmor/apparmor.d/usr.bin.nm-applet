@@ -1,4 +1,4 @@
-# Last Modified: Tue May 29 06:16:18 2018
+# Last Modified: Thu Jun  7 02:04:30 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -11,33 +11,76 @@
   #include <abstractions/freedesktop.org>
   #include <local/usr.bin.nm-applet>
 
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=hup peer=unconfined,
+  deny signal receive set=kill peer=unconfined,
+  deny signal receive set=term peer=unconfined,
+
+  ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+
   deny owner /proc/*/fd/ r,
   deny owner /proc/*/fdinfo/* r,
   deny owner /proc/*/maps r,
   deny owner /proc/*/stat r,
+  deny /proc/filesystems r,
 
-  ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+  # ### allow owner /home/
+  owner /home/*/.Xauthority r,
+  owner /home/*/.cache/event-sound-cache.tdb.*.x86_64-unknown-linux-gnu rwk,
+  owner /home/*/.config/dconf/user r,
+  owner /home/*/.config/gtk-3.0/gtk.css r,
+  owner /home/*/.config/gtk-3.0/settings.ini r,
+  owner /home/*/.icons/ r,
+  owner /home/*/.local/share/icons/ r,
+  owner /home/*/.local/share/icons/** r,
+  owner /home/*/.local/share/mime/mime.cache r,
+  owner /home/*/.config/pulse/cookie rk,
 
+  # ### allow owner /run/user/
+  owner /run/user/*/dconf/user rw,
+  owner /run/user/*/pulse/ rw,
+
+  # ### allow owner /tmp/
+  owner /tmp/.Xauth* r,
+
+  # ### allow /dev/
   /dev/dri/ r,
   /dev/shm/ r,
   /dev/urandom r,
+
+  # ### allow /etc/
   /etc/drirc r,
+  /etc/fonts/** r,
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
   /etc/machine-id r,
-  /proc/filesystems r,
-  /sys/devices/pci0000:00/0000:00:02.0/device r,
-  /sys/devices/pci0000:00/0000:00:02.0/subsystem_device r,
-  /sys/devices/pci0000:00/0000:00:02.0/subsystem_vendor r,
-  /sys/devices/pci0000:00/0000:00:02.0/uevent r,
-  /sys/devices/pci0000:00/0000:00:02.0/vendor r,
+
+  # ### allow /etc/pulse/
+  /etc/pulse/client.conf r,
+
+  # ### allow /sys/devices/
+  /sys/devices/pci0000:00/0000:00:0?.0/device r,
+  /sys/devices/pci0000:00/0000:00:0?.0/subsystem_device r,
+  /sys/devices/pci0000:00/0000:00:0?.0/subsystem_vendor r,
+  /sys/devices/pci0000:00/0000:00:0?.0/uevent r,
+  /sys/devices/pci0000:00/0000:00:0?.0/vendor r,
+
+  # ### allow /usr/lib/NetworkManager/
   /usr/lib/NetworkManager/VPN/ r,
   /usr/lib/NetworkManager/VPN/nm-openvpn-service.name r,
+
+  # ### allow /usr/lib/dri/
   /usr/lib/dri/i965_dri.so mr,
+
+  # ### allow /usr/lib/gconv/
   /usr/lib/gconv/gconv-modules r,
-  /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache r,
-  /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so mr,
-  /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so mr,
+
+  # ### allow /usr/lib/gdk-pixbuf/
+  /usr/lib/gdk-pixbuf-*/*/loaders.cache r,
+  /usr/lib/gdk-pixbuf-*/*/loaders/libpixbufloader-png.so mr,
+  /usr/lib/gdk-pixbuf-*/*/loaders/libpixbufloader-svg.so mr,
+
+  # ### allow /usr/lib/gio/
   /usr/lib/gio/modules/ r,
   /usr/lib/gio/modules/giomodule.cache r,
   /usr/lib/gio/modules/libdconfsettings.so mr,
@@ -46,8 +89,20 @@
   /usr/lib/gio/modules/libgiolibproxy.so mr,
   /usr/lib/gio/modules/libgsettingsgconfbackend.so mr,
   /usr/lib/gio/modules/libgvfsdbus.so mr,
+
+  # ### allow /usr/lib/gtk/
   /usr/lib/gtk-3.0/modules/libcanberra-gtk3-module.so mr,
+
+  # ### allow /usr/lib/gvfs/
   /usr/lib/gvfs/libgvfscommon.so mr,
+
+  # ### allow /usr/lib/locale/
+  /usr/lib/locale/locale-archive r,
+
+  # ### allow /usr/lib/pulseaudio/
+  /usr/lib/pulseaudio/libpulsecommon-*.so mr,
+
+  # ### allow /usr/lib/
   /usr/lib/ld-*.so mr,
   /usr/lib/libFLAC.so.* mr,
   /usr/lib/libGL.so.* mr,
@@ -76,11 +131,11 @@
   /usr/lib/libc-*.so mr,
   /usr/lib/libcairo-gobject.so.* mr,
   /usr/lib/libcairo.so.* mr,
-  /usr/lib/libcanberra-0.30/libcanberra-pulse.la r,
-  /usr/lib/libcanberra-0.30/libcanberra-pulse.so mr,
+  /usr/lib/libcanberra-*/libcanberra-pulse.la r,
+  /usr/lib/libcanberra-*/libcanberra-pulse.so mr,
   /usr/lib/libcanberra-gtk3.so.* mr,
   /usr/lib/libcanberra.so.* mr,
-  /usr/lib/libcroco-0.6.so.* mr,
+  /usr/lib/libcroco-*.so.* mr,
   /usr/lib/libdatrie.so.* mr,
   /usr/lib/libdbus-1.so.* mr,
   /usr/lib/libdbus-glib-1.so.* mr,
@@ -175,15 +230,24 @@
   /usr/lib/libxml2.so.* mr,
   /usr/lib/libxshmfence.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
   /usr/lib/nm-openvpn-auth-dialog mrix,
-  /usr/lib/pulseaudio/libpulsecommon-*.so mr,
+
+  # ### allow /usr/share/X11/
   /usr/share/X11/locale/*.UTF-8/XLC_LOCALE r,
   /usr/share/X11/locale/locale.alias r,
   /usr/share/X11/locale/locale.dir r,
-  /usr/share/fonts/TTF/LiberationSans-Bold.ttf r,
-  /usr/share/glib-2.0/schemas/gschemas.compiled r,
-  /usr/share/gtk-3.0/settings.ini r,
+
+  # ### allow /usr/share/fonts/
+  /usr/share/fonts/ r,
+  /usr/share/fonts/** r,
+
+  # ### allow /usr/share/glib/
+  /usr/share/glib-*/schemas/gschemas.compiled r,
+
+  # ### allow /usr/share/gtk/
+  /usr/share/gtk-*/settings.ini r,
+
+  # ### allow /usr/share/locale/
   /usr/share/locale/*/LC_MESSAGES/NetworkManager-openvpn.mo r,
   /usr/share/locale/*/LC_MESSAGES/NetworkManager.mo r,
   /usr/share/locale/*/LC_MESSAGES/atk10.mo r,
@@ -194,16 +258,11 @@
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/*/LC_MESSAGES/nm-applet.mo r,
   /usr/share/locale/locale.alias r,
+
+  # ### allow /usr/share/
   /usr/share/zoneinfo/** r,
-  owner /home/*/.cache/event-sound-cache.tdb.*.x86_64-unknown-linux-gnu rwk,
-  owner /home/*/.config/dconf/user r,
-  owner /home/*/.config/gtk-3.0/gtk.css r,
-  owner /home/*/.config/gtk-3.0/settings.ini r,
-  owner /home/*/.icons/ r,
-  owner /home/*/.local/share/icons/ r,
-  owner /home/*/.local/share/icons/** r,
-  owner /home/*/.local/share/mime/mime.cache r,
-  owner /run/user/*/dconf/user rw,
-  owner /tmp/.Xauth* r,
+
+  # ### allow /var/cache/
+  /var/cache/fontconfig/*-*-*-*-*-*.cache-* r,
 
 }

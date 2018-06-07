@@ -1,31 +1,68 @@
-# Last Modified: Tue May 29 06:16:19 2018
+# Last Modified: Thu Jun  7 02:04:30 2018
 # vim:syntax=apparmor
+#include <tunables/home>
 # AppArmor policy for xfce4-notifyd
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
 /usr/lib/xfce4/notifyd/xfce4-notifyd flags=(complain) {
+  #include <abstractions/freedesktop.org>
+  #include <local/usr.lib.xfce4.notifyd.xfce4-notifyd>
+
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=kill peer=unconfined,
+  deny signal receive set=term peer=unconfined,
+
+  ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor/null-/usr/bin/lsof,
 
   deny /proc/*/maps r,
   deny /proc/*/stat r,
   deny owner /proc/*/fd/ r,
   deny owner /proc/*/fdinfo/* r,
 
-  ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+  owner /home/*/.Xauthority r,
+  owner /home/*/.config/gtk-3.0/gtk.css r,
+  owner /home/*/.config/gtk-3.0/settings.ini r,
+  owner /home/*/.icons/ r,
+  owner /home/*/.local/share/icons/ r,
+  owner /home/*/.local/share/icons/** r,
+  owner /home/*/.local/share/mime/mime.cache r,
+  owner /home/*/Pictures/LauncherIcons/Bash.png r,
+  owner /home/*/Pictures/LauncherIcons/Usb.png r,
+  owner /home/*/Shared/Pictures/LauncherIcons/* r,
+  owner /home/*/Pictures/LauncherIcons/* r,
+  owner /tmp/.Xauth* r,
 
+  # ### allow /etc/
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
+
+  # ### allow /etc/fonts/
+  /etc/fonts/** r,
+
+  # ### allow /proc/
   /proc/filesystems r,
+
+  # ### allow /usr/lib/gconv/
   /usr/lib/gconv/gconv-modules r,
-  /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache r,
-  /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so mr,
+
+  # ### allow /usr/lib/gdk-pixbuf/
+  /usr/lib/gdk-pixbuf-?.*/*/loaders.cache r,
+  /usr/lib/gdk-pixbuf-?.*/*/loaders/libpixbufloader-png.so mr,
+
+  # ### allow /usr/lib/gio/modules/
   /usr/lib/gio/modules/ r,
   /usr/lib/gio/modules/giomodule.cache r,
   /usr/lib/gio/modules/libgiognomeproxy.so mr,
   /usr/lib/gio/modules/libgiognutls.so mr,
   /usr/lib/gio/modules/libgiolibproxy.so mr,
   /usr/lib/gio/modules/libgvfsdbus.so mr,
+
+  # ### allow /usr/lib/local/
+  /usr/lib/locale/locale-archive r,
+
+  # ### allow /usr/lib/
   /usr/lib/gvfs/libgvfscommon.so mr,
   /usr/lib/libICE.so.* mr,
   /usr/lib/libSM.so.* mr,
@@ -112,11 +149,20 @@
   /usr/lib/libxfconf-0.so.* mr,
   /usr/lib/libxkbcommon.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
+
+  # ### allow /usr/share/x11/
   /usr/share/X11/locale/*.UTF-8/XLC_LOCALE r,
   /usr/share/X11/locale/locale.alias r,
   /usr/share/X11/locale/locale.dir r,
+
+  # ### allow /usr/share/fonts/
+  /usr/share/fonts/ r,
+  /usr/share/fonts/** r,
+
+  # ### allow /usr/share/gtk/
   /usr/share/gtk-3.0/settings.ini r,
+
+  # ### allow /usr/share/local/
   /usr/share/locale/*/LC_MESSAGES/atk10.mo r,
   /usr/share/locale/*/LC_MESSAGES/gdk-pixbuf.mo r,
   /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
@@ -124,13 +170,11 @@
   /usr/share/locale/*/LC_MESSAGES/gtk30.mo r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/locale.alias r,
-  /usr/share/mime/mime.cache r,
-  /usr/share/themes/Default/xfce-notify-4.0/gtk.css r,
-  owner /home/*/.config/gtk-3.0/gtk.css r,
-  owner /home/*/.config/gtk-3.0/settings.ini r,
-  owner /home/*/.local/share/mime/mime.cache r,
-  owner /home/*/Shared/Pictures/LauncherIcons/* r,
-  owner /tmp/.Xauth* r,
 
-  #include <local/usr.lib.xfce4.notifyd.xfce4-notifyd>
+  # ### allow /usr/share/themes/
+  /usr/share/themes/Default/xfce-notify-4.0/gtk.css r,
+
+  # ### allow /var/cache/fontconfig/
+  /var/cache/fontconfig/*-*-*-*-*-*.cache-* r,
+
 }

@@ -1,4 +1,4 @@
-# Last Modified: Tue May 29 06:16:19 2018
+# Last Modified: Thu Jun  7 02:04:30 2018
 # vim:syntax=apparmor
 # AppArmor policy for gvfs
 # Author: irvine mcminn at gmail dot com
@@ -26,21 +26,64 @@
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
+  # ### allow owner /home/
+  owner /home/*/.config/dconf/user r,
+  owner /home/*/.gvfs/ w,
+  owner /home/*/.local/share/Trash/files/ r,
+  owner /home/*/.local/share/Trash/info/* r,
+
+  # ### allow owner /etc/
+  owner /etc/nsswitch.conf r,
+  owner /etc/passwd r,
+
+  # ### allow owner /proc/
+  owner /proc/*/fd/ r,
+  owner /proc/*/maps r,
+  owner /proc/*/mountinfo r,
+  owner /proc/*/stat r,
+
+  # ### allow owner /root/
+  owner /root/.gvfs/ r,
+
+  # ### allow owner /run/user/
+  owner /run/user/*/dconf/user rw,
+  owner /run/user/*/gvfs/ rw,
+
+  # ### allow owner /usr/lib/
+  owner /usr/lib/libnss_files-*.so mr,
+
+  # ### allow /dev/
   /dev/fuse rw,
   /dev/null rw,
   /dev/urandom r,
+
+  # ### allow /etc/
   /etc/fuse.conf r,
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
+
+  # ### allow /proc/
   /proc/*/mounts r,
   /proc/filesystems r,
   /proc/stat r,
+
+  # ### allow /run/mount/
   /run/mount/utab r,
+
+  # ### allow /run/user/
   /run/user/*/gvfs/ r,
+
+  # ### allow /sys/devices/
   /sys/devices/system/cpu/ r,
   /sys/devices/system/cpu/online r,
+
+  # ### allow /usr/bin/
   /usr/bin/fusermount mrix,
+
+  # ### allow /usr/lib/gconv/
   /usr/lib/gconv/gconv-modules r,
+
+  # ### allow /usr/lib/gio/
   /usr/lib/gio/modules/ r,
   /usr/lib/gio/modules/giomodule.cache r,
   /usr/lib/gio/modules/libdconfsettings.so mr,
@@ -50,8 +93,15 @@
   /usr/lib/gio/modules/libgioremote-volume-monitor.so mr,
   /usr/lib/gio/modules/libgsettingsgconfbackend.so mr,
   /usr/lib/gio/modules/libgvfsdbus.so mr,
+
+  # ### allow /usr/lib/gvfs/
   /usr/lib/gvfs/libgvfscommon.so mr,
   /usr/lib/gvfs/libgvfsdaemon.so mr,
+
+  # ### allow /usr/lib/local/
+  /usr/lib/locale/locale-archive r,
+
+  # ### allow /usr/lib/
   /usr/lib/gvfsd-dnssd mrix,
   /usr/lib/gvfsd-fuse mrix,
   /usr/lib/gvfsd-network mrix,
@@ -96,25 +146,17 @@
   /usr/lib/libunistring.so.* mr,
   /usr/lib/libuuid.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
-  /usr/share/glib-2.0/schemas/gschemas.compiled r,
+
+  # ### allow /usr/share/glib/
+  /usr/share/glib-?.?/schemas/gschemas.compiled r,
+
+  # ### allow /usr/share/gvfs/
   /usr/share/gvfs/** r,
+
+  # ### allow /usr/share/locale/
   /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
   /usr/share/locale/*/LC_MESSAGES/gvfs.mo r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/locale.alias r,
-  owner /etc/nsswitch.conf r,
-  owner /etc/passwd r,
-  owner /home/*/.config/dconf/user r,
-  owner /home/*/.local/share/Trash/files/ r,
-  owner /home/*/.local/share/Trash/info/* r,
-  owner /proc/*/fd/ r,
-  owner /proc/*/maps r,
-  owner /proc/*/mountinfo r,
-  owner /proc/*/stat r,
-  owner /root/.gvfs/ r,
-  owner /run/user/*/dconf/user rw,
-  owner /run/user/*/gvfs/ rw,
-  owner /usr/lib/libnss_files-*.so mr,
 
 }

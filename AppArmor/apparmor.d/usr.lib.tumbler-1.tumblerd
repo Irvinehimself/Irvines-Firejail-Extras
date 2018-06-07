@@ -1,7 +1,7 @@
-# Last Modified: Tue May 29 06:16:19 2018
-@{EXTDOCS1} = /run/media/*/Docs/
-@{EXTDOCS2} = /run/media/*/Docs1/
-@{EXTDOCS3} = /run/media/*/Docs2/
+# Last Modified: Thu Jun  7 02:04:30 2018
+@{EXTDOCS1} = /home/*/Docs/
+@{EXTDOCS2} = /home/*/Shared/
+@{EXTDOCS3} = /home/*/Usbs/
 
 #include <tunables/home>
 
@@ -33,26 +33,80 @@
   deny /proc/stat r,
   deny /sys/devices/system/cpu/ r,
   deny /sys/devices/system/cpu/online r,
-  deny /usr/share/fonts/.uuid r,
-  deny owner /proc/*/fdinfo/* r,
-  deny owner /proc/*/maps r,
 
+
+  # ### allow owner /home/
+  owner /home/*/.cache/fontconfig/*.cache-7 rw,
+  owner /home/*/.cache/thumbnails/large/ r,
+  owner /home/*/.cache/thumbnails/normal/ r,
+  owner /home/*/.cache/thumbnails/normal/*.png rw,
+  owner /home/*/.local/share/gvfs-metadata/home r,
+  owner /home/*/.local/share/gvfs-metadata/home-*.log r,
+  owner /home/*/.local/share/mime/mime.cache r,
+  owner /home/*/Desktop/** r,
+  owner /home/*/Documents/** r,
+  owner /home/*/Music/** r,
+  owner /home/*/Pictures/** r,
+  owner /home/*/Public/** r,
+  owner /home/*/Videos/** r,
+  owner @{EXTDOCS1}** r,
+  owner @{EXTDOCS2}** r,
+  owner @{EXTDOCS3}** r,
+
+  # ### allow owner /proc/
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /proc/*/maps r,
+
+  # ### allow owner /tmp/
+  owner /tmp/gdkpixbuf-xpm-tmp.* w,
+  owner /tmp/gsf-thumbnailer-* rw,
+  owner /tmp/tumbler-*.png rw,
+
+  # ### allow /dev/
   /dev/null r,
-  /etc/fonts/** r,
+
+  # ### allow /etc/
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
+
+  # ### allow /etc/fonts
+  /etc/fonts/** r,
+
+  # ### allow /etc/tumbler/
   /etc/xdg/tumbler/tumbler.rc r,
+
+  # ### allow /proc/
   /proc/filesystems r,
+
+  # ### allow /proc/sys/
   /proc/sys/vm/overcommit_memory r,
+
+  # ### allow /usr/bin/
   /usr/bin/gsf-office-thumbnailer mrix,
+
+  # ### allow /usr/lib/gconv/
   /usr/lib/gconv/ISO8859-*.so mr,
   /usr/lib/gconv/gconv-modules r,
-  /usr/lib/gdk-pixbuf-2.0/*/loaders.cache r,
-  /usr/lib/gdk-pixbuf-2.0/*/loaders/libpixbufloader-*.so mr,
+
+  # ### allow /usr/lib/gdk-pixbuf/
+  /usr/lib/gdk-pixbuf-*/*/loaders.cache r,
+  /usr/lib/gdk-pixbuf-*/*/loaders/libpixbufloader-*.so mr,
+
+  # ### allow /usr/lib/gio/
   /usr/lib/gio/modules/ r,
   /usr/lib/gio/modules/giomodule.cache r,
   /usr/lib/gio/modules/lib*.so mr,
+
+  # ### allow /usr/lib/gvfs/
   /usr/lib/gvfs/libgvfscommon.so mr,
+
+  # ### allow /usr/lib/tumbler/
+  /usr/lib/tumbler-*/plugins/ r,
+  /usr/lib/tumbler-*/plugins/cache/tumbler-xdg-cache.so mr,
+  /usr/lib/tumbler-*/plugins/tumbler-*-thumbnailer.so mr,
+
+  # ### allow /usr/lib/
   /usr/lib/ld-*.so mr,
   /usr/lib/libX11.so.* mr,
   /usr/lib/libXau.so.* mr,
@@ -187,40 +241,28 @@
   /usr/lib/libxvidcore.so.* mr,
   /usr/lib/libz.so.* mr,
   /usr/lib/locale/** r,
-  /usr/lib/tumbler-1/plugins/ r,
-  /usr/lib/tumbler-1/plugins/cache/tumbler-xdg-cache.so mr,
-  /usr/lib/tumbler-1/plugins/tumbler-*-thumbnailer.so mr,
+
+  # ### allow /usr/share/fonts/
   /usr/share/fonts/ r,
+  /usr/share/fonts/.uuid r,
+
+  # ### allow /usr/share/local/
   /usr/share/locale/** r,
+
+  # ### allow /usr/share/poppler
   /usr/share/poppler/cMap/ r,
   /usr/share/poppler/cidToUnicode/ r,
   /usr/share/poppler/nameToUnicode/ r,
   /usr/share/poppler/nameToUnicode/* r,
   /usr/share/poppler/unicodeMap/ r,
+
+  # ### allow /usr/share/thumbnailers/
   /usr/share/thumbnailers/ r,
   /usr/share/thumbnailers/*thumbnailer.thumbnailer r,
   /usr/share/thumbnailers/gsf-office.thumbnailer r,
   /usr/share/thumbnailers/librsvg.thumbnailer r,
+
+  # ### allow /usr/share/
   /usr/share/zoneinfo/** r,
-  owner /home/*/.cache/fontconfig/*.cache-7 rw,
-  owner /home/*/.cache/thumbnails/large/ r,
-  owner /home/*/.cache/thumbnails/normal/ r,
-  owner /home/*/.cache/thumbnails/normal/*.png rw,
-  owner /home/*/.local/share/gvfs-metadata/home r,
-  owner /home/*/.local/share/gvfs-metadata/home-*.log r,
-  owner /home/*/.local/share/mime/mime.cache r,
-  owner /home/*/Desktop/** r,
-  owner /home/*/Documents/** r,
-  owner /home/*/Music/** r,
-  owner /home/*/Pictures/** r,
-  owner /home/*/Public/** r,
-  owner /home/*/Shared/** r,
-  owner /home/*/Videos/** r,
-  owner /proc/*/fd/ r,
-  owner /tmp/gsf-thumbnailer-* rw,
-  owner /tmp/tumbler-*.png rw,
-  owner @{EXTDOCS1}** r,
-  owner @{EXTDOCS2}** r,
-  owner @{EXTDOCS3}** r,
 
 }

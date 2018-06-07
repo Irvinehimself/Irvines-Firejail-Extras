@@ -65,6 +65,7 @@ BgLgtCyn=$'\e[106m'		# LightCyan
 # example: printf ${BgDrkGry} ; clear
 
 PressKeyQuit="${Dimd}(press any key to quit)${End}"
+PressKeyContinue="${Dimd}(press any key to continue)${End}"
 
 function SetTerminalBgColour() {
     printf $1 ; clear
@@ -83,6 +84,12 @@ function ReadQuit() {
     echo -e "$1 $PressKeyQuit"
     read -n1 -s  Quit
 }
+
+function ReadContinue() {
+    echo -e "$1 $PressKeyContinue"
+    read -n1 -s  Quit
+}
+
 
 function ReadKey() {
     echo -e "$1"

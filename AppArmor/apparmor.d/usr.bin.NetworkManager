@@ -1,4 +1,4 @@
-# Last Modified: Thu May 17 17:42:28 2018
+# Last Modified: Thu Jun  7 02:04:30 2018
 # vim:syntax=apparmor
 # Combined AppArmor policy for NetworkManager and OpenVpn
 # Author: irvine mcminn at gmail dot com
@@ -9,7 +9,6 @@
   #include <abstractions/dbus-session-strict>
   #include <local/usr.bin.NetworkManager>
 
-  # ### allow capabilities
   capability dac_override,
   capability kill,
   capability net_admin,
@@ -19,39 +18,30 @@
   capability setuid,
   capability sys_module,
 
-  # ### deny signal
   deny signal receive set=cont peer=unconfined,
   deny signal receive set=exists peer=unconfined,
   deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
   deny signal receive set=term peer=unconfined,
 
-  # ### allow signal
   signal receive set=term peer=/usr/bin/NetworkManager,
   signal send set=term peer=/usr/bin/NetworkManager,
   signal send set=term peer=/usr/bin/NetworkManager//null-/usr/bin/openvpn,
 
-  # ### deny owner /etc/
+  deny /sys/devices/system/cpu/ r,
+  deny /sys/devices/system/cpu/online r,
+  deny /usr/bin/bash x,
+  deny /usr/bin/kmod x,
   deny owner /etc/modprobe.d/ r,
-
-  # ### deny owner /proc/
   deny owner /proc/*/mounts r,
   deny owner /proc/cmdline r,
+  deny owner /proc/cpuinfo r,
   deny owner /proc/filesystems r,
-
-  # ### deny owner /bin/
   deny owner /usr/bin/bash mr,
   deny owner /usr/bin/kmod mr,
 
-  # ### deny /sys/
-  deny /sys/devices/system/cpu/ r,
-  deny /sys/devices/system/cpu/online r,
 
-  # ### deny /usr/bin/
-  deny /usr/bin/bash x,
-  deny /usr/bin/kmod x,
-
-  # ### allow ${HOME}
+  # ### allow /home/
   /home/*/.cert/nm-openvpn/*.pem r,
 
   # ### allow /etc/
@@ -87,21 +77,16 @@
   owner /etc/resolv.conf* rw,
   owner /etc/ssl/openssl.cnf r,
 
-  # ### allow owner /proc/fd/
+  # ### allow owner /proc/
   owner /proc/*/fd/ r,
-
-  # ### allow owner /proc/*/net/
   owner /proc/*/net/route r,
+  owner /proc/stat r,
 
-  # ### allow owner /proc/sys/kernel/
+  # ### allow owner /proc/sys/
   owner /proc/sys/kernel/random/boot_id r,
-
-  # ### allow owner /proc/sys/net/ipv4/conf/
   owner /proc/sys/net/ipv4/conf/*p*s0/rp_filter rw,
   owner /proc/sys/net/ipv4/conf/all/rp_filter r,
   owner /proc/sys/net/ipv4/conf/default/rp_filter r,
-
-  # ### allow owner /proc/sys/net/ipv6/conf/
   owner /proc/sys/net/ipv6/conf/*p*s0/accept_ra rw,
   owner /proc/sys/net/ipv6/conf/*p*s0/accept_ra_defrtr rw,
   owner /proc/sys/net/ipv6/conf/*p*s0/accept_ra_pinfo rw,
@@ -136,20 +121,20 @@
   # ### allow owner /run/systemd/
   owner /run/systemd/users/* r,
 
-  # ### allow owner /run/udev/
+  # ### allow owner /run/udev/data/
   owner /run/udev/data/+pci:0000:02:00.0 r,
   owner /run/udev/data/+rfkill:rfkill[01] r,
   owner /run/udev/data/n[123] r,
 
-  # ### allow owner /run/sys/bus/
+  # ### allow owner /sys/bus/
   owner /sys/bus/ r,
 
-  # ### allow owner /run/sys/class/
+  # ### allow owner /sys/class/
   owner /sys/class/ r,
   owner /sys/class/net/ r,
   owner /sys/class/rfkill/ r,
 
-  # ### allow owner /run/sys/devices/
+  # ### allow owner /sys/devices/
   owner /sys/devices/LNXSYSTM:00/LNXSYBUS:00/*:00/rfkill/rfkill0/uevent r,
   owner /sys/devices/pci0000:00/0000:00:1c.?/0000:0?:00.0/ieee80211/phy?/rfkill1/uevent r,
   owner /sys/devices/pci0000:00/0000:00:1c.?/0000:0?:00.0/ieee80211/phy?/uevent r,
@@ -183,7 +168,7 @@
   # ### allow owner /usr/lib/gconv/
   owner /usr/lib/gconv/gconv-modules r,
 
-  # ### allow owner /usr/lib/gio/modules/
+  # ### allow owner /usr/lib/gio/
   owner /usr/lib/gio/modules/ r,
   owner /usr/lib/gio/modules/giomodule.cache r,
   owner /usr/lib/gio/modules/libdconfsettings.so mr,
@@ -276,7 +261,7 @@
   owner /usr/share/gvfs/remote-volume-monitors/ r,
   owner /usr/share/gvfs/remote-volume-monitors/udisks2.monitor r,
 
-  # ### allow owner /usr/share/local/
+  # ### allow owner /usr/share/locale/
   owner /usr/share/locale/*/LC_MESSAGES/NetworkManager-openvpn.mo r,
   owner /usr/share/locale/*/LC_MESSAGES/NetworkManager.mo r,
   owner /usr/share/locale/*/LC_MESSAGES/glib20.mo r,

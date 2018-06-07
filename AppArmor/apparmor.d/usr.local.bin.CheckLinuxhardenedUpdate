@@ -1,4 +1,4 @@
-# Last Modified: Tue May 29 06:16:19 2018
+# Last Modified: Thu Jun  7 02:04:30 2018
 # vim:syntax=apparmor
 # AppArmor policy for CheckLinuxhardenedUpdate
 # Author: irvine mcminn at gmail dot com
@@ -6,6 +6,121 @@
 
 
 /usr/local/bin/CheckLinuxhardenedUpdate flags=(complain) {
+  #include <local/usr.local.bin.CheckLinuxhardenedUpdate>
 
- #include <local/usr.local.bin.CheckLinuxhardenedUpdate>
+  deny /proc/filesystems r,
+
+  owner /home/*/.config/CheckLinuxHardenedUpdate.conf rw,
+
+  # ### allow /usr/local/bin/
+  /usr/local/bin/CheckLinuxhardenedUpdate r,
+
+  # ### allow /dev/
+  /dev/tty rw,
+  /dev/urandom r,
+
+  # ### allow /dev/snd/
+  /dev/snd/controlC0 rw,
+  /dev/snd/pcmC0D0p rw,
+
+  # ### allow /etc/
+  /etc/group r,
+  /etc/host.conf r,
+  /etc/hosts r,
+  /etc/ld.so.cache r,
+  /etc/ld.so.preload r,
+  /etc/nsswitch.conf r,
+  /etc/resolv.conf r,
+
+  # ### allow /etc/ca-certificates/
+  /etc/ca-certificates/** r,
+
+  # ### allow /etc/ssl/
+  /etc/ssl/openssl.cnf r,
+
+  # ### allow /usr/bin/
+  /usr/bin/aplay mrix,
+  /usr/bin/grep mrix,
+  /usr/bin/notify-send mrix,
+  /usr/bin/rsstail mrix,
+
+  # ### allow /usr/lib/gconv/
+  /usr/lib/gconv/gconv-modules r,
+
+  # ### allow /usr/lib/
+  /usr/lib/ld-*.so mr,
+  /usr/lib/libasound.so.* mr,
+  /usr/lib/libblkid.so.* mr,
+  /usr/lib/libc-*.so mr,
+  /usr/lib/libcom_err.so.* mr,
+  /usr/lib/libcrypto.so.* mr,
+  /usr/lib/libcurl.so.* mr,
+  /usr/lib/libdl-*.so mr,
+  /usr/lib/libffi.so.* mr,
+  /usr/lib/libgdk_pixbuf-2.0.so.* mr,
+  /usr/lib/libgio-2.0.so.* mr,
+  /usr/lib/libglib-2.0.so.* mr,
+  /usr/lib/libgmodule-2.0.so.* mr,
+  /usr/lib/libgobject-2.0.so.* mr,
+  /usr/lib/libgssapi_krb5.so.* mr,
+  /usr/lib/libidn2.so.* mr,
+  /usr/lib/libk5crypto.so.* mr,
+  /usr/lib/libkeyutils.so.* mr,
+  /usr/lib/libkrb5.so.* mr,
+  /usr/lib/libkrb5support.so.* mr,
+  /usr/lib/libm-*.so mr,
+  /usr/lib/libmount.so.* mr,
+  /usr/lib/libmrss.so.* mr,
+  /usr/lib/libncursesw.so.* mr,
+  /usr/lib/libnghttp2.so.* mr,
+  /usr/lib/libnotify.so.* mr,
+  /usr/lib/libnss_dns-*.so mr,
+  /usr/lib/libnss_files-*.so mr,
+  /usr/lib/libnss_myhostname.so.* mr,
+  /usr/lib/libnss_mymachines.so.* mr,
+  /usr/lib/libnss_resolve.so.* mr,
+  /usr/lib/libnxml.so.* mr,
+  /usr/lib/libpcre.so.* mr,
+  /usr/lib/libpsl.so.* mr,
+  /usr/lib/libpthread-*.so mr,
+  /usr/lib/libreadline.so.* mr,
+  /usr/lib/libresolv-*.so mr,
+  /usr/lib/librt-*.so mr,
+  /usr/lib/libselinux.so.* mr,
+  /usr/lib/libssl.so.* mr,
+  /usr/lib/libunistring.so.* mr,
+  /usr/lib/libuuid.so.* mr,
+  /usr/lib/libz.so.* mr,
+
+  # ### allow /usr/lib/local/
+  /usr/lib/locale/** r,
+
+  # ### allow /usr/alsa/
+  /usr/share/alsa/alsa.conf r,
+
+  # ### allow /usr/alsa/alsa.conf.d/
+  /usr/share/alsa/alsa.conf.d/ r,
+  /usr/share/alsa/alsa.conf.d/*-pulseaudio.conf r,
+
+  # ### allow /usr/alsa/cards/
+  /usr/share/alsa/cards/HDA-Intel.conf r,
+  /usr/share/alsa/cards/aliases.conf r,
+
+  # ### allow /usr/alsa/pcm/
+  /usr/share/alsa/pcm/default.conf r,
+  /usr/share/alsa/pcm/dmix.conf r,
+  /usr/share/alsa/pcm/dsnoop.conf r,
+  /usr/share/alsa/pcm/front.conf r,
+  /usr/share/alsa/pcm/hdmi.conf r,
+  /usr/share/alsa/pcm/iec958.conf r,
+  /usr/share/alsa/pcm/modem.conf r,
+  /usr/share/alsa/pcm/surround*.conf r,
+
+  # ### allow /usr/local/
+  /usr/share/locale/*/LC_MESSAGES/libc.mo r,
+  /usr/share/locale/locale.alias r,
+
+  # ### allow /usr/share/
+  /usr/share/zoneinfo/** r,
+
 }

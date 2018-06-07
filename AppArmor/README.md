@@ -13,25 +13,25 @@ Since I only use *Arch Linux*, which has a rational file system layout, dependin
 An uptodate list of profiles is available [here](AppArmor-ProfileList), but currently it consists of:
 
 1. **usr.lib.udisks2.udisksd**
-   * `enforce mode`  ----  `checked` ----- `completed`
+   * `enforce mode`  ----  `checking` ----- `completed`
 1. **usr.lib.gvfsd**
-   * `enforce mode`  ----  `checked` ----- `completed`
+   * `enforce mode`  ----  `checking` ----- `completed`
 1. **usr.lib.tumbler-1.tumblerd**
-   * `enforce mode`  ----  `checked` ----- `completed`
+   * `enforce mode`  ----  `checking` ----- `completed`
 1. **usr.bin.NetworkManager**
-   * `enforce mode`  ----  `checked` ----- `completed`
+   * `enforce mode`  ----  `checking` ----- `completed`
 1. **usr.bin.wpa_supplicant**
-   * `enforce mode` ----  `checked` ----- `completed`
+   * `enforce mode` ----  `checking` ----- `completed`
 1. **usr.bin.pulseaudio**
-   * `enforce mode`  ----  `checked` ----- `completed`
+   * `enforce mode`  ----  `checking` ----- `completed`
 1. **usr.lib.gvfsd-metadata**
-   * `complain mode` ----  `started`
+   * `complain mode` ----  `checking`
 1. **usr.lib.gvfs-udisks2-volume-monitor**
-   * `complain mode` ----  `started`
+   * `complain mode` ----  `checking`
 1. **usr.lib.xfce4.notifyd.xfce4-notifyd**
-   * `complain mode` ----  `started`
+   * `complain mode` ----  `checking`
 1. **usr.bin.nm-applet**
-   * `complain mode` ----  `started`
+   * `complain mode` ----  `checking`
 1. **usr.bin.ffplay**
    * `complain mode` ----  `started`
 1. **usr.bin.ffmpeg**
