@@ -46,13 +46,13 @@ Generally, unless you have turned something off or on, you will never know it's 
 Personally, I have a low tolerance for annoyances, and this is just intrusive enough to be useful without becoming irritating.
 
 
-#### Polkit-Tweaks
+### Polkit-Tweaks
 I have included a couple of useful [polkit rules](EtcPolkitRules.d) which can be dropped into `/etc/polkit-1/rules.d/`
 
-## [50-custom-mount-authority.rules](EtcPolkitRules.d/50-custom-mount-authority.rules)
+#### [50-custom-mount-authority.rules](EtcPolkitRules.d/50-custom-mount-authority.rules)
 Is a rule to ensure only authorised users can mount *external drives*, *partitions* and *thumb drives*.
 
-## [49-custom-ask-for-rootpw.rules](EtcPolkitRules.d/49-custom-ask-for-rootpw.rules)
+#### [49-custom-ask-for-rootpw.rules](EtcPolkitRules.d/49-custom-ask-for-rootpw.rules)
 This is an example from the [Arch Wiki](https://wiki.archlinux.org/index.php/Polkit#Administrator_identities) which resolves one of those annoying discrepancies between `sudo` and `polkit` authorisation.
 
 To use sudo, you should add your user name to `/etc/sudoers` like so:
