@@ -33,7 +33,9 @@ sudo Hsr-PartitionMonitor
 
 
 ### Hs-MountReadWrite
-The way my system is set up, when mounting partitions and disks, the file manager correctly asks for a password and mounts the drive read only. If I want to mount as read/write, then I would normally have to use `sudo mount sd? $mntpnt`, which I find to be a pain. With their own nested panel launchers, `Hs-MountReadWrite`, along with `Hs-UnMount`, create a menu of connected devices, and offer the choice between mounting the selected device as either `read only` or `read write`. This drastically reduces hassle of mounting and unmounting: *Usb's*, *partitions* and *external drives*.
+When mounting `partitions` and `disks`, my file manager correctly asks for a password, but, by default, whether it mounts the drive `read only` or `read/write` depends on the drive and it's formatting. If I want more direct control over how a drive is mounted, then I would normally have to use `sudo mount sd?? $mntpnt`, which I find to be a pain.
+
+With their own nested panel launchers, `Hs-MountReadWrite`, (along with `Hs-UnMount`,) create a menu of connected devices, and offer the choice between mounting the selected device as either `read only` or `read/write`. This drastically reduces the hassle of mounting and un-mounting: *Usb's*, *partitions* and *external drives*.
 
 While it is *cli* shell, `Hs-MountReadWrite` has all the features of a *GUI*, and makes mounting/unmounting devices straight forward. As a result, implementing a strict security policy with regard to partitions is not a major chore.
 
