@@ -1,0 +1,8 @@
+// My customisation to require admin privileges to  mount all devices
+// https://blog.learningtree.com/policykit-authentication-framework-creating-rules
+
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.udisks2.filesystem-mount") {
+                return polkit.Result.AUTH_ADMIN;
+    }
+});

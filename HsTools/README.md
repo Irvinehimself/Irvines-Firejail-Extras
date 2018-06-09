@@ -45,3 +45,27 @@ Generally, unless you have turned something off or on, you will never know it's 
 
 Personally, I have a low tolerance for annoyances, and this is just intrusive enough to be useful without becoming irritating.
 
+
+#### Polkit-Tweaks
+I have included a couple of useful [polkit rules](EtcPolkitRules.d) which can be dropped into `/etc/polkit-1/rules.d/`
+
+## [50-custom-mount-authority.rules](EtcPolkitRules.d/50-custom-mount-authority.rules)
+Is a rule to ensure only authorised users can mount *external drives*, *partitions* and *thumb drives*.
+
+## [49-custom-ask-for-rootpw.rules](EtcPolkitRules.d/49-custom-ask-for-rootpw.rules)
+This is an example from the [Arch Wiki](https://wiki.archlinux.org/index.php/Polkit#Administrator_identities) which resolves one of those annoying discrepancies between `sudo` and `polkit` authorisation.
+
+To use sudo, you should add your user name to `/etc/sudoers` like so:
+```
+########################################################
+## User privilege specification
+##
+root ALL=(ALL) ALL
+<YourUserName> ALL=(ALL) ALL
+
+## Uncomment to allow members of group wheel to execute any command
+# %wheel ALL=(ALL) ALL
+```
+*Noting how group wheel is still commented out*, unless you are *unwisely* logged in as `root`, with this method, the `sudo` password should not be the same as your `login` password.
+
+Unfortunately, in Arch, the `polkit` rule `50-default.rules` defines all members of group `wheel` as administrators, which means your `login` password is also your `polkit` administrators password. Like most people, for practical reasons, my `login` password is moderately simple and common social niceties often mean allowing friends and family access to my laptop. This makes me very nervous. Rule `49-custom-ask-for-rootpw.rules` overrides rule `50-default.rules` and ensures that `polkit` prompts for my `root` password. This, of course, is an extremely complicated, randomly generated 30 character sequence, which is, hopefully, impossible to guess.

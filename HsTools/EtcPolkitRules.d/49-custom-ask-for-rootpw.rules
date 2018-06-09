@@ -1,0 +1,6 @@
+// Always authenticate Admins by prompting for the root password
+// see  https://wiki.archlinux.org/index.php/Polkit#Administrator_identities
+
+polkit.addAdminRule(function(action, subject) {
+    return ["unix-user:root"];
+});
