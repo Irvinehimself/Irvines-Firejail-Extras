@@ -1,9 +1,9 @@
 # Security tools
 
-#### Overview
+### Overview
 This section is focused on monitoring, general security and the tools to make it easier to adopt good habits. Since most of these shells run continuously in the background, as per my usual habit, I have included the necessary `systemd  unit files`. However, if `systemd` is not to your taste, with some minor tweaking you can run them from your `autostart` file or folder.
 
-#### Hsr-PartitionMonitor
+### Hsr-PartitionMonitor
 Dating back to the early days of the Pc, one of the simplest and most effective ways of protecting your personal data was to use partitions. Nowadays, very few people seem to realise that partitions should only be mounted on an *as-need* basis, and, even then, only with the minimum permissions needed.
 
 For example, on my laptop, generally, the only permanently mounted partitions are the `boot` and `root` partitions. Additionally, while `${HOME}` is also on the `root` partition all the documents and folders, except my `Desktop`, are `symlinked` to either a separate partition for stuff that I will need even when travelling or to external drives for the bulk of the stuff like: *photos*. *videos*, *media*, *data*, *projects* and the *like*, which I only really need occasionally and would be an absolute utter disaster if I were to lose.
@@ -32,13 +32,13 @@ sudo Hsr-PartitionMonitor
 *For example:* [UserSystemd/Hs-PartitionMonitor.service](UserSystemd/Hs-PartitionMonitor.service)
 
 
-#### Hs-MountReadWrite
+### Hs-MountReadWrite
 The way my system is set up, when mounting partitions and disks, the file manager correctly asks for a password and mounts the drive read only. If I want to mount as read/write, then I would normally have to use `sudo mount sd? $mntpnt`, which I find to be a pain. With their own nested panel launchers, `Hs-MountReadWrite`, along with `Hs-UnMount`, create a menu of connected devices, and offer the choice between mounting the selected device as either `read only` or `read write`. This drastically reduces hassle of mounting and unmounting: *Usb's*, *partitions* and *external drives*.
 
 While it is *cli* shell, `Hs-MountReadWrite` has all the features of a *GUI*, and makes mounting/unmounting devices straight forward. As a result, implementing a strict security policy with regard to partitions is not a major chore.
 
 
-#### Hs-StatusWarnings
+### Hs-StatusWarnings
 `Hs-StatusWarnings` is bash to nag you if various security related *daemons*, *devices*, ... *whatever*, are, as appropriate, *enabled/disabled*, *mounted/unmounted* ... *active/inactive*.
 
 Generally, unless you have turned something off or on, you will never know it's their. Even then, the nagging is fairly low key with a little notification popping up periodical to remind you that *the camera/microphone is ON*; *the firewall is OFF*; *Firejail symlinks are DISABLED* ... *whatever*.
