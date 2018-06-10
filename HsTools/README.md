@@ -56,9 +56,9 @@ I have included a couple of useful [polkit rules](EtcPolkitRules.d) which can be
 Is a rule to ensure only authorised users can mount *external drives*, *partitions* and *thumb drives*. Basically, the problem is that using the default `polkit` authorisations for `udisksctl`, (and, as a result, the file manager,) anyone can circumvent the access controls youve created with `Hs-MountReadWrite`.
 
 #### [49-custom-ask-for-rootpw.rules](EtcPolkitRules.d/49-custom-ask-for-rootpw.rules)
-This is an example from the [Arch Wiki](https://wiki.archlinux.org/index.php/Polkit#Administrator_identities) which resolves one of those annoying discrepancies between `sudo` and `polkit` authorisation.
+This is a rule copied from the [Arch Wiki](https://wiki.archlinux.org/index.php/Polkit#Administrator_identities) which resolves one of those annoying discrepancies between `sudo` and `polkit` authorisation.
 
-To use sudo, you I add my user name to `/etc/sudoers` like so:
+For example: To use sudo, I add my user name to `/etc/sudoers` like so:
 ```
 ########################################################
 ## User privilege specification
