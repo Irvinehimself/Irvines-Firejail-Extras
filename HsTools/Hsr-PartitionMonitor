@@ -94,20 +94,23 @@ function GetPartitionArray(){
 	done
 }
 
-function UnMountDevice() {
-	Error=$(sudo umount "/dev/${DeviceArray[$KeyIndex]}" 2>&1 >/dev/null)
-	if [[ "$?" = "0" ]] ; then
-	        rm -r "$MountPoint"
-	        sudo -u ${MyName} notify-send -u NORMAL -t 10000 "Automatic unmount of $MountPoint" --icon="$NotifyIcon"
-	    else
-	            sudo -u ${MyName} notify-send -u NORMAL -t 10000 "$Error" --icon="$NotifyIcon"
-	fi
-}
-
 function AddNewIsMounted() {
 	NewIsMountedArray[$MountIndex]="$Partition"
 	((MountIndex++))
 }
+
+function UnMountDevice() {
+	Error=$(sudo umount "/dev/${DeviceArray[$KeyIndex]}" 2>&1 >/dev/null)
+	Display=$(sudo -u ${MyName} env | grep DISPLAY)
+	if [[ "$?" = "0" ]] ; then
+	        rm -r "$MountPoint"
+	        exec sudo -u ${MyName} "$Display" notify-send -u NORMAL -t 30000  "Automatic unmount of $MountPoint" --icon="$NotifyIcon" &
+	    else
+	            exec sudo -u ${MyName} "$Display" notify-send -u CRITICAL -t 0 "$Error" --icon="$NotifyIcon"
+                AddNewIsMounted
+	fi
+}
+
 
 GetPartitionArray
 GetOldIsMountedArray
