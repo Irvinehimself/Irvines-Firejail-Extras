@@ -97,3 +97,9 @@ function ReadKey() {
     Key="${Key,,}"      # Lower case
     # Key="${Key,^^}"   # Upper case
 }
+
+function ReadPassword() {
+    echo "Enter password: $1"
+    read -t 60 -s Password
+}
+

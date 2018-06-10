@@ -33,7 +33,7 @@ sudo Hsr-PartitionMonitor
 
 
 ### Hs-MountReadWrite
-When mounting `partitions` and `disks`, my file manager correctly asks for a password, but, by default, whether it mounts the drive `read only` or `read/write` depends on the drive and it's formatting. If I want more direct control over how a drive is mounted, then I would normally have to use `sudo mount sd?? $mntpnt`, which I find to be a pain.
+Properly set up, when mounting `partitions` and `disks`, the file manager should ask for a password before mounting a drive, (see *Polkit-Tweaks* below) But, by default, whether it mounts the drive `read only` or `read/write` depends on the drive and it's formatting. If I want more direct control over how a drive is mounted, then I would normally have to use `sudo mount sd?? $mntpnt`, which I find to be a pain.
 
 With their own nested panel launchers, `Hs-MountReadWrite`, (along with `Hs-UnMount`,) create a menu of connected devices, and offer the choice between mounting the selected device as either `read only` or `read/write`. This drastically reduces the hassle of mounting and un-mounting: *Usb's*, *partitions* and *external drives*.
 
@@ -52,7 +52,7 @@ Personally, I have a low tolerance for annoyances, and this is just intrusive en
 I have included a couple of useful [polkit rules](EtcPolkitRules.d) which can be dropped into `/etc/polkit-1/rules.d/`
 
 #### [50-custom-mount-authority.rules](EtcPolkitRules.d/50-custom-mount-authority.rules)
-Is a rule to ensure only authorised users can mount *external drives*, *partitions* and *thumb drives*.
+Is a rule to ensure only authorised users can mount *external drives*, *partitions* and *thumb drives*. Basically, the problem is that using the default `polkit` authorisations for `udisksctl`, (and, as a result, the file manager,) anyone can circumvent the access controls youve created with `Hs-MountReadWrite`.
 
 #### [49-custom-ask-for-rootpw.rules](EtcPolkitRules.d/49-custom-ask-for-rootpw.rules)
 This is an example from the [Arch Wiki](https://wiki.archlinux.org/index.php/Polkit#Administrator_identities) which resolves one of those annoying discrepancies between `sudo` and `polkit` authorisation.
@@ -70,4 +70,4 @@ root ALL=(ALL) ALL
 ```
 *Noting how group wheel is still commented out*, unless you are *unwisely* logged in as `root`, with this method, the `sudo` password should not be the same as your `login` password.
 
-Unfortunately, in Arch, the `polkit` rule `50-default.rules` defines all members of group `wheel` as administrators, which means your `login` password is also your `polkit` administrators password. Like most people, for practical reasons, my `login` password is moderately simple and common social niceties often mean allowing friends and family access to my laptop. This makes me very nervous. Rule `49-custom-ask-for-rootpw.rules` overrides rule `50-default.rules` and ensures that `polkit` prompts for my `root` password. This, of course, is an extremely complicated, randomly generated 30 character sequence, which is, hopefully, impossible to guess.
+Unfortunately, in Arch, the `polkit` rule `50-default.rules` defines all members of group `wheel` as administrators, which means your `login` password is also your `polkit` administrators password. Like most people, for practical reasons, my `login` password is moderately simple and common social niceties often mean allowing friends and family access to my laptop. This makes me very nervous. Rule `49-custom-ask-for-rootpw.rules` overrides rule `50-default.rules` and ensures that `polkit` prompts for my `root` password. This, of course, is an extremely complicated, randomly generated 300 character sequence :D, which is, hopefully, impossible to guess.
