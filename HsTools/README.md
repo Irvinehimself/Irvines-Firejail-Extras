@@ -10,21 +10,22 @@ For example, on my laptop, generally, the only permanently mounted partitions ar
 
 Anyway, `Hsr-PartitionMonitor` uses `fuser`to periodically check if a drive is currently in use. If not, and it is still not being used the next time it checks, then it will dismount it. This not only minimises the risks of general `snooping hacks`, but also the risks of a `ransom-ware` attack.
 
-**Install-1:** Since both `fuser` and `umount` normally require `sudo` and the shell will either be tweaked to run from `auto-start` without user input, or, like mine, running as a service, (again without user input,) you need to add the following to `/etc/sudoers`
+#### Install
+**Step-1:** Since both `fuser` and `umount` normally require `sudo` and the shell will either be tweaked to run from `auto-start` without user input, or, like mine, running as a service, (again without user input,) you need to add the following to `/etc/sudoers`
 
 ```
 ### Run without sudo
 <YourUserName>     ALL=(ALL) NOPASSWD: /usr/local/bin/Hsr-PartitionMonitor
 ```
 
-**Install-2:** Additionally, since it now has `root` privileges, to prevent attackers or un-privileged users using the shell as a backdoor, you need to change the permissions so that only `root` can edit it.
+**Step-2:** Additionally, since it now has `root` privileges, to prevent attackers or un-privileged users using the shell as a backdoor, you need to change the permissions so that only `root` can edit it.
 
 ```
 sudo chown root:root /usr/local/bin/Hsr-PartitionMonitor
 sudo chmod o-rwx /usr/local/bin/Hsr-PartitionMonitor
 ```
 
-**Install-3:** Although you won't be prompted for the password, you will still need to prepend the command with `sudo`, ie
+**Step-3:** Although you won't be prompted for the password, you will still need to prepend the command with `sudo`, ie
 
 ```
 sudo Hsr-PartitionMonitor
@@ -57,7 +58,7 @@ Is a rule to ensure only authorised users can mount *external drives*, *partitio
 #### [49-custom-ask-for-rootpw.rules](EtcPolkitRules.d/49-custom-ask-for-rootpw.rules)
 This is an example from the [Arch Wiki](https://wiki.archlinux.org/index.php/Polkit#Administrator_identities) which resolves one of those annoying discrepancies between `sudo` and `polkit` authorisation.
 
-To use sudo, you should add your user name to `/etc/sudoers` like so:
+To use sudo, you I add my user name to `/etc/sudoers` like so:
 ```
 ########################################################
 ## User privilege specification
