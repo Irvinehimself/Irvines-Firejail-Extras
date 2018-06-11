@@ -16,6 +16,9 @@
   deny signal receive set=kill peer=unconfined,
   deny signal receive set=term peer=unconfined,
 
+  signal send set=abrt peer=/usr/bin/nm-applet,
+  signal receive set=abrt peer=/usr/bin/nm-applet,
+
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   deny owner /proc/*/fd/ r,
@@ -27,6 +30,7 @@
   # ### allow owner /home/
   owner /home/*/.Xauthority r,
   owner /home/*/.cache/event-sound-cache.tdb.*.x86_64-unknown-linux-gnu rwk,
+  owner /home/*/.cache/mesa_shader_cache/index rw,
   owner /home/*/.config/dconf/user r,
   owner /home/*/.config/gtk-3.0/gtk.css r,
   owner /home/*/.config/gtk-3.0/settings.ini r,
@@ -47,6 +51,7 @@
   /dev/dri/ r,
   /dev/shm/ r,
   /dev/urandom r,
+  /dev/null r,
 
   # ### allow /etc/
   /etc/drirc r,
@@ -54,6 +59,8 @@
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
   /etc/machine-id r,
+  /etc/nsswitch.conf r,
+  /etc/passwd r,
 
   # ### allow /etc/pulse/
   /etc/pulse/client.conf r,

@@ -10,36 +10,31 @@ Note:  All the [Canonical abstractions](#note--abstractions) have been ditched.
 Since I only use *Arch Linux*, which has a rational file system layout, depending on your distro, you may have to tweak `/usr/bin/` and `/usr/lib/` to the particular mix of: `/bin/`,`/sbin/`, `/usr/bin/`, .... `/lib/`, `/lib64/` and `/usr/lib/` used by your distro of choice.
 
 #### Finished profiles
-An uptodate list of profiles is available [here](AppArmor-ProfileList), but currently it consists of:
+An uptodate list of profiles is available [here](AppArmor-ProfileList), but currently it consists of the following:
 
-1. **usr.lib.udisks2.udisksd**
-   * `enforce mode`  ----  `checking` ----- `completed`
-1. **usr.lib.gvfsd**
-   * `enforce mode`  ----  `checking` ----- `completed`
-1. **usr.lib.tumbler-1.tumblerd**
-   * `enforce mode`  ----  `checking` ----- `completed`
-1. **usr.bin.NetworkManager**
-   * `enforce mode`  ----  `checking` ----- `completed`
-1. **usr.bin.wpa_supplicant**
-   * `enforce mode` ----  `checking` ----- `completed`
-1. **usr.bin.pulseaudio**
-   * `enforce mode`  ----  `checking` ----- `completed`
-1. **usr.lib.gvfsd-metadata**
-   * `complain mode` ----  `checking`
-1. **usr.lib.gvfs-udisks2-volume-monitor**
-   * `complain mode` ----  `checking`
-1. **usr.lib.xfce4.notifyd.xfce4-notifyd**
-   * `complain mode` ----  `checking`
-1. **usr.bin.nm-applet**
-   * `complain mode` ----  `checking`
-1. **usr.bin.ffplay**
-   * `complain mode` ----  `started`
-1. **usr.bin.ffmpeg**
-   * `complain mode` ----  `not started`
-1. **usr.bin.ffmpegthumbnailer**
-   * `complain mode` ----  `started`
+**Completed and in enforce mode, (but still checking)**
+1. usr.lib.udisks2.udisksd
+1. usr.lib.gvfsd
+1. usr.lib.tumbler-1.tumblerd
+1. usr.bin.NetworkManager
+1. usr.bin.wpa_supplicant
+1. usr.bin.pulseaudio
 
-**Note on profiles marked `completed`:** On the basis that: *If they didn't need it before, they don't need it now*, I am still adding `deny` actions to these profiles.
+**Testing in enforce mode**
+1. usr.lib.gvfsd-metadata
+1. usr.lib.gvfs-udisks2-volume-monitor
+1. usr.lib.xfce4.notifyd.xfce4-notifyd
+
+**Testing in complain mode**
+1. usr.bin.nm-applet
+
+**Started but....**
+1. usr.bin.ffplay
+1. usr.bin.ffmpegthumbnailer
+
+**Not started**
+1. usr.bin.ffmpeg
+
 
 #### Whats next?
 I have a list, (which is constanly under review,) of things which need confinement

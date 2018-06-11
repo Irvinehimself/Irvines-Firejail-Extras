@@ -28,7 +28,7 @@
 
   # ### allow owner /home/
   owner /home/*/.config/dconf/user r,
-  owner /home/*/.gvfs/ w,
+  owner /home/*/.gvfs/ rw,
   owner /home/*/.local/share/Trash/files/ r,
   owner /home/*/.local/share/Trash/info/* r,
 

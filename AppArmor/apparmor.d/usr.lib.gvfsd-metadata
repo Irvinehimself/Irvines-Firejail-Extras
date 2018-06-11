@@ -5,11 +5,12 @@
 # GPL3
 
 
-/usr/lib/gvfsd-metadata flags=(complain) {
+/usr/lib/gvfsd-metadata {
   #include <local/usr.lib.gvfsd-metadata>
 
   deny signal receive set=cont peer=unconfined,
   deny signal receive set=term peer=unconfined,
+  deny signal receive set=kill peer=unconfined,
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
