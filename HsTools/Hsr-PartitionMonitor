@@ -35,6 +35,7 @@
 #  Since ${HOME} points to root's home, we need to set the login  users home
 MyName=$(logname)
 MyHome="/home/$MyName"
+MyDisplay=$(sudo -u ${MyName} env | grep DISPLAY)
 
 NotifyIcon="${MyHome}/Pictures/LauncherIcons/Usb.png"
 
@@ -101,12 +102,11 @@ function AddNewIsMounted() {
 
 function UnMountDevice() {
 	Error=$(sudo umount "/dev/${DeviceArray[$KeyIndex]}" 2>&1 >/dev/null)
-	Display=$(sudo -u ${MyName} env | grep DISPLAY)
 	if [[ "$?" = "0" ]] ; then
 	        rm -r "$MountPoint"
-	        exec sudo -u ${MyName} "$Display" notify-send -u NORMAL -t 30000  "Automatic unmount of $MountPoint" --icon="$NotifyIcon" &
+	        exec sudo -u ${MyName} "$MyDisplay" notify-send -u NORMAL -t 30000  "Automatic unmount of $MountPoint" --icon="$NotifyIcon" &
 	    else
-	            exec sudo -u ${MyName} "$Display" notify-send -u CRITICAL -t 0 "$Error" --icon="$NotifyIcon"
+	            exec sudo -u ${MyName} "$MyDisplay" notify-send -u CRITICAL -t 0 "$Error" --icon="$NotifyIcon"
                 AddNewIsMounted
 	fi
 }
