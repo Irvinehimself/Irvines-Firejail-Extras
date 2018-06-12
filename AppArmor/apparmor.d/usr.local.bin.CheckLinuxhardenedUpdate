@@ -5,7 +5,7 @@
 # GPL3
 
 
-/usr/local/bin/CheckLinuxhardenedUpdate flags=(complain) {
+/usr/local/bin/CheckLinuxhardenedUpdate {
   #include <local/usr.local.bin.CheckLinuxhardenedUpdate>
 
   deny /proc/filesystems r,

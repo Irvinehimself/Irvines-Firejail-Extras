@@ -88,6 +88,7 @@ function UpdateApparmor(){
         fi
     done
     cp "/etc/apparmor.d/local/firejail-local" "$GitAppArmorLocals/firejail-local"
+    cp "/usr/local/bin/Ha-CreateFreshAppArmorProfile" "$GitApparmor/Ha-CreateFreshAppArmorProfile"
 }
 
 function UpdateSophos() {

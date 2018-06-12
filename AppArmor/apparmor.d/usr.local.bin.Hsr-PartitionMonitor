@@ -1,0 +1,10 @@
+# vim:syntax=apparmor
+# AppArmor policy for Hsr-PartitionMonitor
+# Author: irvine mcminn at that gmail place dot com
+# Licence: GPL3
+
+
+/usr/local/bin/Hsr-PartitionMonitor flags=(complain) {
+
+  #include <local/usr.local.bin.Hsr-PartitionMonitor>
+}

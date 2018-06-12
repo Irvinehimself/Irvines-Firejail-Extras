@@ -1,0 +1,10 @@
+# vim:syntax=apparmor
+# AppArmor policy for Hs-MountReadWrite
+# Author: irvine mcminn at that gmail place dot com
+# Licence: GPL3
+
+
+/usr/local/bin/Hs-MountReadWrite flags=(complain) {
+
+  #include <local/usr.local.bin.Hs-MountReadWrite>
+}
