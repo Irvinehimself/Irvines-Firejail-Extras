@@ -9,8 +9,8 @@ This section is focused on monitoring, general security and the tools to make it
   * [Hs-MountReadWrite](#hs-mountreadwrite)
   * [Hs-StatusWarnings](#hs-statuswarnings)
   * [Polkit-Tweaks](#polkit-tweaks)
-    * [50-custom-mount-authority.rules](#50-custom-mount-authority.rules)
     * [49-custom-ask-for-rootpw.rules](#49-custom-ask-for-rootpw.rules)
+    * [50-custom-mount-authority.rules](#50-custom-mount-authority.rules)
   * [Udisks2-Hardening](#udisks2-hardening)
 
 
