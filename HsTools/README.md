@@ -17,7 +17,7 @@ This section is focused on monitoring, general security and the tools to make it
 ### Hsr-PartitionMonitor
 Dating back to the early days of the Pc, one of the simplest and most effective ways of protecting your personal data was to use partitions. Nowadays, very few people seem to realise that partitions should only be mounted on an *as-need* basis, and, even then, only with the minimum permissions needed.
 
-For example, on my laptop, generally, the only permanently mounted partitions are the `boot` and `root` partitions. Additionally, while `${HOME}` is also on the `root` partition all the documents and folders, except my `Desktop`, are kept on either, a separate partition for stuff that I will need even when travelling, or to external drives for the bulk of the stuff like: *photos*. *videos*, *media*, *data*, *projects* and the *like*, which I only really need occasionally and would be an absolute utter disaster if I were to lose.
+For example, on my laptop, generally, the only permanently mounted partitions are the `boot` and `root` partitions. Additionally, while `${HOME}` is also on the `root` partition all the documents and folders, except my `Desktop`, are kept on either, a separate partition for stuff that I will need even when travelling, or external drives for the bulk of the stuff like: *photos*. *videos*, *media*, *data*, *projects* and the *like*, which I only really need occasionally and would be an absolute utter disaster if I were to lose.
 
 Anyway, `Hsr-PartitionMonitor` uses `fuser`to periodically check if a drive is currently in use. If not, and it is still not being used the next time it checks, then it will dismount it. This not only minimises the risks of general `snooping hacks`, but also the risks of a `ransom-ware` attack.
 
@@ -101,7 +101,7 @@ Largely superseded by my Apparmor profile for `usr.lib.udisks2.udisksd`, this ru
 
 Long story short, the developers do not really see any need to change the current setup. This causes a lot of problems, not only from the point of view of security, but also, as a very simple example, with `UTF8` encoding for non-English speakers.
 
-As I pointed out above, if I could. I would get rid of `udisks2`. But, since I unfortunately need it as a `dependency`, I have struggled for over two weeks; scouring the internet; trying everything I can think of to try and gain some control how devices are mounted by my file manager and/or other applications.
+As I pointed out above, if I could, I would get rid of `udisks2`. But, since I unfortunately need it as a `dependency`, I have struggled for over two weeks; scouring the internet; trying everything I can think of to try and gain some control how devices are mounted by my file manager and/or other applications.
 
 Finally, by a painstaking process of logic and elimination, that's right: no blinding flash of insight or surge of desperation, but pure logical deduction, I came upon the perfect solution. It is so simple: If all the mount options are hard-coded, then simply modify the `usr.lib.udisks2.udisksd` Apparmor profile to deny `udiks2` any access to either `/run/media/` or `/media/`. Thus, when, for example, my file manger asks `udisks` to mount a *device* or *partition*, it tries and fails to create the mount point and I get a `permission denied` notification. As a result, mounts can only be controlled from [Hs-MountReadWrite](#hs-mountreadwrite).
 
