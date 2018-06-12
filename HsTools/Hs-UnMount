@@ -37,7 +37,7 @@ function UnMountDevice() {
 	fi
 }
 
-SetTerminalTitle "UnMount"
+SetTerminalTitle "Hs-UnMount"
 GetMount "$MountPrompt"
 CheckKey
 if [[ "$KeyCheck" == *"is already mounted."* ]] ; then

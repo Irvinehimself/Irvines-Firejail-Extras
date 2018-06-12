@@ -52,7 +52,7 @@ function MountDevice() {
 # ### ### Main ### ###
 
 
-SetTerminalTitle "MountAsUser"
+SetTerminalTitle "Hs-MountReadWrite"
 GetMount  "$MountPrompt"
 CheckKey
 if [[ "$KeyCheck" == *"is not mounted."* ]] ; then
