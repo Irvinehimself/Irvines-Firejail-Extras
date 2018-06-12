@@ -6,9 +6,6 @@ The AppArmor part of this project is to write profiles for low level daemons tha
 
 Note:  All the [Canonical abstractions](#note--abstractions) have been ditched.
 
-### Ha-CreateFreshAppArmorProfile
-A simple shell I wrote to take the drudgery out of starting new Apparmor profiles. If I give it the path to the `executable` you want to confine, it creates an empty profile; of the correct name; set in complain mode, along with the local `site specific` customisation file. It then loads the profile, and, when I am ready, I can run `aa-logprof` to start filling it in.
-
 ### Portability
 Since I only use *Arch Linux*, which has a rational file system layout, depending on your distro, you may have to tweak `/usr/bin/` and `/usr/lib/` to the particular mix of: `/bin/`,`/sbin/`, `/usr/bin/`, .... `/lib/`, `/lib64/` and `/usr/lib/` used by your distro of choice.
 
@@ -39,6 +36,11 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but thes
 1. usr.bin.ffmpeg
 
 **Note:** The `usr.lib.udisks2.udisksd` profile `deny`'s all operations on `/run/media` and `/media`. The reasoning for this is explained fully in the [HsTools readme](/HsTools#udisks2-hardening). (For reasons of symmetry, this is mirrored in `usr.lib.gvfs-udisks2-volume-monitor`)
+
+
+### Ha-CreateFreshAppArmorProfile
+A simple shell I wrote to take the drudgery out of starting new Apparmor profiles. If I give it the path to the `executable` I want to confine, it creates an empty profile; of the correct name; set in complain mode, along with the local `site specific` customisation file. It then loads the profile, and, when I am ready, I can run `aa-logprof` to start filling it in.
+
 
 ### Whats next?
 I have a list, (which is constanly under review,) of things which need confinement
