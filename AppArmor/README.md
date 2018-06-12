@@ -35,7 +35,7 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but curr
 **Not started**
 1. usr.bin.ffmpeg
 
-**Note:** The `usr.lib.udisks2.udisksd` profile `deny`'s all operations on `/run/media` and `/media`. The reasoning for this is explained fully in the [HsTools readme](HsTools/)
+**Note:** The `usr.lib.udisks2.udisksd` profile `deny`'s all operations on `/run/media` and `/media`. The reasoning for this is explained fully in the [HsTools readme](HsTools#udisks2-hardening)
 
 #### Whats next?
 I have a list, (which is constanly under review,) of things which need confinement
