@@ -1,0 +1,93 @@
+#!/bin/bash
+
+##########################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# ApTools is a collection of monitoring and general security tools to make
+# it easier to adopt good habits. The project home page can be found at
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# ApTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# ApTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ApTools.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
+
+# Bash to create fresh AppArmor profile with local site customisations
+
+source Fj-TerminalTricks
+
+
+Author="# Author: irvine mcminn at that gmail place dot com"
+Licence="# Licence: GPL3"
+
+
+EtcApparmor="/etc/apparmor.d"
+EtcApparmorLocal="/etc/apparmor.d/local"
+ProfileList="${HOME}/Git/TheBeggarsHardeningProject/AppArmor/AppArmor-ProfileList"
+
+function GetExecutablePathPrompt() {
+    echo -e "${Dimd}$1Enter path to executable, leave blank to quit.${End}"
+    read ExecutablePath
+}
+
+function GetExecutablePath() {
+    GetExecutablePathPrompt
+    while [ ! -f "$ExecutablePath" ] ; do
+        if [[ "$ExecutablePath" == "" ]] ; then
+            break
+        fi
+        GetExecutablePathPrompt "${Red}File not found!${End} ${Dimd}... "
+    done
+}
+
+function GetProfileName() {
+    ProfileName=$(echo "$ExecutablePath" | sed 's/\//\./g' | cut -d'.' -f2- )
+    AppName=$(echo "$ExecutablePath" | rev | cut -d'/' -f1 | rev)
+}
+
+function CreateFreshProfile() {
+	echo "# vim:syntax=apparmor" | sudo tee "$EtcApparmor/$ProfileName"
+	echo "# AppArmor policy for $AppName" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "$Author" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "$Licence" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "$ExecutablePath flags=(complain) {" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "  #include <local/$ProfileName>" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "}" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "# Site-specific additions and overrides for '$ProfileName'" | sudo tee "$EtcApparmorLocal/$ProfileName"
+	TestProfileList=$(cat "$ProfileList" | grep $ProfileName)
+	if [[ "$TestProfileList" == "" ]] ; then
+        echo "$ProfileName" >> "$ProfileList"
+	fi
+}
+function LoadProfile() {
+    echo
+    ReadKey "Load profile ? N/y"
+    if [[ "$Key" == "y" ]] ; then
+        echo "Loading $ProfileName"
+        sudo apparmor_parser -r /etc/apparmor.d/$ProfileName
+    fi
+}
+
+# ### ### Main ### ###
+
+SetTerminalTitle "Ap-FreshApparmorProfile"
+
+GetExecutablePath
+while ! [[ "$ExecutablePath" == "" ]] ; do
+    GetProfileName
+    CreateFreshProfile
+    LoadProfile
+    GetExecutablePath
+done

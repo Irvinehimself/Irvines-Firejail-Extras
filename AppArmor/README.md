@@ -1,16 +1,19 @@
 # Apparmor
 Profiles and local customisations for AppArmor
 
-#### Overview
+### Overview
 The AppArmor part of this project is to write profiles for low level daemons that would benefit from more specific AppArmor confinement than that provided by the generic *firejail-default* profile. For the most part, I am concentrating on daemons and applications that either live in user space, or have some input/output function.
 
 Note:  All the [Canonical abstractions](#note--abstractions) have been ditched.
 
-#### Portability
+### Ha-CreateFreshAppArmorProfile
+A simple shell I wrote to take the drudgery out of starting new Apparmor profiles. If I give it the path to the `executable` you want to confine, it creates an empty profile; of the correct name; set in complain mode, along with the local `site specific` customisation file. It then loads the profile, and, when I am ready, I can run `aa-logprof` to start filling it in.
+
+### Portability
 Since I only use *Arch Linux*, which has a rational file system layout, depending on your distro, you may have to tweak `/usr/bin/` and `/usr/lib/` to the particular mix of: `/bin/`,`/sbin/`, `/usr/bin/`, .... `/lib/`, `/lib64/` and `/usr/lib/` used by your distro of choice.
 
-#### Finished profiles
-An uptodate list of profiles is available [here](AppArmor-ProfileList), but currently it consists of the following:
+### Finished profiles
+An uptodate list of profiles is available [here](AppArmor-ProfileList), but these are the ones people will likely find most interesting:
 
 **Completed and in enforce mode, (but still checking)**
 1. usr.lib.udisks2.udisksd
@@ -24,9 +27,9 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but curr
 1. usr.lib.gvfsd-metadata
 1. usr.lib.gvfs-udisks2-volume-monitor
 1. usr.lib.xfce4.notifyd.xfce4-notifyd
+1. usr.bin.nm-applet
 
 **Testing in complain mode**
-1. usr.bin.nm-applet
 
 **Started but....**
 1. usr.bin.ffplay
@@ -35,9 +38,9 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but curr
 **Not started**
 1. usr.bin.ffmpeg
 
-**Note:** The `usr.lib.udisks2.udisksd` profile `deny`'s all operations on `/run/media` and `/media`. The reasoning for this is explained fully in the [HsTools readme](/HsTools#udisks2-hardening)
+**Note:** The `usr.lib.udisks2.udisksd` profile `deny`'s all operations on `/run/media` and `/media`. The reasoning for this is explained fully in the [HsTools readme](/HsTools#udisks2-hardening). (For reasons of symmetry, this is mirrored in `usr.lib.gvfs-udisks2-volume-monitor`)
 
-#### Whats next?
+### Whats next?
 I have a list, (which is constanly under review,) of things which need confinement
 1. Not yet started, but certainly AppArmor:
    * Drill
@@ -48,10 +51,10 @@ I have a list, (which is constanly under review,) of things which need confineme
 1. Possibly Apparmor, but Firejail, (with the generic `firejail-default` Apparmor profile) may be more appropriate
    * imagemagick
 
-#### Far, far away in the future:
+### Far, far away in the future:
 Upgrade the default profiles for `ping` and `traceroute`??? The problem is that the `base` abstraction is very permissive when it comes to `ptrace`, `signals` `sockets` ... etc. You need to read it for yourself, but it permits a lot of undesirable capabilities that most applications shouldn't need.
 
-#### Note--abstractions
+### Note--abstractions
 Some of the common abstractions, particularly `base`, `plugins-common` and most of the `ubuntu-*` stuff is way, way too permissive to provide adequate confinement.
 
 For example, just scratch the surface of common `logprof` suggestions and we find:

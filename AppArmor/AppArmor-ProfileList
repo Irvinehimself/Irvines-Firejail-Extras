@@ -1,19 +1,23 @@
 # The current state of my Apparmor profiles project
 
-# Completed
+# enforce mode
 usr.lib.udisks2.udisksd
 usr.lib.gvfsd
+usr.lib.gvfs-udisks2-volume-monitor
+usr.lib.gvfsd-metadata
 usr.lib.tumbler-1.tumblerd
 usr.bin.NetworkManager
+usr.bin.nm-applet
 usr.bin.wpa_supplicant
 usr.bin.pulseaudio
+usr.lib.xfce4.notifyd.xfce4-notifyd
+usr.local.bin.CheckLinuxhardenedUpdate
 
-# Under development
-usr.lib.gvfsd-metadata
-usr.lib.gvfs-udisks2-volume-monitor
+# complain mode
 usr.bin.ffmpeg
 usr.bin.ffmpegthumbnailer
 usr.bin.ffplay
-usr.bin.nm-applet
-usr.lib.xfce4.notifyd.xfce4-notifyd
-usr.local.bin.CheckLinuxhardenedUpdate
+usr.local.bin.Hs-MountReadWrite
+usr.local.bin.Hsr-PartitionMonitor
+usr.local.bin.Hs-StatusWarnings
+usr.local.bin.Hs-UnMount

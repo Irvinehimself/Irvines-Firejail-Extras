@@ -47,11 +47,13 @@ sudo Hsr-PartitionMonitor
 
 
 ### Hs-MountReadWrite
-Properly set up, when mounting `partitions` and `disks`, the file manager should ask for a password before mounting a drive, (see *Polkit-Tweaks* below) But, by default, whether it mounts the drive `read only` or `read/write` depends on the drive and it's formatting. If I want more direct control over how a drive is mounted, then I would normally have to use `sudo mount sd?? $mntpnt`, which I find to be a pain.
+Properly set up, when mounting `partitions` and `disks`, the file manager should ask for a password before mounting a drive, (see *Polkit-Tweaks* below) But, if you are using `udisks2`, then how it mounts the drive is hard coded and not configurable by the user, [see below](#udisks2-hardening). If I could, I would get rid of `udisks`, but unfortunately its a dependency for too many things I actually need. As a consequence, if I want more direct control over how a drive is mounted, then I would normally have to use `sudo mount $options sd?? $mntpnt`, which I find to be a pain.
 
 With their own nested panel launchers, `Hs-MountReadWrite`, (along with `Hs-UnMount`,) create a menu of connected devices, and offer the choice between mounting the selected device as either `read only` or `read/write`. This drastically reduces the hassle of mounting and un-mounting: *Usb's*, *partitions* and *external drives*.
 
 While it is *cli* shell, `Hs-MountReadWrite` has all the features of a *GUI*, and makes mounting/unmounting devices straight forward. As a result, implementing a strict security policy with regard to partitions is not a major chore.
+
+**Note:** By default, `Hs-MountReadWrite` mounts *drives* and *partitions* with the `noexec` flag set. From a security point of view, this is a really good idea, and unlikely to cause any major inconvenience,
 
 [*Return to contents*](#contents)
 
@@ -68,9 +70,6 @@ Personally, I have a low tolerance for annoyances, and this is just intrusive en
 
 ### Polkit-Tweaks
 I have included a couple of useful [polkit rules](EtcPolkitRules.d) which can be dropped into `/etc/polkit-1/rules.d/`
-
-#### 50-custom-mount-authority.rules
-Is a rule to ensure only authorised users can mount *external drives*, *partitions* and *thumb drives*. Basically, the problem is that using the default `polkit` authorisations for `udisksctl`, (and, as a result, the file manager,) anyone can circumvent the access controls youve created with `Hs-MountReadWrite`.
 
 #### 49-custom-ask-for-rootpw.rules
 This is a rule copied from the [Arch Wiki](https://wiki.archlinux.org/index.php/Polkit#Administrator_identities) which resolves one of those annoying discrepancies between `sudo` and `polkit` authorisation.
@@ -90,12 +89,23 @@ root ALL=(ALL) ALL
 
 Unfortunately, in Arch, the `polkit` rule `50-default.rules` defines all members of group `wheel` as administrators, which means your `login` password is also your `polkit` administrators password. Like most people, for practical reasons, my `login` password is moderately simple and common social niceties often mean allowing friends and family access to my laptop. This makes me very nervous. Rule `49-custom-ask-for-rootpw.rules` overrides rule `50-default.rules` and ensures that `polkit` prompts for my `root` password. This, of course, is an extremely complicated, randomly generated 300 character sequence :D, which is, hopefully, impossible to guess.
 
+#### 50-custom-mount-authority.rules
+Largely superseded by my Apparmor profile for `usr.lib.udisks2.udisksd`, this rule ensures only authorised users can mount *external drives*, *partitions* and *thumb drives*. See below for a fuller discussion.
+
 [*Return to contents*](#contents)
 
 
 ### Udisks2-Hardening
 
-Under construction
+`Udisks2` is a rabid, insane beast that should be taken out and shot. In fact, after [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet#Operation), I suspect the Iranians would gladly provide the firing squad. The basic problem is that mount options are hard coded into [udiskslinuxfilesystem.c](https://cgit.freedesktop.org/udisks/tree/src/udiskslinuxfilesystem.c?id=aa02e5fc53efdeaf66047d2ad437ed543178965b). A quick google search will reveal at least two patches have been submitted two fix this, for example [here](http://lists.freedesktop.org/archives/devkit-devel/2015-April/001668.html).
+
+Long story short, the developers do not really see any need to change the current setup. This causes a lot of problems, not only from the point of view of security, but also, as a very simple example, with `UTF8` encoding for non-English speakers.
+
+As I pointed out above, if I could. I would get rid of `udisks2`. But, since I unfortunately need it as a `dependency`, I have struggled for over two weeks; scouring the internet; trying everything I can think of to try and gain some control how devices are mounted by my file manager and/or other applications.
+
+Finally, by a painstaking process of logic and elimination, that's right: no blinding flash of insight or surge of desperation, but pure logical deduction, I came upon the perfect solution. It is so simple: If all the mount options are hard-coded, then simply modify the `usr.lib.udisks2.udisksd` Apparmor profile to deny `udiks2` any access to either `/run/media/` or `/media/`. Thus, when, for example, my file manger asks `udisks` to mount a *device* or *partition*, it tries and fails to create the mount point and I get a `permission denied` notification. As a result, mounts can only be controlled from [Hs-MountReadWrite](#hs-mountreadwrite).
+
+If all this seems a bit OTT, just remember, not only do I now have control over whether a device is mounted *read only* or *read write*, but also, because of the `noexec` flag, if someone with access to my laptop plugs in a Usb contaminated with, for example, a variant of Stuxnet, it won't be able to automatically deliver it's payload. Further, since all my applications are, by default, sandboxed, even reading from the contaminated Usb with, say, Libre Office, would most likely result in a failure to deliver the payload.
 
 [*Return to contents*](#contents)
 
