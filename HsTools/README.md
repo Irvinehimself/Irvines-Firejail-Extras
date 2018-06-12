@@ -3,6 +3,17 @@
 ### Overview
 This section is focused on monitoring, general security and the tools to make it easier to adopt good habits. Since most of these shells run continuously in the background, as per my usual habit, I have included the necessary `systemd  unit files`. However, if `systemd` is not to your taste, with some minor tweaking you can run them from your `autostart` file or folder.
 
+### Contents
+  * [Hsr-PartitionMonitor](#hsr-partitionmonitor)
+    * [Install](#install)
+  * [Hs-MountReadWrite](#hs-mountreadwrite)
+  * [Hs-StatusWarnings](#hs-statuswarnings)
+  * [Polkit-Tweaks](#polkit-tweaks)
+    * [50-custom-mount-authority.rules](#50-custom-mount-authority.rules)
+    * [49-custom-ask-for-rootpw.rules](#49-custom-ask-for-rootpw.rules)
+  * [Udisks2-Hardening](#udisks2-hardening)
+
+
 ### Hsr-PartitionMonitor
 Dating back to the early days of the Pc, one of the simplest and most effective ways of protecting your personal data was to use partitions. Nowadays, very few people seem to realise that partitions should only be mounted on an *as-need* basis, and, even then, only with the minimum permissions needed.
 
@@ -32,6 +43,8 @@ sudo Hsr-PartitionMonitor
 ```
 *For example:* [UserSystemd/Hs-PartitionMonitor.service](UserSystemd/Hs-PartitionMonitor.service)
 
+[*Return to contents*](#contents)
+
 
 ### Hs-MountReadWrite
 Properly set up, when mounting `partitions` and `disks`, the file manager should ask for a password before mounting a drive, (see *Polkit-Tweaks* below) But, by default, whether it mounts the drive `read only` or `read/write` depends on the drive and it's formatting. If I want more direct control over how a drive is mounted, then I would normally have to use `sudo mount sd?? $mntpnt`, which I find to be a pain.
@@ -39,6 +52,8 @@ Properly set up, when mounting `partitions` and `disks`, the file manager should
 With their own nested panel launchers, `Hs-MountReadWrite`, (along with `Hs-UnMount`,) create a menu of connected devices, and offer the choice between mounting the selected device as either `read only` or `read/write`. This drastically reduces the hassle of mounting and un-mounting: *Usb's*, *partitions* and *external drives*.
 
 While it is *cli* shell, `Hs-MountReadWrite` has all the features of a *GUI*, and makes mounting/unmounting devices straight forward. As a result, implementing a strict security policy with regard to partitions is not a major chore.
+
+[*Return to contents*](#contents)
 
 
 ### Hs-StatusWarnings
@@ -48,14 +63,16 @@ Generally, unless you have turned something off or on, you will never know it's 
 
 Personally, I have a low tolerance for annoyances, and this is just intrusive enough to be useful without becoming irritating.
 
+[*Return to contents*](#contents)
+
 
 ### Polkit-Tweaks
 I have included a couple of useful [polkit rules](EtcPolkitRules.d) which can be dropped into `/etc/polkit-1/rules.d/`
 
-#### [50-custom-mount-authority.rules](EtcPolkitRules.d/50-custom-mount-authority.rules)
+#### 50-custom-mount-authority.rules
 Is a rule to ensure only authorised users can mount *external drives*, *partitions* and *thumb drives*. Basically, the problem is that using the default `polkit` authorisations for `udisksctl`, (and, as a result, the file manager,) anyone can circumvent the access controls youve created with `Hs-MountReadWrite`.
 
-#### [49-custom-ask-for-rootpw.rules](EtcPolkitRules.d/49-custom-ask-for-rootpw.rules)
+#### 49-custom-ask-for-rootpw.rules
 This is a rule copied from the [Arch Wiki](https://wiki.archlinux.org/index.php/Polkit#Administrator_identities) which resolves one of those annoying discrepancies between `sudo` and `polkit` authorisation.
 
 For example: To use sudo, I add my user name to `/etc/sudoers` like so:
@@ -72,3 +89,13 @@ root ALL=(ALL) ALL
 *Noting how group wheel is still commented out*, unless you are *unwisely* logged in as `root`, with this method, the `sudo` password should not be the same as your `login` password.
 
 Unfortunately, in Arch, the `polkit` rule `50-default.rules` defines all members of group `wheel` as administrators, which means your `login` password is also your `polkit` administrators password. Like most people, for practical reasons, my `login` password is moderately simple and common social niceties often mean allowing friends and family access to my laptop. This makes me very nervous. Rule `49-custom-ask-for-rootpw.rules` overrides rule `50-default.rules` and ensures that `polkit` prompts for my `root` password. This, of course, is an extremely complicated, randomly generated 300 character sequence :D, which is, hopefully, impossible to guess.
+
+[*Return to contents*](#contents)
+
+
+### Udisks2-Hardening
+
+Under construction
+
+[*Return to contents*](#contents)
+

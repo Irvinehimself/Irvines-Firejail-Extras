@@ -9,7 +9,6 @@ Currently, it consists of:
   1. [Fj-DisableSymlinks](#fj-disablesymlinks)
   1. [Fj-UnusedProfiles](#fj-unusedprofiles)
   1. [Fj-SymlinkedProfiles](#fj-symlinkedprofiles)
-  1. [Fj-StatusWarnings](#fj-statuswarnings)
   1. [Fj-HomeGrownProfiles](#fj-homegrownprofiles)
   1. [Fj-DebugProfile](#fj-debugprofile)
   1. [Fj-DiscardedStuff](#fj-discardedstuff)
