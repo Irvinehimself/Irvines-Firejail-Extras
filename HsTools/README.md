@@ -9,8 +9,8 @@ This section is focused on monitoring, general security and the tools to make it
   * [Hs-MountReadWrite](#hs-mountreadwrite)
   * [Hs-StatusWarnings](#hs-statuswarnings)
   * [Polkit-Tweaks](#polkit-tweaks)
-    * [49-custom-ask-for-rootpw.rules](#49-custom-ask-for-rootpw.rules)
-    * [50-custom-mount-authority.rules](#50-custom-mount-authority.rules)
+    * [49-custom-ask-for-rootpw](#49-custom-ask-for-rootpw)
+    * [50-custom-mount-authority](#50-custom-mount-authority)
   * [Udisks2-Hardening](#udisks2-hardening)
 
 
@@ -71,7 +71,7 @@ Personally, I have a low tolerance for annoyances, and this is just intrusive en
 ### Polkit-Tweaks
 I have included a couple of useful [polkit rules](EtcPolkitRules.d) which can be dropped into `/etc/polkit-1/rules.d/`
 
-#### 49-custom-ask-for-rootpw.rules
+#### 49-custom-ask-for-rootpw
 This is a rule copied from the [Arch Wiki](https://wiki.archlinux.org/index.php/Polkit#Administrator_identities) which resolves one of those annoying discrepancies between `sudo` and `polkit` authorisation.
 
 For example: To use sudo, I add my user name to `/etc/sudoers` like so:
@@ -89,7 +89,7 @@ root ALL=(ALL) ALL
 
 Unfortunately, in Arch, the `polkit` rule `50-default.rules` defines all members of group `wheel` as administrators, which means your `login` password is also your `polkit` administrators password. Like most people, for practical reasons, my `login` password is moderately simple and common social niceties often mean allowing friends and family access to my laptop. This makes me very nervous. Rule `49-custom-ask-for-rootpw.rules` overrides rule `50-default.rules` and ensures that `polkit` prompts for my `root` password. This, of course, is an extremely complicated, randomly generated 300 character sequence :D, which is, hopefully, impossible to guess.
 
-#### 50-custom-mount-authority.rules
+#### 50-custom-mount-authority
 Largely superseded by my Apparmor profile for `usr.lib.udisks2.udisksd`, this rule ensures only authorised users can mount *external drives*, *partitions* and *thumb drives*. See below for a fuller discussion.
 
 [*Return to contents*](#contents)
