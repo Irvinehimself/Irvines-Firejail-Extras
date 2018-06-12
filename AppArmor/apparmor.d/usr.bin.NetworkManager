@@ -59,6 +59,7 @@
   /usr/lib/nm-openvpn-service mrix,
   /usr/lib/nm-openvpn-service-openvpn-helper mrix,
 
+
   # ### allow owner /dev/
   owner /dev/net/tun rw,
   owner /dev/null r,

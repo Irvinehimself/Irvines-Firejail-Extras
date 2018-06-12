@@ -7,7 +7,7 @@
 # GPL3
 
 
-/usr/bin/nm-applet flags=(complain) {
+/usr/bin/nm-applet {
   #include <abstractions/freedesktop.org>
   #include <local/usr.bin.nm-applet>
 

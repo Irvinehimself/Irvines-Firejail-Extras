@@ -13,6 +13,10 @@
   deny signal receive set=cont peer=unconfined,
   deny signal receive set=kill peer=unconfined,
   deny signal receive set=term peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+
+  signal send set=term peer=/usr/lib/xfce4/notifyd/xfce4-notifyd,
+  signal receive set=term peer=/usr/lib/xfce4/notifyd/xfce4-notifyd,
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor/null-/usr/bin/lsof,
 
@@ -169,6 +173,7 @@
   /usr/share/locale/*/LC_MESSAGES/gtk30-properties.mo r,
   /usr/share/locale/*/LC_MESSAGES/gtk30.mo r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
+  /usr/share/locale/*/LC_MESSAGES/xfce4-notifyd.mo r,
   /usr/share/locale/locale.alias r,
 
   # ### allow /usr/share/themes/
