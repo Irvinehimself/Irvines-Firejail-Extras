@@ -97,7 +97,7 @@ Largely superseded by my Apparmor profile for `usr.lib.udisks2.udisksd`, this ru
 
 ### Udisks2-Hardening
 
-`Udisks2` is a rabid, insane beast that should be taken out and shot. In fact, after [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet#Operation), I suspect the Iranians would gladly provide the firing squad. The basic problem is that mount options are hard coded into [udiskslinuxfilesystem.c](https://cgit.freedesktop.org/udisks/tree/src/udiskslinuxfilesystem.c?id=aa02e5fc53efdeaf66047d2ad437ed543178965b). A quick google search will reveal at least two patches have been submitted two fix this, for example [here](http://lists.freedesktop.org/archives/devkit-devel/2015-April/001668.html).
+`Udisks2` is a rabid, insane beast that should be taken out and shot. In fact, after [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet#Operation), I suspect the Iranians would gladly provide the firing squad. The basic problem is that mount options are hard coded into [udiskslinuxfilesystem.c](https://unix.stackexchange.com/questions/209546/how-do-i-change-automatic-mounts-of-removable-vfat-fat32-drives-partitions-to). A quick google search will reveal at least two patches have been submitted two fix this, for example [here](http://lists.freedesktop.org/archives/devkit-devel/2015-April/001668.html).
 
 Long story short, the developers do not really see any need to change the current setup. This causes a lot of problems, not only from the point of view of security, but also, as a very simple example, with `UTF8` encoding for non-English speakers.
 

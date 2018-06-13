@@ -19,5 +19,5 @@ usr.bin.ffmpegthumbnailer
 usr.bin.ffplay
 usr.local.bin.Hs-MountReadWrite
 usr.local.bin.Hsr-PartitionMonitor
-usr.local.bin.Hs-StatusWarnings
 usr.local.bin.Hs-UnMount
+usr.bin.parcellite

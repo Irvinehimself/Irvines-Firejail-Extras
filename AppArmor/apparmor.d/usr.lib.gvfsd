@@ -38,9 +38,11 @@
 
   # ### allow owner /proc/
   owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
   owner /proc/*/maps r,
   owner /proc/*/mountinfo r,
   owner /proc/*/stat r,
+  /proc/*/stat r,
 
   # ### allow owner /root/
   owner /root/.gvfs/ r,
