@@ -17,7 +17,3 @@ usr.local.bin.CheckLinuxhardenedUpdate
 usr.bin.ffmpeg
 usr.bin.ffmpegthumbnailer
 usr.bin.ffplay
-usr.local.bin.Hs-MountReadWrite
-usr.local.bin.Hsr-PartitionMonitor
-usr.local.bin.Hs-UnMount
-usr.bin.parcellite
