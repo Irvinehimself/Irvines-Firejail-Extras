@@ -40,7 +40,7 @@ function QueryMountReadWrite() {
 
 function MountDevice() {
 	echo -e "${Yel}Passed checks:${End} ${Dimd}mounting${End} ${Blu}${DeviceArray[$KeyIndex]}${End} ${Dimd}$ReadWrite at${End} ${Blu}$MountPoint${End}"
-	Error=${Dimd}${Mag}$(sudo mount -o noexec "$Rw" "/dev/${DeviceArray[$KeyIndex]}" "$MountPoint" 2>&1 >/dev/null)${End}
+	Error=${Dimd}${Mag}$(sudo -k mount -o noexec "$Rw" "/dev/${DeviceArray[$KeyIndex]}" "$MountPoint" 2>&1 >/dev/null)${End}
 	if ! [[ "$?" = "0" ]] ; then
 	    if ! [[ "$Error" == *"already mounted on"* ]] ; then
 	        rm -r "$MountPoint"
@@ -53,15 +53,17 @@ function MountDevice() {
 
 
 SetTerminalTitle "Hs-MountReadWrite"
-GetMount  "$MountPrompt"
-CheckKey
-if [[ "$KeyCheck" == *"is not mounted."* ]] ; then
-        QueryMountReadWrite
-        FindMountPoint
-        mkdir -Zp  "$MountPoint"
-        MountDevice
-    else
-            ReadQuit "${Red}Sorry,${End} $KeyCheck"
-fi
-
+GetMount "$MountPrompt"
+while ! [[ "$Key" == "" ]] ; do
+	CheckKey
+	if [[ "$KeyCheck" == *"is not mounted."* ]] ; then
+	        QueryMountReadWrite
+	        FindMountPoint
+	        mkdir -Zp  "$MountPoint"
+	        MountDevice
+	    else
+	            ReadQuit "${Red}Sorry,${End} $KeyCheck"
+	fi
+	GetMount "$MountPrompt"
+done
 

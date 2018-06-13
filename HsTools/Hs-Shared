@@ -95,7 +95,7 @@ function GetPartitionArray(){
 
 function GetMount() {
     GetPartitionArray
-	echo -e "${Dimd}$1${End}"
+	echo -e "${Dimd}$1, (leave blank to quit)${End}"
 	Count="0"
     for Partition in ${PartitionArray[@]} ; do
         printf "%-50s ${Dimd}---   ${End} %-50s \n" "(${Grn}${Letters[Count]}${End}): ${Blu}$Partition${End}" "${IsMountedArray[$Count]}"
