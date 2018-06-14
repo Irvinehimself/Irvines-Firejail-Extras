@@ -1,8 +1,4 @@
 # Last Modified: Thu Jun  7 02:04:30 2018
-@{EXTDOCS1} = /home/*/Docs/
-@{EXTDOCS2} = /home/*/Shared/
-@{EXTDOCS3} = /home/*/Usbs/
-
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -28,48 +24,37 @@
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
-  # ### deny owner @{EXTDOCS1}
-  deny owner @{EXTDOCS1}** mwlkx,
-  deny owner @{EXTDOCS2}** mwlkx,
-  deny owner @{EXTDOCS3}** mwlkx,
-  deny @{EXTDOCS1}** mwlkx,
-  deny @{EXTDOCS2}** mwlkx,
-  deny @{EXTDOCS3}** mwlkx,
+  deny /proc/*/stat r,
+  deny /proc/cpuinfo r,
+  deny /proc/stat r,
+  deny /sys/devices/system/cpu/ r,
+  deny /sys/devices/system/cpu/online r,
 
-  # ### allow owner @{EXTDOCS1}
-  owner @{EXTDOCS1}** r,
-  owner @{EXTDOCS2}** r,
-  owner @{EXTDOCS3}** r,
-  @{EXTDOCS1}** r,
-  @{EXTDOCS2}** r,
-  @{EXTDOCS3}** r,
-
+  # ### deny mounts folder execute
+  deny owner /home/*/Docs/** mxwlk,
+  deny owner /home/*/Shared/** mxwlk,
+  deny owner /home/*/Usbs/** mxwlk,
 
   # ### allow owner /home/
-  owner /home/*/.cache/fontconfig/*.cache-7 rw,
-  owner /home/*/.cache/thumbnails/large/ r,
-  owner /home/*/.cache/thumbnails/normal/ r,
-  owner /home/*/.cache/thumbnails/normal/*.png rw,
+  owner /home/*/.cache/fontconfig/*.cache* rw,
+  owner /home/*/.cache/thumbnails/** rw,
   owner /home/*/.local/share/gvfs-metadata/home r,
   owner /home/*/.local/share/gvfs-metadata/home-*.log r,
   owner /home/*/.local/share/mime/mime.cache r,
+  owner /home/*/Docs/** r,
   owner /home/*/Desktop/** r,
   owner /home/*/Documents/** r,
   owner /home/*/Music/** r,
   owner /home/*/Pictures/** r,
   owner /home/*/Public/** r,
+  owner /home/*/Shared/** r,
+  owner /home/*/Usbs/** r,
   owner /home/*/Videos/** r,
 
   # ### allow owner /proc/
   owner /proc/*/fd/ r,
   owner /proc/*/fdinfo/* r,
   owner /proc/*/maps r,
-
-  deny /proc/*/stat r,
-  deny /proc/cpuinfo r,
-  deny /proc/stat r,
-  deny /sys/devices/system/cpu/ r,
-  deny /sys/devices/system/cpu/online r,
 
   # ### allow owner /tmp/
   owner /tmp/gdkpixbuf-xpm-tmp.* rw,

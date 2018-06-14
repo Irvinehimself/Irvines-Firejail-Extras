@@ -1,8 +1,4 @@
 # Last Modified: Thu Jun  7 02:04:30 2018
-@{EXTDOCS1}=/home/*/Docs/
-@{EXTDOCS2}=/home/*/Shared/
-@{EXTDOCS3}=/home/*/Usbs/
-
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -27,40 +23,24 @@
   deny /proc/*/net/packet r,
   deny /proc/*/net/raw r,
 
-  # ### This just matches comparable entry in the 'usr.lib.udisks2.udisksd' profile
-  # ### That entry disables mounting usbs and external drives through udisks2 and/or
-  # ### the file manager. As a result, all mounts are handled by 'Hs-MountReadWrite'
-  # ### For reasoning, see:
-  # ### https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/HsTool
-  # ### deny /run/media/
-  deny owner /run/media/** rmxwlk,
-  deny owner /run/media/ rmxwlk,
-  deny owner /media/** rmxwlk,
-  deny owner /media/ rmxwlk,
-  deny /run/media/** rmxwlk,
-  deny /run/media/ rmxwlk,
-  deny /media/** rmxwlk,
-  deny /media/ rmxwlk,
+  # ### deny mounts folder execute
+  deny /home/*/Docs/ mxwlk,
+  deny /home/*/Shared/ mxwlk,
+  deny /home/*/Usbs/ mxwlk,
+  deny /home/*/Docs/** mxwlk,
+  deny /home/*/Shared** mxwlk,
+  deny /home/*/Usbs/** mxwlk,
 
-  # ### deny @{EXTDOCS1}
-  deny owner @{EXTDOCS1}** mxwlk,
-  deny owner @{EXTDOCS2}** mxwlk,
-  deny owner @{EXTDOCS3}** mxwlk,
-  deny @{EXTDOCS1}** mxwlk,
-  deny @{EXTDOCS2}** mxwlk,
-  deny @{EXTDOCS3}** mxwlk,
-
-  # ### allow  @{EXTDOCS1}
-  owner @{EXTDOCS1}** r,
-  owner @{EXTDOCS2}** r,
-  owner @{EXTDOCS3}** r,
-  @{EXTDOCS1}** r,
-  @{EXTDOCS2}** r,
-  @{EXTDOCS3}** r,
+  # ### allow  mount folders read
+  /home/*/Docs/ r,
+  /home/*/Shared/ r,
+  /home/*/Usbs/ r,
+  /home/*/Docs/** r,
+  /home/*/Shared** r,
+  /home/*/Usbs/** r,
 
   # ### allow /home/
   owner /home/*/.local/share/mime/treemagic r,
-
 
   # ### allow /proc/
   owner /proc/*/fd/ r,

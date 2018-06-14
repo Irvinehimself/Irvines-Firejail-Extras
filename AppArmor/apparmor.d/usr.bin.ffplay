@@ -1,14 +1,29 @@
-# Last Modified: Sun May 27 16:45:53 2018
+# Last Modified: Thu Jun 14 03:31:42 2018
 # vim:syntax=apparmor
 # AppArmor policy for ffplay
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
-/usr/bin/ffplay flags=(complain) {
+/usr/bin/ffplay {
   #include <local/usr.bin.ffplay>
 
   deny signal receive set=hup peer=unconfined,
+
+  /home/*/Docs/** r,
+  /home/*/Desktop/** r,
+  /home/*/Documents/** r,
+  /home/*/Music/** r,
+  /home/*/Pictures/** r,
+  /home/*/Public/** r,
+  /home/*/Shared/** r,
+  /home/*/Usbs/** r,
+  /home/*/Videos/** r,
+  /home/*/.cache/mesa_shader_cache/** rwk,
+  /home/*/.icons/default/index.theme r,
+  /home/*/.Xauthority r,
+  /tmp/.Xauth* r,
+
 
   /dev/dri/ r,
   /dev/shm/ r,
@@ -17,6 +32,8 @@
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
   /etc/machine-id r,
+  /etc/nsswitch.conf r,
+  /etc/passwd r,
   /etc/pulse/client.conf r,
   /sys/devices/pci0000:00/0000:00:02.0/device r,
   /sys/devices/pci0000:00/0000:00:02.0/subsystem_device r,
@@ -95,6 +112,7 @@
   /usr/lib/libmp3lame.so.* mr,
   /usr/lib/libmvec-*.so mr,
   /usr/lib/libnettle.so.* mr,
+  /usr/lib/libnss_files-*.so mr,
   /usr/lib/libogg.so.* mr,
   /usr/lib/libopencore-amrnb.so.* mr,
   /usr/lib/libopencore-amrwb.so.* mr,
@@ -162,8 +180,5 @@
   /usr/share/X11/locale/locale.dir r,
   /usr/share/icons/Adwaita/index.theme r,
   /usr/share/zoneinfo/** r,
-  owner /home/*/Desktop/** r,
-  owner /home/*/.icons/default/index.theme r,
-  owner /tmp/.Xauth* r,
 
 }

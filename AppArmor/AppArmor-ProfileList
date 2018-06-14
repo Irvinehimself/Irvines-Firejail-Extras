@@ -12,8 +12,8 @@ usr.bin.wpa_supplicant
 usr.bin.pulseaudio
 usr.lib.xfce4.notifyd.xfce4-notifyd
 usr.local.bin.CheckLinuxhardenedUpdate
+usr.bin.ffplay
 
 # complain mode
 usr.bin.ffmpeg
 usr.bin.ffmpegthumbnailer
-usr.bin.ffplay
