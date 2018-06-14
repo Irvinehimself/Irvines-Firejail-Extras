@@ -26,28 +26,26 @@
 source Hs-Shared
 
 MountPrompt="Which device would you like to  un-mount?"
+Error="none"
 
 function UnMountDevice() {
 	echo -e "${Yel}Passed checks:${End} ${Dimd}un-mounting${End} ${Blu}${DeviceArray[$KeyIndex]}${End} ${Dimd}at${End} ${Blu}$MountPoint${End}"
 	Error=${Dimd}${Mag}$(sudo -k umount "/dev/${DeviceArray[$KeyIndex]}" 2>&1 >/dev/null)${End}
 	if [[ "$?" = "0" ]] ; then
 	        rm -r "$MountPoint"
-	    else
-	            echo -e "${Red}Sorry,${End} $Error"
+	        Error="none"
 	fi
 }
 
 SetTerminalTitle "Hs-UnMount"
-GetMount "$MountPrompt"
+GetMount "$MountPrompt" "$Error"
 while ! [[ "$Key" == "" ]] ; do
 	CheckKey
 	if [[ "$KeyCheck" == *"is already mounted."* ]] ; then
 	        FindMountPoint
 	        UnMountDevice
-	    else
-	            echo -e "${Red}Sorry,${End} $KeyCheck"
 	fi
-	GetMount "$MountPrompt"
+	GetMount "$MountPrompt" "$Error"
 done
 
 

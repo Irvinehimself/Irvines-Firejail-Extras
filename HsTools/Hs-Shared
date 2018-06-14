@@ -49,16 +49,16 @@ function CheckKey() {
 	CheckKeyIndex
 	if [[ "$Count" -gt "$KeyIndex" ]] ; then
 	        if [[ "${PartitionArray[$KeyIndex]}" == "$RootPartition" ]] ; then
-	                    KeyCheck="${Blu}root${End} ${Dimd}partition.${End}"
+	                    KeyCheck="${Dimd}root partition.${End}"
 	                else
                             if [[ "${IsMountedArray[$KeyIndex]}" == *"not mounted"* ]] ; then
-	                               KeyCheck="${Blu}${PartitionArray[$KeyIndex]}${End} ${Dimd}is not mounted.${End}"
+	                               KeyCheck="${Dimd}${PartitionArray[$KeyIndex]} is not mounted.${End}"
                                 else
-                                        KeyCheck="${Blu}${PartitionArray[$KeyIndex]}${End} ${Dimd}is already mounted.${End}"
+                                        KeyCheck="${Dimd}${PartitionArray[$KeyIndex]} is already mounted.${End}"
 	                        fi
 	        fi
 	    else
-	            KeyCheck="${Blu}drive${End} ${Dimd}doesn't exist.${End}"
+	            KeyCheck="${Dimd}drive doesn't exist.${End}"
 	fi
 }
 
@@ -93,9 +93,18 @@ function GetPartitionArray(){
 	done
 }
 
+function EchoMountPrompt() {
+    clear
+    if ! [[ "$2" == "none" ]] ; then
+        echo -e "${Red}Sorry,${End} $2"
+        Error="none"
+    fi
+	echo -e "${Dimd}$1, (leave blank to quit)${End}"
+}
+
 function GetMount() {
     GetPartitionArray
-	echo -e "${Dimd}$1, (leave blank to quit)${End}"
+    EchoMountPrompt "$1" "$2"
 	Count="0"
     for Partition in ${PartitionArray[@]} ; do
         printf "%-50s ${Dimd}---   ${End} %-50s \n" "(${Grn}${Letters[Count]}${End}): ${Blu}$Partition${End}" "${IsMountedArray[$Count]}"
@@ -111,6 +120,3 @@ function FindMountPoint() {
 	         *) MountPoint="$UsbMounts/${PartitionArray[$KeyIndex]}";;
 	esac
 }
-
-
-
