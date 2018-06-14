@@ -33,7 +33,7 @@ function UnMountDevice() {
 	if [[ "$?" = "0" ]] ; then
 	        rm -r "$MountPoint"
 	    else
-	            ReadQuit "${Red}Sorry,${End} $Error"
+	            echo -e "${Red}Sorry,${End} $Error"
 	fi
 }
 
@@ -45,7 +45,7 @@ while ! [[ "$Key" == "" ]] ; do
 	        FindMountPoint
 	        UnMountDevice
 	    else
-	            ReadQuit "${Red}Sorry,${End} $KeyCheck"
+	            echo -e "${Red}Sorry,${End} $KeyCheck"
 	fi
 	GetMount "$MountPrompt"
 done

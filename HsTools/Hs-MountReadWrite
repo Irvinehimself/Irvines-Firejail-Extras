@@ -45,7 +45,7 @@ function MountDevice() {
 	    if ! [[ "$Error" == *"already mounted on"* ]] ; then
 	        rm -r "$MountPoint"
 	    fi
-	    ReadQuit "${Red}Sorry,${End} $Error"
+	    echo -e "${Red}Sorry,${End} $Error"
 	fi
 }
 
@@ -62,7 +62,7 @@ while ! [[ "$Key" == "" ]] ; do
 	        mkdir -Zp  "$MountPoint"
 	        MountDevice
 	    else
-	            ReadQuit "${Red}Sorry,${End} $KeyCheck"
+	            echo -e "${Red}Sorry,${End} $KeyCheck"
 	fi
 	GetMount "$MountPrompt"
 done
