@@ -104,6 +104,7 @@
   /usr/lib/locale/locale-archive r,
 
   # ### allow /usr/lib/
+  /usr/lib/libavahi-client.so.* r,
   /usr/lib/gvfsd-dnssd mrix,
   /usr/lib/gvfsd-fuse mrix,
   /usr/lib/gvfsd-network mrix,

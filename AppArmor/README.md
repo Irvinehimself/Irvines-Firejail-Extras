@@ -26,9 +26,9 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but thes
 1. usr.lib.xfce4.notifyd.xfce4-notifyd
 1. usr.bin.nm-applet
 1. usr.bin.ffplay
+1. usr.bin.ffmpegthumbnailer
 
 **Testing in complain mode**
-1. usr.bin.ffmpegthumbnailer
 
 **Started but waiting for audit results**
 1. usr.bin.ffmpeg
@@ -41,7 +41,7 @@ The `usr.lib.udisks2.udisksd` profile deny's all operations on `/run/media` and 
 Suffice to say, my `usr.lib.udisks2.udisksd` profile in combination with [Hs-MountReadWrite](/HsTools#hs-mountreadwrite) offer full control of mount operations in a manner that is secure against threats like, for example, [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet#Operation).
 
 
-### Ha-CreateFreshAppArmorProfile
+### Hsa-CreateFreshAppArmorProfile
 A simple shell I wrote to take the drudgery out of starting new Apparmor profiles. If I give it the path to the `executable` I want to confine, it creates an empty profile; of the correct name; set in complain mode, along with the local `site specific` customisation file. It then loads the profile, and, when I am ready, I can run `aa-logprof` to start filling it in.
 
 
