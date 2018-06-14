@@ -20,10 +20,10 @@
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor/null-/usr/bin/lsof,
 
-  deny /proc/*/maps r,
-  deny /proc/*/stat r,
-  deny owner /proc/*/fd/ r,
-  deny owner /proc/*/fdinfo/* r,
+  # ### deny owner /proc/
+  deny owner /proc/filesystems r,
+  deny owner /proc/*/maps r,
+  deny owner /proc/*/stat r,
 
   owner /home/*/.Xauthority r,
   owner /home/*/.config/gtk-3.0/gtk.css r,
@@ -38,15 +38,16 @@
   owner /home/*/Pictures/LauncherIcons/* r,
   owner /tmp/.Xauth* r,
 
+  # ### allow owner /proc/
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+
   # ### allow /etc/
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
 
   # ### allow /etc/fonts/
   /etc/fonts/** r,
-
-  # ### allow /proc/
-  /proc/filesystems r,
 
   # ### allow /usr/lib/gconv/
   /usr/lib/gconv/gconv-modules r,

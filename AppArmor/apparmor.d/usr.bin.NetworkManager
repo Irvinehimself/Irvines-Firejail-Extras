@@ -33,13 +33,9 @@
   deny /usr/bin/bash x,
   deny /usr/bin/kmod x,
   deny owner /etc/modprobe.d/ r,
-  deny owner /proc/*/mounts r,
-  deny owner /proc/cmdline r,
-  deny owner /proc/cpuinfo r,
-  deny owner /proc/filesystems r,
   deny owner /usr/bin/bash mr,
   deny owner /usr/bin/kmod mr,
-
+  deny owner /proc/cpuinfo r,
 
   # ### allow /home/
   /home/*/.cert/nm-openvpn/*.pem r,
@@ -49,7 +45,6 @@
   /etc/ld.so.preload r,
 
   # ### allow /proc/
-  /proc/*/stat r,
 
   # ### allow /usr/bin/
   /usr/bin/openvpn mrix,
@@ -79,9 +74,15 @@
   owner /etc/ssl/openssl.cnf r,
 
   # ### allow owner /proc/
-  owner /proc/*/fd/ r,
   owner /proc/*/net/route r,
+  owner /proc/cmdline r,
+  owner /proc/filesystems r,
+  owner /proc/*/maps r,
+  owner /proc/*/fd/ r,
   owner /proc/stat r,
+  /proc/*/stat r,
+  owner /proc/*/stat r,
+  owner /proc/*/mounts r,
 
   # ### allow owner /proc/sys/
   owner /proc/sys/kernel/random/boot_id r,

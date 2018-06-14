@@ -37,9 +37,8 @@
   deny owner /**/orcexec.* mrw,
   deny owner /home/*/ r,
   deny owner /home/*/ w,
-  deny owner /proc/*/fd/ r,
-  deny owner /proc/*/fdinfo/* r,
 
+  # ### allow owner /home/
   owner /home/*/.Xauthority r,
   owner /home/*/.config/pulse/ r,
   owner /home/*/.config/pulse/* rw,
@@ -48,6 +47,10 @@
   owner /tmp/.Xauth* r,
   owner /tmp/.esd-????/ rw,
   owner /tmp/.esd-????/socket w,
+
+  # ### allow owner /proc/
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
 
   # ### allow /dev/
   /dev/urandom r,

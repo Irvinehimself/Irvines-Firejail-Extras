@@ -18,14 +18,12 @@
 
   signal send set=abrt peer=/usr/bin/nm-applet,
   signal receive set=abrt peer=/usr/bin/nm-applet,
+  signal send set=term peer=/usr/bin/nm-applet,
+  signal receive set=term peer=/usr/bin/nm-applet,
+  signal send set=exists peer=/usr/bin/nm-applet,
+  signal receive set=exists peer=/usr/bin/NetworkManager,
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
-
-  deny owner /proc/*/fd/ r,
-  deny owner /proc/*/fdinfo/* r,
-  deny owner /proc/*/maps r,
-  deny owner /proc/*/stat r,
-  deny /proc/filesystems r,
 
   # ### allow owner /home/
   owner /home/*/.Xauthority r,
@@ -39,6 +37,13 @@
   owner /home/*/.local/share/icons/** r,
   owner /home/*/.local/share/mime/mime.cache r,
   owner /home/*/.config/pulse/cookie rk,
+
+  # ### allow owner /proc/
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /proc/*/maps r,
+  owner /proc/*/stat r,
+  owner /proc/filesystems r,
 
   # ### allow owner /run/user/
   owner /run/user/*/dconf/user rw,
@@ -265,6 +270,10 @@
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/*/LC_MESSAGES/nm-applet.mo r,
   /usr/share/locale/locale.alias r,
+
+  # ### allow /usr/sounds/
+  /usr/share/sounds/freedesktop/index.theme r,
+  /usr/share/sounds/freedesktop/stereo/dialog-warning.oga r,
 
   # ### allow /usr/share/
   /usr/share/zoneinfo/** r,

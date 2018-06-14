@@ -28,12 +28,6 @@
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
-  deny /proc/*/stat r,
-  deny /proc/cpuinfo r,
-  deny /proc/stat r,
-  deny /sys/devices/system/cpu/ r,
-  deny /sys/devices/system/cpu/online r,
-
   # ### deny owner @{EXTDOCS1}
   deny owner @{EXTDOCS1}** mwlkx,
   deny owner @{EXTDOCS2}** mwlkx,
@@ -70,6 +64,12 @@
   owner /proc/*/fd/ r,
   owner /proc/*/fdinfo/* r,
   owner /proc/*/maps r,
+
+  deny /proc/*/stat r,
+  deny /proc/cpuinfo r,
+  deny /proc/stat r,
+  deny /sys/devices/system/cpu/ r,
+  deny /sys/devices/system/cpu/online r,
 
   # ### allow owner /tmp/
   owner /tmp/gdkpixbuf-xpm-tmp.* rw,

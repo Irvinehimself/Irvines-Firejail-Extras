@@ -1,7 +1,7 @@
 # Last Modified: Thu Jun  7 02:04:30 2018
-@{EXTDOCS1} = /home/*/Docs/
-@{EXTDOCS2} = /home/*/Shared/
-@{EXTDOCS3} = /home/*/Usbs/
+@{EXTDOCS1}=/home/*/Docs/
+@{EXTDOCS2}=/home/*/Shared/
+@{EXTDOCS3}=/home/*/Usbs/
 
 #include <tunables/home>
 
