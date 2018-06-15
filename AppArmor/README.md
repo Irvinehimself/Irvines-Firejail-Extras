@@ -55,8 +55,6 @@ I have a list, (which is constanly under review,) of things which need confineme
    * Iftop
    * Iptraf
    * Nethogs
-1. Possibly Apparmor, but Firejail, (with the generic `firejail-default` Apparmor profile) may be more appropriate
-   * imagemagick
 
 ### Far, far away in the future:
 Upgrade the default profiles for `ping` and `traceroute`??? The problem is that the `base` abstraction is very permissive when it comes to `ptrace`, `signals` `sockets` ... etc. You need to read it for yourself, but it permits a lot of undesirable capabilities that most applications shouldn't need.
