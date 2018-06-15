@@ -34,8 +34,7 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but thes
 1. usr.bin.ffmpeg
 1. usr.bin.youtube-dl
 1. usr.bin.vnstat
-
-**Not started**
+1. usr.bin.vnstat
 1. usr.bin.magick
 
 #### **IMPORTANT**
