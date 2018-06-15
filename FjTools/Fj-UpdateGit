@@ -36,6 +36,7 @@ GitApparmor="$GitHome/AppArmor"
 GitApparmorProfileList="$GitApparmor/AppArmor-ProfileList"
 GitAppArmorProfiles="$GitApparmor/apparmor.d"
 GitAppArmorLocals="$GitAppArmorProfiles/local"
+GitApTools="$GitHome/ApTools"
 GitAvTools="$GitHome/AvTools"
 UserSystemd="${HOME}/.config/systemd/user"
 
@@ -88,8 +89,12 @@ function UpdateApparmor(){
         fi
     done
     cp "/etc/apparmor.d/local/firejail-local" "$GitAppArmorLocals/firejail-local"
-    cp "/usr/local/bin/Hsa-CreateFreshAppArmorProfile" "$GitApparmor/Hsa-CreateFreshAppArmorProfile"
-    cp "/usr/local/bin/Hsa-GetCleanProfList" "$GitApparmor/Hsa-GetCleanProfList"
+    echo "Updating ApTools"
+    cd "/usr/local/bin"
+    ls | grep "Hsa-" |\
+    while read Line ; do
+        cp "$Line" "$GitApTools/$Line"
+    done
 }
 
 function UpdateSophos() {

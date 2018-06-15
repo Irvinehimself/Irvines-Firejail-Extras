@@ -1,3 +1,4 @@
+# Last Modified: Fri Jun 15 11:55:55 2018
 # vim:syntax=apparmor
 # AppArmor policy for vnstatd
 # Author: irvine mcminn at that gmail place dot com
@@ -5,6 +6,19 @@
 
 
 /usr/bin/vnstatd flags=(complain) {
-
   #include <local/usr.bin.vnstatd>
+
+  owner /etc/ld.so.cache r,
+  owner /etc/ld.so.preload r,
+  owner /etc/vnstat.conf r,
+  owner /proc/*/net/dev r,
+  owner /proc/stat r,
+  owner /sys/devices/pci0000:00/0000:00:1c.4/0000:02:00.0/net/*/speed r,
+  owner /sys/devices/virtual/net/*/speed r,
+  owner /usr/lib/libc-*.so mr,
+  owner /usr/lib/libm-*.so mr,
+  owner /usr/share/zoneinfo/** r,
+  owner /var/lib/vnstat/ r,
+  owner /var/lib/vnstat/* rwk,
+
 }
