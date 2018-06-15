@@ -32,6 +32,7 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but thes
 
 **Started but waiting for audit results**
 1. usr.bin.ffmpeg
+1. usr.bin.youtube-dl
 
 **Not started**
 

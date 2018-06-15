@@ -17,3 +17,4 @@ usr.bin.ffplay
 
 # complain mode
 usr.bin.ffmpeg
+usr.bin.youtube-dl
