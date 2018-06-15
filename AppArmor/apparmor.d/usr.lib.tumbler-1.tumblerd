@@ -1,4 +1,4 @@
-# Last Modified: Thu Jun  7 02:04:30 2018
+# Last Modified: Fri Jun 15 04:05:25 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -30,81 +30,55 @@
   deny /sys/devices/system/cpu/ r,
   deny /sys/devices/system/cpu/online r,
 
-  # ### deny mounts folder execute
-  deny owner /home/*/Docs/** mxwlk,
-  deny owner /home/*/Shared/** mxwlk,
-  deny owner /home/*/Usbs/** mxwlk,
+  # deny mount folder actions
+  deny owner /home/*/Docs/** mwlkx,
+  deny owner /home/*/Shared/** mwlkx,
+  deny owner /home/*/Usbs/** mwlkx,
 
-  # ### allow owner /home/
-  owner /home/*/.cache/fontconfig/*.cache* rw,
-  owner /home/*/.cache/thumbnails/** rw,
-  owner /home/*/.local/share/gvfs-metadata/home r,
-  owner /home/*/.local/share/gvfs-metadata/home-*.log r,
-  owner /home/*/.local/share/mime/mime.cache r,
+  # allow mount folders read
   owner /home/*/Docs/** r,
+  owner /home/*/Shared/** r,
+  owner /home/*/Usbs/** r,
+
+  # allow /home/ read
   owner /home/*/Desktop/** r,
   owner /home/*/Documents/** r,
   owner /home/*/Music/** r,
   owner /home/*/Pictures/** r,
   owner /home/*/Public/** r,
-  owner /home/*/Shared/** r,
-  owner /home/*/Usbs/** r,
   owner /home/*/Videos/** r,
 
-  # ### allow owner /proc/
+  # allow /home/ read write
+  owner /home/*/.cache/fontconfig/*.cache* rw,
+  owner /home/*/.cache/thumbnails/** rw,
+  owner /home/*/.local/share/gvfs-metadata/home r,
+  owner /home/*/.local/share/gvfs-metadata/home-*.log r,
+  owner /home/*/.local/share/mime/mime.cache r,
+
   owner /proc/*/fd/ r,
   owner /proc/*/fdinfo/* r,
   owner /proc/*/maps r,
 
-  # ### allow owner /tmp/
   owner /tmp/gdkpixbuf-xpm-tmp.* rw,
   owner /tmp/gsf-thumbnailer-* rw,
   owner /tmp/tumbler-*.png rw,
 
-  # ### allow /dev/
   /dev/null r,
-
-  # ### allow /etc/
+  /etc/fonts/** r,
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
-
-  # ### allow /etc/fonts
-  /etc/fonts/** r,
-
-  # ### allow /etc/tumbler/
   /etc/xdg/tumbler/tumbler.rc r,
-
-  # ### allow /proc/
   /proc/filesystems r,
-
-  # ### allow /proc/sys/
   /proc/sys/vm/overcommit_memory r,
-
-  # ### allow /usr/bin/
   /usr/bin/gsf-office-thumbnailer mrix,
-
-  # ### allow /usr/lib/gconv/
   /usr/lib/gconv/ISO8859-*.so mr,
   /usr/lib/gconv/gconv-modules r,
-
-  # ### allow /usr/lib/gdk-pixbuf/
   /usr/lib/gdk-pixbuf-*/*/loaders.cache r,
   /usr/lib/gdk-pixbuf-*/*/loaders/libpixbufloader-*.so mr,
-
-  # ### allow /usr/lib/gio/
   /usr/lib/gio/modules/ r,
   /usr/lib/gio/modules/giomodule.cache r,
   /usr/lib/gio/modules/lib*.so mr,
-
-  # ### allow /usr/lib/gvfs/
   /usr/lib/gvfs/libgvfscommon.so mr,
-
-  # ### allow /usr/lib/tumbler/
-  /usr/lib/tumbler-*/plugins/ r,
-  /usr/lib/tumbler-*/plugins/cache/tumbler-xdg-cache.so mr,
-  /usr/lib/tumbler-*/plugins/tumbler-*-thumbnailer.so mr,
-
-  # ### allow /usr/lib/
   /usr/lib/ld-*.so mr,
   /usr/lib/libX11.so.* mr,
   /usr/lib/libXau.so.* mr,
@@ -239,28 +213,21 @@
   /usr/lib/libxvidcore.so.* mr,
   /usr/lib/libz.so.* mr,
   /usr/lib/locale/** r,
-
-  # ### allow /usr/share/fonts/
+  /usr/lib/tumbler-*/plugins/ r,
+  /usr/lib/tumbler-*/plugins/cache/tumbler-xdg-cache.so mr,
+  /usr/lib/tumbler-*/plugins/tumbler-*-thumbnailer.so mr,
   /usr/share/fonts/ r,
   /usr/share/fonts/.uuid r,
-
-  # ### allow /usr/share/local/
   /usr/share/locale/** r,
-
-  # ### allow /usr/share/poppler
   /usr/share/poppler/cMap/ r,
   /usr/share/poppler/cidToUnicode/ r,
   /usr/share/poppler/nameToUnicode/ r,
   /usr/share/poppler/nameToUnicode/* r,
   /usr/share/poppler/unicodeMap/ r,
-
-  # ### allow /usr/share/thumbnailers/
   /usr/share/thumbnailers/ r,
   /usr/share/thumbnailers/*thumbnailer.thumbnailer r,
   /usr/share/thumbnailers/gsf-office.thumbnailer r,
   /usr/share/thumbnailers/librsvg.thumbnailer r,
-
-  # ### allow /usr/share/
   /usr/share/zoneinfo/** r,
 
 }

@@ -1,4 +1,4 @@
-# Last Modified: Thu Jun  7 02:04:30 2018
+# Last Modified: Fri Jun 15 04:39:10 2018
 # vim:syntax=apparmor
 # AppArmor policy for CheckLinuxhardenedUpdate
 # Author: irvine mcminn at gmail dot com
@@ -8,25 +8,19 @@
 /usr/local/bin/CheckLinuxhardenedUpdate {
   #include <local/usr.local.bin.CheckLinuxhardenedUpdate>
 
-  deny /proc/filesystems r,
   deny /proc/cpuinfo r,
+  deny /proc/filesystems r,
 
   owner /home/*/.config/CheckLinuxHardenedUpdate.conf rw,
   owner /home/*/Music/*Alarm* r,
 
-  # ### allow /usr/local/bin/
-  /usr/local/bin/CheckLinuxhardenedUpdate r,
-
-  # ### allow /dev/
-  /dev/tty rw,
-  /dev/urandom r,
-
-  # ### allow /dev/snd/
   /dev/snd/controlC0 rw,
   /dev/snd/pcmC0D0p rw,
   /dev/snd/timer r,
-
-  # ### allow /etc/
+  /dev/tty rw,
+  /dev/urandom r,
+  /etc/ca-certificates/** r,
+  /etc/gai.conf r,
   /etc/group r,
   /etc/host.conf r,
   /etc/hosts r,
@@ -34,27 +28,13 @@
   /etc/ld.so.preload r,
   /etc/nsswitch.conf r,
   /etc/resolv.conf r,
-  /etc/gai.conf r,
-
-  # ### allow /etc/ca-certificates/
-  /etc/ca-certificates/** r,
-
-  # ### allow /etc/ssl/
   /etc/ssl/openssl.cnf r,
-
-  # ### allow /usr/bin/
   /usr/bin/aplay mrix,
   /usr/bin/grep mrix,
   /usr/bin/notify-send mrix,
   /usr/bin/rsstail mrix,
-
-  # ### allow /usr/lib/gconv/
-  /usr/lib/gconv/gconv-modules r,
-
-  # ### allow /usr/lib/alsa-lib/
   /usr/lib/alsa-lib/libasound_module_rate_speexrate.so mr,
-
-  # ### allow /usr/lib/
+  /usr/lib/gconv/gconv-modules r,
   /usr/lib/ld-*.so mr,
   /usr/lib/libasound.so.* mr,
   /usr/lib/libblkid.so.* mr,
@@ -99,22 +79,13 @@
   /usr/lib/libunistring.so.* mr,
   /usr/lib/libuuid.so.* mr,
   /usr/lib/libz.so.* mr,
-
-  # ### allow /usr/lib/local/
   /usr/lib/locale/** r,
-
-  # ### allow /usr/alsa/
+  /usr/local/bin/CheckLinuxhardenedUpdate r,
   /usr/share/alsa/alsa.conf r,
-
-  # ### allow /usr/alsa/alsa.conf.d/
   /usr/share/alsa/alsa.conf.d/ r,
   /usr/share/alsa/alsa.conf.d/*-pulseaudio.conf r,
-
-  # ### allow /usr/alsa/cards/
   /usr/share/alsa/cards/HDA-Intel.conf r,
   /usr/share/alsa/cards/aliases.conf r,
-
-  # ### allow /usr/alsa/pcm/
   /usr/share/alsa/pcm/default.conf r,
   /usr/share/alsa/pcm/dmix.conf r,
   /usr/share/alsa/pcm/dsnoop.conf r,
@@ -123,12 +94,8 @@
   /usr/share/alsa/pcm/iec958.conf r,
   /usr/share/alsa/pcm/modem.conf r,
   /usr/share/alsa/pcm/surround*.conf r,
-
-  # ### allow /usr/local/
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/locale.alias r,
-
-  # ### allow /usr/share/
   /usr/share/zoneinfo/** r,
 
 }

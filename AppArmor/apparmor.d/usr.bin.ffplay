@@ -1,4 +1,4 @@
-# Last Modified: Thu Jun 14 03:31:42 2018
+# Last Modified: Fri Jun 15 04:44:22 2018
 # vim:syntax=apparmor
 # AppArmor policy for ffplay
 # Author: irvine mcminn at gmail dot com
@@ -10,20 +10,22 @@
 
   deny signal receive set=hup peer=unconfined,
 
+  # allow mount folders read only
   /home/*/Docs/** r,
+  /home/*/Shared/** r,
+  /home/*/Usbs/** r,
+
+  # allow ${HOME} document folders read only
   /home/*/Desktop/** r,
   /home/*/Documents/** r,
   /home/*/Music/** r,
   /home/*/Pictures/** r,
   /home/*/Public/** r,
-  /home/*/Shared/** r,
-  /home/*/Usbs/** r,
   /home/*/Videos/** r,
+
+  /home/*/.Xauthority r,
   /home/*/.cache/mesa_shader_cache/** rwk,
   /home/*/.icons/default/index.theme r,
-  /home/*/.Xauthority r,
-  /tmp/.Xauth* r,
-
 
   /dev/dri/ r,
   /dev/shm/ r,
@@ -42,6 +44,7 @@
   /sys/devices/pci0000:00/0000:00:02.0/vendor r,
   /sys/devices/system/cpu/ r,
   /sys/devices/system/cpu/online r,
+  /tmp/.Xauth* r,
   /usr/lib/dri/i965_dri.so mr,
   /usr/lib/gconv/gconv-modules r,
   /usr/lib/libFLAC.so.* mr,

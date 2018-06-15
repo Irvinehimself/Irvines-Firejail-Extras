@@ -1,4 +1,4 @@
-# Last Modified: Tue May 29 06:16:19 2018
+# Last Modified: Fri Jun 15 04:31:45 2018
 #include <tunables/home>
 #include <tunables/kernelvars>
 #include <tunables/proc>
@@ -34,73 +34,42 @@
   deny /sys/devices/system/cpu/online r,
   deny /usr/share/applications/ r,
   deny /usr/share/applications/*.desktop r,
-  deny owner /**/orcexec.* mrw,
-  deny owner /home/*/ r,
-  deny owner /home/*/ w,
 
-  # ### allow owner /home/
+  # deny jit compiled code
+  deny owner /**/orcexec.* mrw,
+  deny owner /home/*/ rw,
+
+  # allow /home/
   owner /home/*/.Xauthority r,
   owner /home/*/.config/pulse/ r,
   owner /home/*/.config/pulse/* rw,
   owner /home/*/.config/pulse/cookie rk,
   owner /home/*/.esd_auth rwk,
+
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+
   owner /tmp/.Xauth* r,
   owner /tmp/.esd-????/ rw,
   owner /tmp/.esd-????/socket w,
 
-  # ### allow owner /proc/
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-
-  # ### allow /dev/
   /dev/urandom r,
-
-  # ### allow /etc/
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
-
-  # ### allow /proc/
   /proc/asound/card0/ r,
   /proc/asound/card0/pcm*/ r,
   /proc/asound/card0/pcm*/sub0/status r,
-
-  # ### allow /run/systemd/
   /run/systemd/users/???? r,
-
-  # ### allow /run/udev/
   /run/udev/data/+sound:card0 r,
   /run/udev/data/c116:* r,
-
-  # ### allow /sys/bus/
   /sys/bus/ r,
-
-  # ### allow /sys/class/
   /sys/class/ r,
   /sys/class/sound/ r,
-
-  # ### allow /sys/devices/
   /sys/devices/pci0000:00/0000:00:1f.3/sound/card0/pcmC0D*/pcm_class r,
   /sys/devices/virtual/dmi/id/*_vendor r,
   /sys/devices/virtual/sound/timer/uevent r,
-
-  # ### allow /usr/bin/
   /usr/bin/pulseaudio mrix,
-
-  # ### allow /usr/lib/gconv/
   /usr/lib/gconv/gconv-modules r,
-
-  # ### allow /usr/lib/local/
-  /usr/lib/locale/locale-archive r,
-
-  # ### allow /usr/lib/pulse-11.1/
-  /usr/lib/pulse-11.1/modules/lib*.so mr,
-  /usr/lib/pulse-11.1/modules/module-*.so mr,
-
-  # ### allow /usr/lib/pulseaudio/
-  /usr/lib/pulseaudio/libpulsecommon-*.so mr,
-  /usr/lib/pulseaudio/libpulsecore-*.so mr,
-
-  # ### allow /usr/lib/
   /usr/lib/libFLAC.so.* mr,
   /usr/lib/libX11-xcb.so.* mr,
   /usr/lib/libX11.so.* mr,
@@ -134,12 +103,13 @@
   /usr/lib/libvorbis.so.* mr,
   /usr/lib/libvorbisenc.so.* mr,
   /usr/lib/libxcb.so.* mr,
-
-  # ### allow /usr/share/local/
+  /usr/lib/locale/locale-archive r,
+  /usr/lib/pulse-11.1/modules/lib*.so mr,
+  /usr/lib/pulse-11.1/modules/module-*.so mr,
+  /usr/lib/pulseaudio/libpulsecommon-*.so mr,
+  /usr/lib/pulseaudio/libpulsecore-*.so mr,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/locale.alias r,
-
-  # ### allow /usr/share/pulseaudio/
   /usr/share/pulseaudio/alsa-mixer/paths/analog-*.conf r,
   /usr/share/pulseaudio/alsa-mixer/paths/analog-*.conf.common r,
   /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-?.conf r,

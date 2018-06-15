@@ -12,21 +12,21 @@ Since I only use *Arch Linux*, which has a rational file system layout, dependin
 ### Finished profiles
 An uptodate list of profiles is available [here](AppArmor-ProfileList), but these are the ones people will likely find most interesting:
 
-**Completed and in enforce mode, (but still checking)**
-1. usr.lib.udisks2.udisksd
-1. usr.lib.gvfsd
-1. usr.lib.tumbler-1.tumblerd
+**Cleaned and in enforce mode**
 1. usr.bin.NetworkManager
 1. usr.bin.wpa_supplicant
-1. usr.bin.pulseaudio
-
-**Testing in enforce mode**
+1. usr.bin.nm-applet
+1. usr.lib.udisks2.udisksd
+1. usr.lib.gvfsd
 1. usr.lib.gvfsd-metadata
 1. usr.lib.gvfs-udisks2-volume-monitor
+1. usr.bin.pulseaudio
 1. usr.lib.xfce4.notifyd.xfce4-notifyd
-1. usr.bin.nm-applet
+1. usr.lib.tumbler-1.tumblerd
 1. usr.bin.ffplay
 1. usr.bin.ffmpegthumbnailer
+
+**Testing in enforce mode**
 
 **Testing in complain mode**
 

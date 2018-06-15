@@ -1,16 +1,16 @@
 # The current state of my Apparmor profiles project
 
 # enforce mode
+usr.bin.NetworkManager
+usr.bin.nm-applet
+usr.bin.wpa_supplicant
 usr.lib.udisks2.udisksd
 usr.lib.gvfsd
 usr.lib.gvfs-udisks2-volume-monitor
 usr.lib.gvfsd-metadata
-usr.lib.tumbler-1.tumblerd
-usr.bin.NetworkManager
-usr.bin.nm-applet
-usr.bin.wpa_supplicant
 usr.bin.pulseaudio
 usr.lib.xfce4.notifyd.xfce4-notifyd
+usr.lib.tumbler-1.tumblerd
 usr.local.bin.CheckLinuxhardenedUpdate
 usr.bin.ffmpegthumbnailer
 usr.bin.ffplay

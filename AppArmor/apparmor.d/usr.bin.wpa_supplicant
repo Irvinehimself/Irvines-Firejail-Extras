@@ -1,9 +1,8 @@
-# Last Modified: Thu May 17 17:40:09 2018
+# Last Modified: Fri Jun 15 04:30:43 2018
 # vim:syntax=apparmor
 # AppArmor policy for wpa_supplicant
 # Author: irvine mcminn at gmail dot com
 # GPL3
-
 # ### Overview ###
 # For obvious reasons, it needs a few capabilities related network admin, but
 # overall it is very restrictive. It has no access to any user directories;
@@ -21,43 +20,33 @@
 # see  https://tools.cisco.com/security/center/viewAlert.x?alertId=30107
 # ### ###  ### ###
 
+
 /usr/bin/wpa_supplicant {
   #include <local/usr.bin.wpa_supplicant>
 
-
-  # ### allow capabilities
   capability mknod,
   capability net_admin,
   capability net_raw,
   capability sys_module,
 
-  # ### deny signal
   deny signal receive set=cont peer=unconfined,
   deny signal receive set=exists peer=unconfined,
   deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
   deny signal receive set=term peer=unconfined,
 
-  # ### allow signal
   signal receive set=io peer=/usr/bin/wpa_supplicant,
   signal send set=io peer=/usr/bin/wpa_supplicant,
 
-  # ### allow owner /dev/
   owner /dev/null rw,
   owner /dev/rfkill r,
   owner /dev/urandom r,
-
-  # ### allow owner /etc/
   owner /etc/ld.so.cache r,
   owner /etc/ld.so.preload r,
-
-  # ### allow owner /proc/net/
   owner /proc/sys/net/ipv4/conf/wlp2s0/drop_gratuitous_arp rw,
   owner /proc/sys/net/ipv4/conf/wlp2s0/drop_unicast_in_l2_multicast rw,
   owner /proc/sys/net/ipv6/conf/wlp2s0/drop_unicast_in_l2_multicast rw,
   owner /proc/sys/net/ipv6/conf/wlp2s0/drop_unsolicited_na rw,
-
-  # ### allow owner /usr/lib/
   owner /usr/lib/libc-*.so mr,
   owner /usr/lib/libcrypto.so.* mr,
   owner /usr/lib/libdbus-1.so.* mr,

@@ -1,4 +1,4 @@
-# Last Modified: Fri May 25 17:31:46 2018
+# Last Modified: Fri Jun 15 03:26:44 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -11,7 +11,6 @@
   #include <abstractions/dri-enumerate>
   #include <local/usr.lib.udisks2.udisksd>
 
-  # ### allow capabilities
   capability dac_override,
   capability dac_read_search,
   capability mknod,
@@ -20,53 +19,36 @@
   capability sys_admin,
   capability sys_rawio,
 
-  # ### allow mount capabilities
   mount,
   remount,
   umount,
 
-  # ### deny signal
   deny signal receive set=cont peer=unconfined,
   deny signal receive set=exists peer=unconfined,
   deny signal receive set=int peer=unconfined,
   deny signal receive set=kill peer=unconfined,
   deny signal receive set=term peer=unconfined,
 
-  # ### allow signal
   signal receive set=term peer=/usr/lib/udisks2/udisksd,
   signal send set=term peer=/usr/lib/udisks2/udisksd,
 
-  # ### This disables mounting usbs and external drives through udisks2 and/or
-  # ### the file manager. As a result, all mounts are handled by 'Hs-MountReadWrite'
-  # ### NOTE: there is a matching entry in '/etc/apparmor.d/'usr.lib.gvfs-udisks2-volume-monitor'
-  # ### For reasoning, see:
-  # ### https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/HsTools
-  # ### deny owner /run/media/
-  deny owner /run/media/** rmxwlk,
-  deny owner /run/media/ rmxwlk,
-  deny owner /media/** rmxwlk,
-  deny owner /media/ rmxwlk,
-  deny /run/media/** rmxwlk,
-  deny /run/media/ rmxwlk,
-  deny /media/** rmxwlk,
-  deny /media/ rmxwlk,
+  # This stops udisks2 from mounting usbs, drives and partitions. As a result, all mounts are handled by 'Hs-MountReadWrite'.
+  # See: https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/HsTools#udisks2-hardening
+  deny /media/ mrwlkx,
+  deny /media/** mrwlkx,
+  deny /run/media/ mrwlkx,
+  deny /run/media/** mrwlkx,
 
-
-  # ### allow /usr/bin/
   /usr/bin/dumpe2fs mrix,
   /usr/bin/eject mrix,
   /usr/bin/ntfs-3g mrix,
   /usr/bin/umount mrix,
-
-  # ### allow owner /dev/
   owner /dev/fuse rw,
   owner /dev/null r,
   owner /dev/null w,
   owner /dev/sd? rwk,
   owner /dev/sd?? rwk,
   owner /dev/sr0 rw,
-
-  # ### allow owner /etc/
   owner /etc/crypttab r,
   owner /etc/fstab r,
   owner /etc/group r,
@@ -77,39 +59,29 @@
   owner /etc/nsswitch.conf r,
   owner /etc/passwd r,
   owner /etc/udisks2/udisks2.conf r,
-
-  # ### allow owner /proc/
   owner /proc/*/fd/ r,
   owner /proc/*/mountinfo r,
   owner /proc/*/mounts r,
   owner /proc/filesystems r,
   owner /proc/swaps r,
-
-
-  # ### allow owner /run/mount/
   owner /run/mount/utab rw,
   owner /run/mount/utab.* rw,
   owner /run/mount/utab.lock rwk,
-
-  # ### allow owner /run/systemd/
   owner /run/systemd/seats/seat[0-9] r,
-
-  # ### allow owner /run/udev/
   owner /run/udev/data/b{[0-9],[1-9][0-9]}:{[0-9],[1-9][0-9]} r,
-
-  # ### allow owner /run/udisks2/
   owner /run/udisks2/ w,
   owner /run/udisks2/mounted-fs w,
   owner /run/udisks2/mounted-fs.* rw,
-
-  # ### allow owner /sys/bus/
   owner /sys/bus/ r,
-
-  # ### allow owner /sys/class/
   owner /sys/class/ r,
   owner /sys/class/block/ r,
-
-  # ### allow owner /sys/devices/
+  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/queue/rotational r,
+  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/removable r,
+  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/ro r,
+  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/sda?/ro r,
+  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/sda?/size r,
+  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/size r,
+  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/stat r,
   owner /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?.?/?-?.?.?/?-?.?.?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/ r,
   owner /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?.?/?-?.?.?/?-?.?.?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/queue/rotational r,
   owner /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?.?/?-?.?.?/?-?.?.?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/removable r,
@@ -146,18 +118,7 @@
   owner /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?:?.?/host?/target?:?:?/?:?:?:?/block/sr0/ro r,
   owner /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?:?.?/host?/target?:?:?/?:?:?:?/block/sr0/size r,
   owner /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/remove w,
-  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/queue/rotational r,
-  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/removable r,
-  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/ro r,
-  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/sda?/ro r,
-  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/sda?/size r,
-  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/size r,
-  owner /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sda/stat r,
-
-  # ### allow owner /usr/lib/gconv/
   owner /usr/lib/gconv/gconv-modules r,
-
-  # ### allow owner /usr/lib/gio/
   owner /usr/lib/gio/modules/ r,
   owner /usr/lib/gio/modules/giomodule.cache r,
   owner /usr/lib/gio/modules/libdconfsettings.so mr,
@@ -167,14 +128,7 @@
   owner /usr/lib/gio/modules/libgioremote-volume-monitor.so mr,
   owner /usr/lib/gio/modules/libgsettingsgconfbackend.so mr,
   owner /usr/lib/gio/modules/libgvfsdbus.so mr,
-
-  # ### allow owner /usr/lib/gvfs/
   owner /usr/lib/gvfs/libgvfscommon.so mr,
-
-  # ### allow owner /usr/lib/locale/
-  owner /usr/lib/locale/** r,
-
-  # ### allow owner /usr/lib/
   owner /usr/lib/libacl.so.* mr,
   owner /usr/lib/libargon2.so.* mr,
   owner /usr/lib/libassuan.so.* mr,
@@ -250,16 +204,11 @@
   owner /usr/lib/libuuid.so.* mr,
   owner /usr/lib/libvolume_key.so.* mr,
   owner /usr/lib/libz.so.* mr,
-
-  # ### allow owner /usr/share/gvfs/
+  owner /usr/lib/locale/** r,
   owner /usr/share/gvfs/remote-volume-monitors/ r,
   owner /usr/share/gvfs/remote-volume-monitors/udisks2.monitor r,
-
-  # ### allow owner /usr/share/locale/
   owner /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   owner /usr/share/locale/locale.alias r,
-
-  # ### allow owner /usr/share/
   owner /usr/share/zoneinfo/*/* r,
 
 }

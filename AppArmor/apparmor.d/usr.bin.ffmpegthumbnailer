@@ -1,4 +1,4 @@
-# Last Modified: Thu Jun 14 15:11:02 2018
+# Last Modified: Fri Jun 15 04:40:42 2018
 # vim:syntax=apparmor
 # AppArmor policy for ffmpegthumbnailer
 # Author: irvine mcminn at gmail dot com
@@ -8,18 +8,17 @@
 /usr/bin/ffmpegthumbnailer {
   #include <local/usr.bin.ffmpegthumbnailer>
 
-  # ### allow 'home/ read write
-  /home/*/Desktop/** rw,
-  /home/*/Music/** rw,
-  /home/*/Public/** rw,
-  /home/*/Public/** rw,
-  /home/*/Videos/** rw,
-
-  # ### allow 'home/ read
-  /home/*/Documents/** r,
+  # allow mount folders read only
   /home/*/Docs/** r,
   /home/*/Shared/** r,
   /home/*/Usbs/** r,
+
+  # allow /home/ folders read write
+  /home/*/Desktop/** rw,
+  /home/*/Documents/** r,
+  /home/*/Music/** rw,
+  /home/*/Public/** rw,
+  /home/*/Videos/** rw,
 
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,

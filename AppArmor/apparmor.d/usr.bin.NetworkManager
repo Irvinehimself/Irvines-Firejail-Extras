@@ -1,4 +1,4 @@
-# Last Modified: Thu Jun  7 02:04:30 2018
+# Last Modified: Fri Jun 15 04:25:23 2018
 # vim:syntax=apparmor
 # Combined AppArmor policy for NetworkManager and OpenVpn
 # Author: irvine mcminn at gmail dot com
@@ -33,36 +33,25 @@
   deny /usr/bin/bash x,
   deny /usr/bin/kmod x,
   deny owner /etc/modprobe.d/ r,
+  deny owner /proc/cpuinfo r,
   deny owner /usr/bin/bash mr,
   deny owner /usr/bin/kmod mr,
-  deny owner /proc/cpuinfo r,
 
-  # ### allow /home/
+  # allow /home/ read
   /home/*/.cert/nm-openvpn/*.pem r,
 
-  # ### allow /etc/
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
-
-  # ### allow /proc/
-
-  # ### allow /usr/bin/
+  /proc/*/stat r,
   /usr/bin/openvpn mrix,
-
-  # ### allow /usr/lib/
   /usr/lib/libnm.so.* r,
   /usr/lib/nm-openvpn-service mrix,
   /usr/lib/nm-openvpn-service-openvpn-helper mrix,
-
-
-  # ### allow owner /dev/
   owner /dev/net/tun rw,
   owner /dev/null r,
   owner /dev/rfkill rw,
   owner /dev/tty rw,
   owner /dev/urandom r,
-
-  # ### allow owner /etc/
   owner /etc/NetworkManager/** rw,
   owner /etc/gai.conf r,
   owner /etc/group r,
@@ -72,19 +61,13 @@
   owner /etc/passwd r,
   owner /etc/resolv.conf* rw,
   owner /etc/ssl/openssl.cnf r,
-
-  # ### allow owner /proc/
+  owner /proc/*/fd/ r,
+  owner /proc/*/maps r,
+  owner /proc/*/mounts r,
   owner /proc/*/net/route r,
   owner /proc/cmdline r,
   owner /proc/filesystems r,
-  owner /proc/*/maps r,
-  owner /proc/*/fd/ r,
   owner /proc/stat r,
-  /proc/*/stat r,
-  owner /proc/*/stat r,
-  owner /proc/*/mounts r,
-
-  # ### allow owner /proc/sys/
   owner /proc/sys/kernel/random/boot_id r,
   owner /proc/sys/net/ipv4/conf/*p*s0/rp_filter rw,
   owner /proc/sys/net/ipv4/conf/all/rp_filter r,
@@ -110,8 +93,6 @@
   owner /proc/sys/net/ipv6/conf/tun?/forwarding r,
   owner /proc/sys/net/ipv6/conf/tun?/hop_limit r,
   owner /proc/sys/net/ipv6/conf/tun?/use_tempaddr r,
-
-  # ### allow owner /run/NetworkManager/
   owner /run/NetworkManager/ w,
   owner /run/NetworkManager/devices/ rw,
   owner /run/NetworkManager/devices/{[2-9],[1-9][0-9]} rw,
@@ -119,24 +100,14 @@
   owner /run/NetworkManager/nm-openvpn-* w,
   owner /run/NetworkManager/resolv.conf w,
   owner /run/NetworkManager/resolv.conf.* rw,
-
-  # ### allow owner /run/systemd/
   owner /run/systemd/users/* r,
-
-  # ### allow owner /run/udev/data/
   owner /run/udev/data/+pci:0000:02:00.0 r,
   owner /run/udev/data/+rfkill:rfkill[01] r,
   owner /run/udev/data/n[123] r,
-
-  # ### allow owner /sys/bus/
   owner /sys/bus/ r,
-
-  # ### allow owner /sys/class/
   owner /sys/class/ r,
   owner /sys/class/net/ r,
   owner /sys/class/rfkill/ r,
-
-  # ### allow owner /sys/devices/
   owner /sys/devices/LNXSYSTM:00/LNXSYBUS:00/*:00/rfkill/rfkill0/uevent r,
   owner /sys/devices/pci0000:00/0000:00:1c.?/0000:0?:00.0/ieee80211/phy?/rfkill1/uevent r,
   owner /sys/devices/pci0000:00/0000:00:1c.?/0000:0?:00.0/ieee80211/phy?/uevent r,
@@ -158,19 +129,11 @@
   owner /sys/devices/virtual/net/tun*/owner r,
   owner /sys/devices/virtual/net/tun*/phys_port_id r,
   owner /sys/devices/virtual/net/tun*/tun_flags r,
-
-  # ### allow owner /usr/lib/NetworkManager/
   owner /usr/lib/NetworkManager/ r,
   owner /usr/lib/NetworkManager/** m,
   owner /usr/lib/NetworkManager/** rk,
-
-  # ### allow owner /usr/lib/firmware/
   owner /usr/lib/firmware/rtl_nic/rtl8168g-2.fw r,
-
-  # ### allow owner /usr/lib/gconv/
   owner /usr/lib/gconv/gconv-modules r,
-
-  # ### allow owner /usr/lib/gio/
   owner /usr/lib/gio/modules/ r,
   owner /usr/lib/gio/modules/giomodule.cache r,
   owner /usr/lib/gio/modules/libdconfsettings.so mr,
@@ -180,14 +143,7 @@
   owner /usr/lib/gio/modules/libgioremote-volume-monitor.so mr,
   owner /usr/lib/gio/modules/libgsettingsgconfbackend.so mr,
   owner /usr/lib/gio/modules/libgvfsdbus.so mr,
-
-  # ### allow owner /usr/lib/gvfs/
   owner /usr/lib/gvfs/libgvfscommon.so mr,
-
-  # ### allow owner /usr/lib/locale/
-  owner /usr/lib/locale/locale-archive r,
-
-  # ### allow owner /usr/lib/
   owner /usr/lib/libblkid.so.* mr,
   owner /usr/lib/libbluetooth.so.* mr,
   owner /usr/lib/libc-*.so mr,
@@ -258,22 +214,15 @@
   owner /usr/lib/libuuid.so.* mr,
   owner /usr/lib/libz.so.* mr,
   owner /usr/lib/libzmq.so.* mr,
-
-  # ### allow owner /usr/share/gvfs/
+  owner /usr/lib/locale/locale-archive r,
   owner /usr/share/gvfs/remote-volume-monitors/ r,
   owner /usr/share/gvfs/remote-volume-monitors/udisks2.monitor r,
-
-  # ### allow owner /usr/share/locale/
   owner /usr/share/locale/*/LC_MESSAGES/NetworkManager-openvpn.mo r,
   owner /usr/share/locale/*/LC_MESSAGES/NetworkManager.mo r,
   owner /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
   owner /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   owner /usr/share/locale/locale.alias r,
-
-  # ### allow owner /usr/share/
   owner /usr/share/zoneinfo/** r,
-
-  # ### allow owner /var/lib/NetworkManager/
   owner /var/lib/NetworkManager/.#internal-*.lease* rw,
   owner /var/lib/NetworkManager/.#internal-*wlp2s0.lease rw,
   owner /var/lib/NetworkManager/NetworkManager-intern.conf r,

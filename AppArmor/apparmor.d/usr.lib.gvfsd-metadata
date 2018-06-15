@@ -1,4 +1,4 @@
-# Last Modified: Thu Jun  7 02:04:30 2018
+# Last Modified: Fri Jun 15 04:01:56 2018
 # vim:syntax=apparmor
 # AppArmor policy for gvfsd-metadata
 # Author: irvine mcminn at gmail dot com
@@ -9,13 +9,12 @@
   #include <local/usr.lib.gvfsd-metadata>
 
   deny signal receive set=cont peer=unconfined,
-  deny signal receive set=term peer=unconfined,
   deny signal receive set=kill peer=unconfined,
+  deny signal receive set=term peer=unconfined,
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
-
-  # ### allow owner /home/
+  # allow /home/ read write
   owner /home/*/.local/share/gvfs-metadata/ r,
   owner /home/*/.local/share/gvfs-metadata/home rw,
   owner /home/*/.local/share/gvfs-metadata/home-*.log rw,
@@ -27,42 +26,22 @@
   owner /home/*/.local/share/gvfs-metadata/uuid-*-*-*-*-*-*.log rw,
   owner /home/*/.local/share/gvfs-metadata/uuid-*-*-*-*-*-*.log.* rw,
 
-  # ### allow owner /proc/
   owner /proc/*/fd/ r,
   owner /proc/*/fdinfo/* r,
   owner /proc/*/maps r,
   owner /proc/*/stat r,
 
-  # ### allow /dev/
   /dev/urandom r,
-
-  # ### allow /etc/
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
-
-  # ### allow /proc/
   /proc/filesystems r,
-
-  # ### allow /run/udev/
   /run/udev/data/b8:* r,
-
-  # ### allow /sys/devices/
-  /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?.?/?-?.?.?/?-?.?.?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
+  /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
   /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?.?/?-?.?.?/?-?.?.?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
   /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?.?/?-?.?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
   /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
-  /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
-
-  # ### allow /usr/lib/gconv/
   /usr/lib/gconv/gconv-modules r,
-
-  # ### allow /usr/lib/gvfs/
   /usr/lib/gvfs/libgvfscommon.so mr,
-
-  # ### allow /usr/lib/locale/
-  /usr/lib/locale/locale-archive r,
-
-  # ### allow /usr/lib/
   /usr/lib/libblkid.so.* mr,
   /usr/lib/libc-*.so mr,
   /usr/lib/libdl-*.so mr,
@@ -81,8 +60,7 @@
   /usr/lib/libudev.so.* mr,
   /usr/lib/libuuid.so.* mr,
   /usr/lib/libz.so.* mr,
-
-  # ### allow /usr/share/locale/
+  /usr/lib/locale/locale-archive r,
   /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
   /usr/share/locale/*/LC_MESSAGES/gvfs.mo r,
   /usr/share/locale/locale.alias r,
