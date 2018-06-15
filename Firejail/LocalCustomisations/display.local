@@ -1,0 +1,7 @@
+# Local customisations for display
+
+# The display firejail profile only covers a subset of ImageMagick commands. Since
+# I am writing a dedicated apparmor profile for usr.bin.magick to cover all the
+# commands and /usr/bin/display links to /usr/bin/magick, we need to disable apparmor
+# for this profile.
+ignore apparmor

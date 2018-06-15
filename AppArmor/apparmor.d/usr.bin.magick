@@ -1,0 +1,10 @@
+# vim:syntax=apparmor
+# AppArmor policy for magick
+# Author: irvine mcminn at that gmail place dot com
+# Licence: GPL3
+
+
+/usr/bin/magick flags=(complain) {
+
+  #include <local/usr.bin.magick>
+}
