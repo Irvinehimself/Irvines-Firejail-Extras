@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# A collection of useful Apparmor commands
+# Based on https://help.ubuntu.com/community/AppArmor
+
+source Hsa-Shared
+
+PromptMsg="${Dimd}Commands: (S)tatus, (D)mesg, (A)udit or (Q)uit${End}"
+
+SetTerminalTitle "AppArmorStatus"
+
+ReadKey "$PromptMsg"
+until echo $Key|grep -iq "q"; do
+    printf '\n'
+    case $Key in
+        [sS]) echo -e "${Dimd}Apparmor status:${End}"
+              sudo apparmor_status ;;
+        [dD]) echo -e "${Dimd}dmesg grep Apparmor:${End}"
+              sudo dmesg | grep -i "apparmor" ;;
+        [aA]) echo -e "${Dimd}dmesg grep Audit:${End}"
+              sudo dmesg | grep -i "audit" ;;
+    esac
+    printf '\n'
+    ReadKey "$PromptMsg"
+done
+echo " Bye, have a nice day!"

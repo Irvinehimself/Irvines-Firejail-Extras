@@ -29,22 +29,18 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but thes
 **Testing in enforce mode**
 
 **Testing in complain mode**
-
-**Started but waiting for audit results**
 1. usr.bin.ffmpeg
 1. usr.bin.youtube-dl
 1. usr.bin.vnstat
 1. usr.bin.vnstatd
 1. usr.bin.magick
 
+**Started but waiting for audit results**
+
 #### **IMPORTANT**
 The `usr.lib.udisks2.udisksd` profile deny's all operations on `/run/media` and `/media`. The reasoning for this is to gain full control of how *external drives* and *partitions* are mounted. In particular, I wish to ensure that they are mounted with the `noexec` flag set, and that I can, as I choose, either mount them as  `read-only` or `read-write`. My reasoning is explained fully in the [HsTools readme](/HsTools#udisks2-hardening).
 
 Suffice to say, my `usr.lib.udisks2.udisksd` profile in combination with [Hs-MountReadWrite](/HsTools#hs-mountreadwrite) offer full control of mount operations in a manner that is secure against threats like, for example, [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet#Operation).
-
-
-### Hsa-CreateFreshAppArmorProfile
-A simple shell I wrote to take the drudgery out of starting new Apparmor profiles. If I give it the path to the `executable` I want to confine, it creates an empty profile; of the correct name; set in complain mode, along with the local `site specific` customisation file. It then loads the profile, and, when I am ready, I can run `aa-logprof` to start filling it in.
 
 
 ### Whats next?

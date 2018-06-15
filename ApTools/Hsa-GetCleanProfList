@@ -1,0 +1,36 @@
+#!/bin/bash
+
+##########################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# ApTools is a collection of monitoring and general security tools to make
+# it easier to adopt good habits. The project home page can be found at
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# ApTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# ApTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ApTools.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
+
+# Shell to get create a list of my profiles for aa-cleanprof
+
+ExecutablePathFile="${HOME}/Desktop/CleanProfList"
+ProfileList="${HOME}/Git/TheBeggarsHardeningProject/AppArmor/AppArmor-ProfileList"
+
+echo "" > "$ExecutablePathFile"
+cat "$ProfileList" | grep -v "#" | \
+while read ProfilePath ; do
+    if ! [[ "$ProfilePath" == "" ]] ; then
+        ExecutableName="/"$(echo "$ProfilePath" | sed 's/\./\//g')
+        echo "sudo aa-cleanprof -d /etc/apparmor.d/ $ExecutableName" >> "$ExecutablePathFile"
+    fi
+done

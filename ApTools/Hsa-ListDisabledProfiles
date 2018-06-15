@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# List disabled Apparmor profiles
+
+source Fj-TerminalTricks
+
+SetTerminalTitle "listDisabledApparmorProfiles"
+
+
+echo -e "${Dimd}The following Apparmor profiles are disabled:${End}${Blu}"
+ls -A /etc/apparmor.d/disable/
+echo -e "${End}"
+ReadQuit

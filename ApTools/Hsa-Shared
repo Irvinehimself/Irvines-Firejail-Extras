@@ -1,0 +1,51 @@
+#!/bin/bash
+
+##########################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# ApTools is a collection of monitoring and general security tools to make
+# it easier to adopt good habits. The project home page can be found at
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# ApTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# ApTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ApTools.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
+
+# Shared functions for Hsa-ApparmorTools
+
+source Fj-TerminalTricks
+
+EtcAppArmord="/etc/apparmor.d"
+
+function GetProfileName() {
+    Key="y"
+    while [[ "$Key" == "y" ]] ; do
+    	echo -e "${Dimd}Enter partial name of profile $1: (leave blank to cancel)${End}"
+    	read ProfilePattern
+    	ProfilePattern=$(ls "$EtcAppArmord" | grep -i "$ProfilePattern")
+    	echo -e "${Dimd}Matching profiles are:${End}"
+    	echo -e "${Blu}$ProfilePattern${End}"
+    	ReadKey "${Dimd}Do you wish to refine the search pattern N/y?${End}"
+    	clear
+    done
+}
+
+function ReloadProfile(){
+    for  Profile in ${ProfilePattern[@]} ; do
+        echo -e "${Dimd}Reloading:${End} ${Blu}$Profile${End}"
+        sudo apparmor_parser -r "$EtcAppArmord/$Profile"
+    done
+}
+
+
+

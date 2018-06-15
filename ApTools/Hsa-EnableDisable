@@ -1,0 +1,48 @@
+#!/bin/bash
+
+##########################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# ApTools is a collection of monitoring and general security tools to make
+# it easier to adopt good habits. The project home page can be found at
+# https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# ApTools is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# ApTools is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with ApTools.  If not, see <http://www.gnu.org/licenses/>.
+############################################################################
+
+# Set an Apparmor profile in either complain or enforce mode
+
+source Hsa-Shared
+
+SetTerminalTitle "EnableDisableProfile"
+
+GetProfileName ""
+ReadKey "${Dimd}Do you wish to enable or disable the profiles E/D/Q?${End}"
+clear
+for  Profile in ${ProfilePattern[@]} ; do
+    if  [[ "$Key" == "e" ]]  ; then
+            echo -e "${Dimd}Enabling:${End} ${Blu}$Profile${End}"
+            sudo rm -f "$EtcAppArmord/disable/$Profile"
+        else if [[ "$Key" == "d" ]]  ; then
+                echo -e "${Dimd}Disabling:${End} ${Blu}$Profile${End}"
+                sudo ln -s "$EtcAppArmord/$Profile" "$EtcAppArmord/disable/"
+            else
+                    echo -e "${Dimd}Operation cancelled${End}"
+        fi
+    fi
+done
+if [[ "$Key" == "c" || "$Key" == "e" ]] ; then
+    ReloadProfile
+fi
+ReadQuit
