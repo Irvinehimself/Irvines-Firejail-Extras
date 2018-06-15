@@ -1,0 +1,10 @@
+# vim:syntax=apparmor
+# AppArmor policy for vnstat
+# Author: irvine mcminn at that gmail place dot com
+# Licence: GPL3
+
+
+/usr/bin/vnstat flags=(complain) {
+
+  #include <local/usr.bin.vnstat>
+}

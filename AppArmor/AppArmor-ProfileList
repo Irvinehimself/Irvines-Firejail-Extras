@@ -19,3 +19,4 @@ usr.bin.ffplay
 usr.bin.ffmpeg
 usr.bin.youtube-dl
 usr.bin.magick
+usr.bin.vnstat
