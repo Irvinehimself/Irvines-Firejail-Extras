@@ -21,3 +21,4 @@ usr.bin.youtube-dl
 usr.bin.magick
 usr.bin.vnstat
 usr.bin.vnstatd
+usr.bin.mpg123

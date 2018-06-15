@@ -34,6 +34,7 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but thes
 1. usr.bin.vnstat
 1. usr.bin.vnstatd
 1. usr.bin.magick
+1. usr.bin.mpg123
 
 #### **IMPORTANT**
 The `usr.lib.udisks2.udisksd` profile deny's all operations on `/run/media` and `/media`. The reasoning for this is to gain full control of how *external drives* and *partitions* are mounted. In particular, I wish to ensure that they are mounted with the `noexec` flag set, and that I can, as I choose, either mount them as  `read-only` or `read-write`. My reasoning is explained fully in the [HsTools readme](/HsTools#udisks2-hardening).
