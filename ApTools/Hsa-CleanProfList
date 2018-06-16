@@ -23,14 +23,21 @@
 
 # Shell to get create a list of my profiles for aa-cleanprof
 
+source Hsa-Shared
+
 ExecutablePathFile="${HOME}/Desktop/CleanProfList"
 ProfileList="${HOME}/Git/TheBeggarsHardeningProject/AppArmor/AppArmor-ProfileList"
 
-echo "" > "$ExecutablePathFile"
+SetTerminalTitle "CleanProf-List"
+
+echo "#!/bin/bash" > "$ExecutablePathFile"
 cat "$ProfileList" | grep -v "#" | \
 while read ProfilePath ; do
     if ! [[ "$ProfilePath" == "" ]] ; then
         ExecutableName="/"$(echo "$ProfilePath" | sed 's/\./\//g')
-        echo "sudo aa-cleanprof -d /etc/apparmor.d/ $ExecutableName" >> "$ExecutablePathFile"
+        echo "sudo aa-cleanprof -d /etc/apparmor.d/ $ExecutableName" | tee -a "$ExecutablePathFile"
     fi
 done
+chmod 755 "$ExecutablePathFile"
+echo
+ReadQuit

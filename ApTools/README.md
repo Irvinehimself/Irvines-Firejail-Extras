@@ -32,8 +32,8 @@ Takes the drudgery out of starting new Apparmor profiles. It takes the path to a
 ### Hsa-AaLogProf
 A wrapper to run `aa-logprof` with a mouseclick
 
-### Hsa-GetCleanProfList
-Using [AppArmor-ProfileList](Apparmor/AppArmor-ProfileList), it creates a list of executable paths prepended with `sudo aa-cleanprof -d /etc/apparmor.d/`. The resulting file can either be used directly as an executable to run `aa-cleanprof` on **all** my Apparmor profiles, or used to copy paste for a specific profile. While it is extremely trivial it really does cut down a lot of the drudge work.
+### Hsa-CleanProfList
+Using [AppArmor-ProfileList](Apparmor/AppArmor-ProfileList), it creates a list of executable paths prepended with `sudo aa-cleanprof -d /etc/apparmor.d/`. While it echo's the output to the terminal window for quick copy pasting, it is also `tee-ed` to a file which can be used directly as an executable to run `aa-cleanprof` on **ALL** the profiles on the list. Again, although it is extremely trivial it really does cut down a lot of the drudge work.
 
 
 ### Hsa-Shared
