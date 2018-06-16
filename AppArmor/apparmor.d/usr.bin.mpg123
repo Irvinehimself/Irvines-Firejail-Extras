@@ -1,4 +1,7 @@
 # Last Modified: Sat Jun 16 05:27:07 2018
+#include <tunables/home>
+#include <tunables/proc>
+
 # vim:syntax=apparmor
 # AppArmor policy for mpg123
 # Author: irvine mcminn at that gmail place dot com
