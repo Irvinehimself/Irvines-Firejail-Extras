@@ -1,0 +1,47 @@
+# Last Modified: Sat Jun 16 05:27:07 2018
+# vim:syntax=apparmor
+# AppArmor policy for mpg123
+# Author: irvine mcminn at that gmail place dot com
+# Licence: GPL3
+
+
+/usr/bin/mpg123 flags=(complain) {
+  #include <abstractions/audio>
+  #include <local/usr.bin.mpg123>
+
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=hup peer=unconfined,
+  deny signal receive set=term peer=unconfined,
+
+  # allow mount folders read only
+  /home/*/Docs/** r,
+  /home/*/Shared/** r,
+  /home/*/Usbs/** r,
+
+  # allow ${HOME} document folders read only
+  /home/*/Desktop/** r,
+  /home/*/Documents/** r,
+  /home/*/Music/** r,
+  /home/*/Pictures/** r,
+  /home/*/Public/** r,
+  /home/*/Videos/** r,
+
+  /etc/group r,
+  /etc/ld.so.cache r,
+  /etc/ld.so.preload r,
+  /etc/nsswitch.conf r,
+  /proc/cpuinfo r,
+  /usr/lib/alsa-lib/libasound_module_rate_speexrate.so mr,
+  /usr/lib/libasound.so.* mr,
+  /usr/lib/libc-*.so mr,
+  /usr/lib/libdl-*.so mr,
+  /usr/lib/libm-*.so mr,
+  /usr/lib/libmpg123.so.* mr,
+  /usr/lib/libnss_files-*.so mr,
+  /usr/lib/libout123.so.* mr,
+  /usr/lib/libpthread-*.so mr,
+  /usr/lib/librt-*.so mr,
+  /usr/lib/libspeexdsp.so.* mr,
+  /usr/lib/mpg123/output_alsa.so mr,
+
+}

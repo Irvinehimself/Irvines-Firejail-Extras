@@ -1,4 +1,4 @@
-# Last Modified: Fri Jun 15 11:55:55 2018
+# Last Modified: Sat Jun 16 05:27:07 2018
 # vim:syntax=apparmor
 # AppArmor policy for vnstatd
 # Author: irvine mcminn at that gmail place dot com
@@ -7,6 +7,10 @@
 
 /usr/bin/vnstatd flags=(complain) {
   #include <local/usr.bin.vnstatd>
+
+  deny signal receive set=cont peer=unconfined,
+  deny signal receive set=exists peer=unconfined,
+  deny signal receive set=term peer=unconfined,
 
   owner /etc/ld.so.cache r,
   owner /etc/ld.so.preload r,

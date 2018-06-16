@@ -1,3 +1,4 @@
+# Last Modified: Sat Jun 16 06:08:27 2018
 # vim:syntax=apparmor
 # AppArmor policy for magick
 # Author: irvine mcminn at that gmail place dot com
@@ -5,6 +6,46 @@
 
 
 /usr/bin/magick flags=(complain) {
-
   #include <local/usr.bin.magick>
+
+  /etc/ImageMagick-?/log.xml r,
+  /etc/ImageMagick-?/policy.xml r,
+  /etc/ld.so.cache r,
+  /etc/ld.so.preload r,
+  /sys/devices/system/cpu/ r,
+  /usr/lib/libMagickCore-?.*.so.* mr,
+  /usr/lib/libX11.so.* mr,
+  /usr/lib/libXau.so.* mr,
+  /usr/lib/libXdmcp.so.* mr,
+  /usr/lib/libXext.so.* mr,
+  /usr/lib/libbz2.so.* mr,
+  /usr/lib/libc-*.so mr,
+  /usr/lib/libdl-*.so mr,
+  /usr/lib/libexpat.so.* mr,
+  /usr/lib/libfontconfig.so.* mr,
+  /usr/lib/libfreetype.so.* mr,
+  /usr/lib/libfribidi.so.* mr,
+  /usr/lib/libgcc_s.so.* mr,
+  /usr/lib/libglib-2.0.so.* mr,
+  /usr/lib/libgomp.so.* mr,
+  /usr/lib/libgraphite2.so.* mr,
+  /usr/lib/libharfbuzz.so.* mr,
+  /usr/lib/libicudata.so.* r,
+  /usr/lib/libicuuc.so.* mr,
+  /usr/lib/liblcms2.so.* mr,
+  /usr/lib/liblqr-1.so.* mr,
+  /usr/lib/libltdl.so.* mr,
+  /usr/lib/liblzma.so.* mr,
+  /usr/lib/libm-*.so mr,
+  /usr/lib/libpcre.so.* mr,
+  /usr/lib/libpng16.so.* mr,
+  /usr/lib/libpthread-*.so mr,
+  /usr/lib/libraqm.so.* mr,
+  /usr/lib/libstdc++.so.* mr,
+  /usr/lib/libuuid.so.* mr,
+  /usr/lib/libxcb.so.* mr,
+  /usr/lib/libxml2.so.* mr,
+  /usr/lib/libz.so.* mr,
+  /usr/lib/locale/** r,
+
 }

@@ -1,4 +1,4 @@
-# Last Modified: Fri Jun 15 12:17:42 2018
+# Last Modified: Sat Jun 16 06:08:28 2018
 # vim:syntax=apparmor
 # AppArmor policy for vnstat
 # Author: irvine mcminn at that gmail place dot com
@@ -13,7 +13,8 @@
   /etc/vnstat.conf r,
   /proc/*/net/dev r,
   /proc/stat r,
-  /sys/devices/pci0000:00/0000:00:1c.4/0000:02:00.0/net/wlp2s0/speed r,
+  /sys/devices/pci0000:00/0000:00:1c.4/0000:02:00.0/net/*/speed r,
+  /sys/devices/pci0000:00/0000:00:1c.5/0000:03:00.0/net/enp3s0/speed r,
   /sys/devices/virtual/net/*/speed r,
   /usr/lib/gconv/gconv-modules r,
   /usr/lib/libc-*.so mr,

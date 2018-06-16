@@ -1,3 +1,4 @@
+# Last Modified: Sat Jun 16 06:08:28 2018
 # vim:syntax=apparmor
 # AppArmor policy for youtube-dl
 # Author: irvine mcminn at that gmail place dot com
@@ -5,6 +6,75 @@
 
 
 /usr/bin/youtube-dl flags=(complain) {
-
+  #include <abstractions/python>
   #include <local/usr.bin.youtube-dl>
+
+  deny /usr/bin/ r,
+  deny /usr/lib/python3.6/email/ r,
+  deny /usr/lib/python3.6/site-packages/[^y][^o][^u][^t][^u][^b][^e][^_][^d][^l]*.egg-info r,
+  deny /usr/lib/python3.6/site-packages/[^y][^o][^u][^t][^u][^b][^e][^_][^d][^l]*.egg-info/PKG-INFO r,
+
+  /usr/lib/python3.6/site-packages/youtube_dl-20??.?.??-py3.6.egg-info/ r,
+  /usr/lib/python3.6/site-packages/youtube_dl-20??.?.??-py3.6.egg-info/PKG-INFO r,
+  /usr/lib/python3.6/site-packages/youtube_dl-20??.?.??-py3.6.egg-info/entry_points.txt r,
+  /usr/lib/python3.6/site-packages/youtube_dl/ r,
+  /usr/lib/python3.6/site-packages/youtube_dl/downloader/ r,
+  /usr/lib/python3.6/site-packages/youtube_dl/extractor/ r,
+  /usr/lib/python3.6/site-packages/youtube_dl/postprocessor/ r,
+
+  owner /home/*/Downloads/** rw,
+  owner /proc/*/fd/ r,
+  owner /proc/*/mounts r,
+  owner /proc/*/status r,
+
+  /dev/null rw,
+  /dev/urandom r,
+  /etc/ca-certificates/extracted/tls-ca-bundle.pem r,
+  /etc/gai.conf r,
+  /etc/host.conf r,
+  /etc/hosts r,
+  /etc/ld.so.cache r,
+  /etc/ld.so.preload r,
+  /etc/mime.types r,
+  /etc/nsswitch.conf r,
+  /etc/resolv.conf r,
+  /usr/bin/ldconfig mrix,
+  /usr/bin/youtube-dl r,
+  /usr/lib/gconv/gconv-modules r,
+  /usr/lib/libbz2.so.* mr,
+  /usr/lib/libc-*.so mr,
+  /usr/lib/libcrypto.so.* mr,
+  /usr/lib/libdl-*.so mr,
+  /usr/lib/libexpat.so.* mr,
+  /usr/lib/libffi.so.* mr,
+  /usr/lib/liblzma.so.* mr,
+  /usr/lib/libm-*.so mr,
+  /usr/lib/libnss_dns-*.so mr,
+  /usr/lib/libnss_files-*.so mr,
+  /usr/lib/libnss_myhostname.so.* mr,
+  /usr/lib/libnss_mymachines.so.* mr,
+  /usr/lib/libnss_resolve.so.* mr,
+  /usr/lib/libpthread-*.so mr,
+  /usr/lib/libpython3.6m.so.* mr,
+  /usr/lib/libresolv-*.so mr,
+  /usr/lib/libssl.so.* mr,
+  /usr/lib/libutil-*.so mr,
+  /usr/lib/libuuid.so.* mr,
+  /usr/lib/libz.so.* mr,
+  /usr/lib/locale/locale-archive r,
+  /usr/lib/python3.6/ r,
+  /usr/lib/python3.6/collections/ r,
+  /usr/lib/python3.6/ctypes/ r,
+  /usr/lib/python3.6/encodings/ r,
+  /usr/lib/python3.6/html/ r,
+  /usr/lib/python3.6/http/ r,
+  /usr/lib/python3.6/importlib/ r,
+  /usr/lib/python3.6/json/ r,
+  /usr/lib/python3.6/lib-dynload/ r,
+  /usr/lib/python3.6/urllib/ r,
+  /usr/lib/python3.6/xml/ r,
+  /usr/lib/python3.6/xml/etree/ r,
+  /usr/lib/python3.6/xml/parsers/ r,
+  /usr/share/zoneinfo/** r,
+
 }
