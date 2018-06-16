@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# List disabled Apparmor profiles
+
+source Fj-TerminalTricks
+
+SetTerminalTitle "AaLogProf"
+
+sudo aa-logprof -d /etc/apparmor.d/ -f /var/log/audit/audit.log
+echo
+ReadQuit
