@@ -11,8 +11,10 @@
 
   deny /usr/bin/ r,
   deny /usr/lib/python3.6/email/ r,
-  deny /usr/lib/python3.6/site-packages/[^y][^o][^u][^t][^u][^b][^e][^_][^d][^l]*.egg-info r,
-  deny /usr/lib/python3.6/site-packages/[^y][^o][^u][^t][^u][^b][^e][^_][^d][^l]*.egg-info/PKG-INFO r,
+  #deny /usr/lib/python3.6/site-packages/[^y][^o][^u][^t][^u][^b][^e][^_][^d][^l]*.egg-info r,
+  #deny /usr/lib/python3.6/site-packages/[^y][^o][^u][^t][^u][^b][^e][^_][^d][^l]*.egg-info/PKG-INFO r,
+  deny /usr/lib/python3.6/site-packages/^(youtube_dl)*.egg-info r,
+  deny /usr/lib/python3.6/site-packages/^(youtube_dl)*.egg-info/PKG-INFO r,
 
   /usr/lib/python3.6/site-packages/youtube_dl-20??.?.??-py3.6.egg-info/ r,
   /usr/lib/python3.6/site-packages/youtube_dl-20??.?.??-py3.6.egg-info/PKG-INFO r,
