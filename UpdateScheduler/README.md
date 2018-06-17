@@ -10,9 +10,10 @@ This is the point of entry for a `systemd` timer. It can take upto two optional 
 1. An `mp3` formatted music sequence.
 
 #### IMPORTANT:
-1. If you are using it to launch a system update, then the `Mesg` parameter must contain the substring `Pacman`
-1. The `timer`  *name*, (and it's related service,) must contain the substring `Alarm`
-1. The `Music` *name* must contain the substring `Alarm`
+1. If you are using `Hu-AlarmClockMusic` as a system update reminder, then the `Mesg` parameter *should* contain the substring `Pacman`
+1. The `timer`  *name*, (and it's related service,) **must** contain the substring `Alarm`
+1. The `Music` *name* **must** contain the substring `Alarm`
+
 *(see the examples in [UserSystemd](UserSystemd))*
 
 *Tweaks: You will need to change the default `Music`, (which must be in the `mp3` format,) and the location of the icon for `notify-send`
