@@ -47,7 +47,7 @@ Just a couple of example alarms to give you an idea how things work.
 If you are unfamiliar with `systemd`, then it probably sounds stupid, but: The `timer` launches the `service` which launches `Hu-AlarmClockMusic`. Because the `Mesg` *"PacmanMorningAlarm"* contains the substring `Pacman`, `Hu-AlarmClockMusic` runs `sudo pacman -Syu` in a terminal ready for ypur *password*.
 
 #### WeekDayAlarm
-An example of using my system as a *traditional* alarm clock. Notice how, since the `Mesg` does not contain the substring `Pacman`, `Hu-AlarmClockMusic` does not run `sudo pacman -Syu`
+An example of using the package as a *traditional* alarm clock. Notice how, since the `Mesg` does not contain the substring `Pacman`, `Hu-AlarmClockMusic` does not run `sudo pacman -Syu`
 
 #### Tips
 When setting up an alarm, you can use `systemd-analyze calendar` to check the `OnCalendar` parameter is correctly formatted, see the *Tip section* [here](https://wiki.archlinux.org/index.php/Systemd/Timers#Realtime_timer) for an example.
