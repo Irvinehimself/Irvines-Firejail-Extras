@@ -11,7 +11,7 @@ I have split things up into the following sections
 * [Firejail profiles and local customisations](Firejail)
 * [Tools to manage Firejail profiles](FjTools)
 * [Apparmor profiles for daemons and low level utilites](AppArmor)
-* [Tools to help manage and write Apparmor profiles](ApToos)
+* [Tools to help manage and write Apparmor profiles](ApTools)
 * [Anti-virus tools](AvTools)
 * [Security and monitoring tools](HsTools)
 * [Simple update shedular](UpdateScheduler)
