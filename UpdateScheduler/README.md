@@ -5,14 +5,14 @@ As users of Arch Linux are aware, unlike mainline distros, Arch does not have an
 
 
 ### Hu-AlarmClockMusic
-This is the point of entry for a `systemd` timer. It can take upto two optional parameters:
+This is the point of entry for a `systemd` timer. It can take two optional parameters:
 1. The message to be displayed by `notify-send`
 1. An `mp3` formatted music sequence.
 
 #### IMPORTANT:
-1. If you are using `Hu-AlarmClockMusic` as a system update reminder, then the `Mesg` parameter *should* contain the substring `Pacman`
-1. The `timer`  *name*, (and it's related service,) **must** contain the substring `Alarm`
-1. The `Music` *name* **must** contain the substring `Alarm`
+1. Whatever the usage, the `timer`  *name*, (and it's related service,) **must** contain the substring `Alarm`
+1. Whatever the usage, the `Music` *name* **must** contain the substring `Alarm`
+1. When using this package as a system update reminder, the `Mesg` parameter *should* contain the substring `Pacman`
 
 *(see the examples in [UserSystemd](UserSystemd))*
 
@@ -20,7 +20,7 @@ This is the point of entry for a `systemd` timer. It can take upto two optional 
 
 
 ### Hu-AlarmClockCntrl
-This is the control unit from which you can either `sleep` or turn `off` alarms. Noting that this is meant to be run either from *keybindings* or a *panel launcher*, it takes an *Action* parameter ie `Hu-AlarmClockCntrl "sleep"` or `Hu-AlarmClockCntrl "sleep"`. The default is *off*
+This is the control unit from which you can either `sleep` or turn `off` alarms. Noting that this is meant to be run either from *keybindings* or a *panel launcher*, it takes an *Action* parameter ie `Hu-AlarmClockCntrl "sleep"` or `Hu-AlarmClockCntrl "off"`. The default is *off*
 
 The `hard-coded` parameters `snooze` and `repeat` can be adjusted by editing the shell.
 1. `snooze` governs the interval between `notify-send` *pop-ups* reminding you the alarm is sleeping
