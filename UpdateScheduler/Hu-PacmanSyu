@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Utility for running scheduled updates
+
+source Fj-TerminalTricks
+
+SetTerminalTitle "PacmanSyu"
+
+ReadKey "${Dimd}Run scheduled system update? Y/n${End}"
+if ! [[ "$Key" == "n" ]] ; then
+    sudo pacman -Syu
+    ReadQuit
+fi

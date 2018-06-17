@@ -1,0 +1,6 @@
+[Unit]
+Description=WeekDay Alarm
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/Hu-AlarmClockMusic WeekDayAlarm ${HOME}/Music/Alarm-Rain.mp3
+#Environment=DISPLAY=:0.0

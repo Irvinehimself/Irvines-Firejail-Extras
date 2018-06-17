@@ -1,0 +1,8 @@
+[Unit]
+Description=WeekDay alarm
+
+[Timer]
+OnCalendar=Mon,Tue,Wed,Thu,Fri *-*-* 06:30:00
+
+[Install]
+WantedBy=timers.target

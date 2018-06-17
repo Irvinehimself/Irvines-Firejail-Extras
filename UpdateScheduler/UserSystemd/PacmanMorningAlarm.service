@@ -1,0 +1,6 @@
+[Unit]
+Description=Pacman-Morning Update
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/Hu-AlarmClockMusic PacmanMorningAlarm ${HOME}/Music/Alarm-Wind.mp3
+#Environment=DISPLAY=:0.0

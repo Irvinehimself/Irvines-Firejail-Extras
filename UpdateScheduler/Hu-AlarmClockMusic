@@ -1,0 +1,48 @@
+#!/bin/bash
+
+#################################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# Arch Updater Scheduler is a collection of timers and shells to help remind user
+# of Arch based distros to run scheduled updates. The project home page can be
+# found at https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# Arch Updater Scheduler is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Arch Updater Scheduler is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Arch Updater Scheduler.  If not, see <http://www.gnu.org/licenses/>.
+#################################################################################
+
+# Bash to play alarm clock music
+# started by systemd.timers
+# sleep with 'Hu-AlarmClockCntrl "sleep"'
+# stop with 'Hu-AlarmClockCntrl "off"'
+
+# ### ### ### Constants and variables ### ### ###
+NotifyIcon="${HOME}/Pictures/LauncherIcons/AlarmClock-small.png"
+
+Mesg=${1:-TestAlarm}
+Music=${2:-$HOME/Music/Alarm-Rain.mp3}
+
+Key="forever"
+
+function CheckSystemUpdate() {
+	if [[ "$Mesg" == *"Pacman"* ]] ; then
+	    xfce4-terminal -x Hu-PacmanSyu
+	fi
+}
+
+# ### ### ### Main ### ### ###
+CheckSystemUpdate
+notify-send -u CRITICAL -t 0 "$Mesg" --icon="$NotifyIcon"
+while ! [[ $Key == "finished" ]] ; do
+    mpg123 -Cq "$Music"
+done

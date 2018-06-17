@@ -1,0 +1,95 @@
+#!/bin/bash
+
+#################################################################################
+# Copyright (C) 2018  Irvine McMinn (irvine mcminn at gmail dot com)
+#
+# Arch Updater Scheduler is a collection of timers and shells to help remind user
+# of Arch based distros to run scheduled updates. The project home page can be
+# found at https://github.com/Irvinehimself/TheBeggarsHardeningProject
+#
+# Arch Updater Scheduler is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Arch Updater Scheduler is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Arch Updater Scheduler.  If not, see <http://www.gnu.org/licenses/>.
+#################################################################################
+
+# Bash to control my systemd alarm clocks
+# AlarmClock-Music is started by systemd.timers
+# sleep with 'Hu-AlarmClockCntrl "sleep"'
+# stop with 'Hu-AlarmClockCntrl "off"'
+
+
+# ### ### ### Constants and variables ### ### ###
+NotifyIcon="${HOME}/Pictures/LauncherIcons/AlarmClock-small.png"
+AlrmClckTmp="${HOME}/AlarmClock.tmp"
+
+Action=${1:-off}
+Snooze="30s"
+Repeat="10"
+# debug values
+#Snooze="10s"
+#Repeat="3"
+
+function GetAlarms() {
+    local AlarmCount="0"
+	systemctl --user  --type=service | grep "Alarm" | cut -d' ' -f1 > "$AlrmClckTmp"
+	while IFS='' read -r AlarmService || [[ -n "$AlarmService" ]] ; do
+        AlarmArray[AlarmCount]=$AlarmService
+        ((AlarmCount++))
+    done < "$AlrmClckTmp"
+    rm -f "$AlrmClckTmp"
+}
+
+function AlarmNotify() {
+	for Alarm in ${AlarmArray[@]} ; do
+	    notify-send -u NORMAL -t 10000 "$(echo $Alarm | cut -d'.' -f1) $1" --icon="$NotifyIcon"
+	done
+}
+
+function Snooze() {
+    local Count="0"
+    while ! [[ $Count == $Repeat ]] ; do
+        AlarmNotify "sleeping zzz"
+        sleep "$Snooze"
+        ((Count++))
+    done
+}
+
+function StopStartAlarm() {
+    for Alarm in ${AlarmArray[@]} ; do
+        systemctl --user "$1" "$Alarm"
+    done
+    systemctl --user reset-failed
+}
+
+function AlarmSleep() {
+    GetAlarms
+    StopStartAlarm "stop"
+    Snooze
+    StopStartAlarm "start"
+}
+
+function AlarmsOff() {
+    ### Stop all alarms
+    systemctl --user --type=service | grep "Alarm" | cut -d' ' -f1 |\
+    while read AlarmService ; do
+        systemctl --user stop "$AlarmService"
+        notify-send -u NORMAL -t 10000 "Stopped $(echo $AlarmService | cut -d'.' -f1)" --icon="$NotifyIcon"
+        systemctl --user reset-failed
+    done
+}
+
+# ### ### ### Main ### ### ###
+systemctl --user reset-failed
+case $Action in
+	"sleep") AlarmSleep ;;
+      "off") AlarmsOff
+esac

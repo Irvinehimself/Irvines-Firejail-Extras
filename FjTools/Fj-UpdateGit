@@ -38,6 +38,7 @@ GitAppArmorProfiles="$GitApparmor/apparmor.d"
 GitAppArmorLocals="$GitAppArmorProfiles/local"
 GitApTools="$GitHome/ApTools"
 GitAvTools="$GitHome/AvTools"
+GitUpdateScheduler="$GitHome/UpdateScheduler"
 UserSystemd="${HOME}/.config/systemd/user"
 
 # End Private Paths
@@ -139,6 +140,9 @@ CopyLsGrep "$UserSystemd" "Hs-" "$GitHsTools/UserSystemd"
 sudo cp "$UsrLocalBin/Hsr-PartitionMonitor" "$GitHsTools/Hsr-PartitionMonitor"
 sudo chown ${USER}:${USER} "$GitHsTools/Hsr-PartitionMonitor"
 sudo chmod 750 "$GitHsTools/Hsr-PartitionMonitor"
+
+echo "Updating alarm clock stuff"
+CopyLsGrep "$UsrLocalBin" "Hu-" "$GitUpdateScheduler"
 
 ReadQuit ""
 echo "Bye :)"
