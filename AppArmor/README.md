@@ -37,11 +37,16 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but thes
 1. usr.bin.magick
 1. usr.bin.mpg123
 1. usr.bin.aplay
+1. usr.bin.xfce4-taskmanager
 
 #### **IMPORTANT**
 The `usr.lib.udisks2.udisksd` profile deny's all operations on `/run/media` and `/media`. The reasoning for this is to gain full control of how *external drives* and *partitions* are mounted. In particular, I wish to ensure that they are mounted with the `noexec` flag set, and that I can, as I choose, either mount them as  `read-only` or `read-write`. My reasoning is explained fully in the [HsTools readme](/HsTools#udisks2-hardening).
 
 Suffice to say, my `usr.lib.udisks2.udisksd` profile in combination with [Hs-MountReadWrite](/HsTools#hs-mountreadwrite) offer full control of mount operations in a manner that is secure against threats like, for example, [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet#Operation).
+
+#### Notes:
+1. The `usr.bin.xfce4-taskmanager` profile is mainly to allow other confined applications to receive *task-manger* `signals` as `peer=xfce4-taskmanager`
+2. `usr.bin.magick` is the main entry point foe *ImageMagick*
 
 
 ### Whats next?

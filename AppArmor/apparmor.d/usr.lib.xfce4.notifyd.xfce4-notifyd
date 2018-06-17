@@ -29,14 +29,14 @@
   owner /home/*/.Xauthority r,
   owner /home/*/.config/gtk-3.0/gtk.css r,
   owner /home/*/.config/gtk-3.0/settings.ini r,
+  owner /home/*/.local/share/mime/mime.cache r,
+  owner /home/*/.cache/fontconfig/*cache-? rw,
+  owner /home/*/.cache/fontconfig/*cache-?.* w,
   owner /home/*/.icons/ r,
   owner /home/*/.local/share/icons/ r,
   owner /home/*/.local/share/icons/** r,
-  owner /home/*/.local/share/mime/mime.cache r,
-  owner /home/*/Pictures/LauncherIcons/* r,
-  owner /home/*/Pictures/LauncherIcons/Bash.png r,
-  owner /home/*/Pictures/LauncherIcons/Usb.png r,
-  owner /home/*/Shared/Pictures/LauncherIcons/* r,
+  owner /home/*/Pictures/LauncherIcons/ r,
+  owner /home/*/Pictures/LauncherIcons/** r,
 
   owner /proc/*/fd/ r,
   owner /proc/*/fdinfo/* r,
@@ -157,6 +157,7 @@
   /usr/share/locale/*/LC_MESSAGES/xfce4-notifyd.mo r,
   /usr/share/locale/locale.alias r,
   /usr/share/themes/Default/xfce-notify-4.0/gtk.css r,
+  /var/cache/fontconfig/ w,
   /var/cache/fontconfig/*-*-*-*-*-*.cache-* r,
 
 }
