@@ -4,3 +4,10 @@
 
   deny ptrace trace peer=firejail-default,
   deny ptrace tracedby peer=firejail-default,
+
+  # allow taskmanager
+  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
+
+  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,

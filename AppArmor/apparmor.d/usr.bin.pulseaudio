@@ -1,4 +1,4 @@
-# Last Modified: Fri Jun 15 04:31:45 2018
+# Last Modified: Sun Jun 17 06:05:13 2018
 #include <tunables/home>
 #include <tunables/kernelvars>
 #include <tunables/proc>
@@ -15,15 +15,24 @@
   #include <abstractions/dri-enumerate>
   #include <local/usr.bin.pulseaudio>
 
-  deny signal receive set=cont peer=unconfined,
-  deny signal receive set=exists peer=unconfined,
-  deny signal receive set=int peer=unconfined,
-  deny signal receive set=kill peer=unconfined,
-  deny signal receive set=term peer=unconfined,
+  # deny signal receive set=exists peer=unconfined,
+  # deny signal receive set=hup peer=unconfined,
+  # deny signal receive set=int peer=unconfined,
+
+  signal receive set=cont peer=unconfined,
+  signal receive set=kill peer=unconfined,
+  signal receive set=stop peer=unconfined,
+  signal receive set=term peer=unconfined,
+
+  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
 
   signal receive set=exists peer=/usr/bin/pulseaudio,
   signal send set=exists peer=/usr/bin/pulseaudio,
 
+  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   deny /proc/*/maps r,
@@ -34,24 +43,8 @@
   deny /sys/devices/system/cpu/online r,
   deny /usr/share/applications/ r,
   deny /usr/share/applications/*.desktop r,
-
-  # deny jit compiled code
   deny owner /**/orcexec.* mrw,
   deny owner /home/*/ rw,
-
-  # allow /home/
-  owner /home/*/.Xauthority r,
-  owner /home/*/.config/pulse/ r,
-  owner /home/*/.config/pulse/* rw,
-  owner /home/*/.config/pulse/cookie rk,
-  owner /home/*/.esd_auth rwk,
-
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-
-  owner /tmp/.Xauth* r,
-  owner /tmp/.esd-????/ rw,
-  owner /tmp/.esd-????/socket w,
 
   /dev/urandom r,
   /etc/ld.so.cache r,
@@ -114,5 +107,15 @@
   /usr/share/pulseaudio/alsa-mixer/paths/analog-*.conf.common r,
   /usr/share/pulseaudio/alsa-mixer/paths/hdmi-output-?.conf r,
   /usr/share/pulseaudio/alsa-mixer/profile-sets/default.conf r,
+  owner /home/*/.Xauthority r,
+  owner /home/*/.config/pulse/ r,
+  owner /home/*/.config/pulse/* rw,
+  owner /home/*/.config/pulse/cookie rk,
+  owner /home/*/.esd_auth rwk,
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /tmp/.Xauth* r,
+  owner /tmp/.esd-????/ rw,
+  owner /tmp/.esd-????/socket w,
 
 }

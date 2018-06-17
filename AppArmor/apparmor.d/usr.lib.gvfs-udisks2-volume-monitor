@@ -1,4 +1,4 @@
-# Last Modified: Fri Jun 15 03:46:21 2018
+# Last Modified: Sun Jun 17 06:05:19 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -11,12 +11,24 @@
   #include <abstractions/freedesktop.org>
   #include <local/usr.lib.gvfs-udisks2-volume-monitor>
 
-  deny signal receive set=cont peer=unconfined,
-  deny signal receive set=kill peer=unconfined,
-  deny signal receive set=term peer=unconfined,
+  # deny signal receive set=exists peer=unconfined,
+  # deny signal receive set=hup peer=unconfined,
+  # deny signal receive set=int peer=unconfined,
+
+  signal receive set=cont peer=unconfined,
+  signal receive set=kill peer=unconfined,
+  signal receive set=stop peer=unconfined,
+  signal receive set=term peer=unconfined,
+
+  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
 
   signal receive set=term peer=/usr/lib/gvfs-udisks2-volume-monitor,
   signal send set=term peer=/usr/lib/gvfs-udisks2-volume-monitor,
+
+  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
 
   # deny volume-monitor networks
   deny /proc/*/net/netlink r,
@@ -42,6 +54,7 @@
   /home/*/Usbs/ r,
   /home/*/Usbs/** r,
 
+
   / r,
   /dev/null rw,
   /etc/fstab r,
@@ -52,6 +65,7 @@
   /proc/ r,
   /proc/*/cgroup r,
   /proc/*/maps r,
+  /proc/*/net/unix r,
   /proc/*/stat r,
   /proc/filesystems r,
   /proc/locks r,

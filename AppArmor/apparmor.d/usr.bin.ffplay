@@ -8,7 +8,22 @@
 /usr/bin/ffplay {
   #include <local/usr.bin.ffplay>
 
-  deny signal receive set=hup peer=unconfined,
+  # deny signal receive set=exists peer=unconfined,
+  # deny signal receive set=hup peer=unconfined,
+  # deny signal receive set=int peer=unconfined,
+
+  signal receive set=cont peer=unconfined,
+  signal receive set=kill peer=unconfined,
+  signal receive set=stop peer=unconfined,
+  signal receive set=term peer=unconfined,
+
+  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
+
+
+  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
 
   # allow mount folders read only
   /home/*/Docs/** r,

@@ -8,10 +8,23 @@
 /usr/bin/vnstatd flags=(complain) {
   #include <local/usr.bin.vnstatd>
 
-  deny signal receive set=cont peer=unconfined,
-  deny signal receive set=exists peer=unconfined,
-  deny signal receive set=kill peer=unconfined,
-  deny signal receive set=term peer=unconfined,
+  # deny signal receive set=exists peer=unconfined,
+  # deny signal receive set=hup peer=unconfined,
+  # deny signal receive set=int peer=unconfined,
+
+  signal receive set=cont peer=unconfined,
+  signal receive set=kill peer=unconfined,
+  signal receive set=stop peer=unconfined,
+  signal receive set=term peer=unconfined,
+
+  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,r,
+  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
+
+
+
+  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
 
   owner /etc/ld.so.cache r,
   owner /etc/ld.so.preload r,

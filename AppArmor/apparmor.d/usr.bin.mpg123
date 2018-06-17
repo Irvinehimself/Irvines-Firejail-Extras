@@ -1,4 +1,4 @@
-# Last Modified: Sun Jun 17 03:55:29 2018
+# Last Modified: Sun Jun 17 06:30:53 2018
 #include <tunables/home>
 #include <tunables/proc>
 
@@ -12,16 +12,21 @@
   #include <abstractions/audio>
   #include <local/usr.bin.mpg123>
 
-  deny signal receive set=cont peer=unconfined,
-  deny signal receive set=hup peer=unconfined,
-  deny signal receive set=term peer=unconfined,
-  signal receive set=kill peer=unconfined,
+  # deny signal receive set=exists peer=unconfined,
+  # deny signal receive set=hup peer=unconfined,
+  # deny signal receive set=int peer=unconfined,
 
-  owner /home/*/Desktop/** r,
-  owner /home/*/Docs/Music/** r,
-  owner /home/*/Music/** r,
-  owner /home/*/.Xauthority r,
-  owner /proc/*/cmdline r,
+  signal receive set=cont peer=unconfined,
+  signal receive set=kill peer=unconfined,
+  signal receive set=stop peer=unconfined,
+  signal receive set=term peer=unconfined,
+
+  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
+
+  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
 
   /dev/urandom r,
   /etc/group r,
@@ -68,5 +73,10 @@
   /usr/lib/mpg123/output_pulse.so r,
   /usr/lib/mpg123/output_sdl.so mr,
   /usr/lib/pulseaudio/libpulsecommon-*.so mr,
+  owner /home/*/.Xauthority r,
+  owner /home/*/Desktop/** r,
+  owner /home/*/Docs/Music/** r,
+  owner /home/*/Music/** r,
+  owner /proc/*/cmdline r,
 
 }

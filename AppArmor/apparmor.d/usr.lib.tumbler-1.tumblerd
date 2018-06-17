@@ -1,4 +1,4 @@
-# Last Modified: Sat Jun 16 06:08:28 2018
+# Last Modified: Sun Jun 17 06:30:53 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -13,15 +13,24 @@
 
   capability dac_read_search,
 
-  deny signal receive set=cont peer=unconfined,
-  deny signal receive set=exists peer=unconfined,
-  deny signal receive set=int peer=unconfined,
-  deny signal receive set=kill peer=unconfined,
-  deny signal receive set=term peer=unconfined,
+  # deny signal receive set=exists peer=unconfined,
+  # deny signal receive set=hup peer=unconfined,
+  # deny signal receive set=int peer=unconfined,
+
+  signal receive set=cont peer=unconfined,
+  signal receive set=kill peer=unconfined,
+  signal receive set=stop peer=unconfined,
+  signal receive set=term peer=unconfined,
+
+  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
 
   signal receive set=term peer=/usr/lib/tumbler-1/tumblerd,
   signal send set=term peer=/usr/lib/tumbler-1/tumblerd,
 
+  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   deny /proc/*/stat r,

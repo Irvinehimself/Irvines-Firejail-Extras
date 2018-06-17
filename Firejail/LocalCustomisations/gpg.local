@@ -1,0 +1,5 @@
+# Local customisations for gpg
+
+# needed to update "archlinux-keyring"
+noblacklist blacklist /var/cache/pacman
+noblacklist blacklist /var/lib/pacman

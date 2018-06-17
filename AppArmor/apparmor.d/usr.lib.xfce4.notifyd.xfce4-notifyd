@@ -1,4 +1,4 @@
-# Last Modified: Fri Jun 15 04:36:36 2018
+# Last Modified: Sun Jun 17 07:48:48 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -11,42 +11,35 @@
   #include <abstractions/freedesktop.org>
   #include <local/usr.lib.xfce4.notifyd.xfce4-notifyd>
 
-  deny signal receive set=cont peer=unconfined,
-  deny signal receive set=exists peer=unconfined,
-  deny signal receive set=kill peer=unconfined,
-  deny signal receive set=term peer=unconfined,
+  # deny signal receive set=exists peer=unconfined,
+  # deny signal receive set=hup peer=unconfined,
+  # deny signal receive set=int peer=unconfined,
+
+  signal receive set=cont peer=unconfined,
+  signal receive set=kill peer=unconfined,
+  signal receive set=stop peer=unconfined,
+  signal receive set=term peer=unconfined,
+
+  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
+  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
 
   signal receive set=term peer=/usr/lib/xfce4/notifyd/xfce4-notifyd,
   signal send set=term peer=/usr/lib/xfce4/notifyd/xfce4-notifyd,
 
+  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor/null-/usr/bin/lsof,
 
   deny owner /proc/*/maps r,
   deny owner /proc/*/stat r,
   deny owner /proc/filesystems r,
 
-  # allow /home/
-  owner /home/*/.Xauthority r,
-  owner /home/*/.config/gtk-3.0/gtk.css r,
-  owner /home/*/.config/gtk-3.0/settings.ini r,
-  owner /home/*/.local/share/mime/mime.cache r,
-  owner /home/*/.cache/fontconfig/*cache-? rw,
-  owner /home/*/.cache/fontconfig/*cache-?.* w,
-  owner /home/*/.icons/ r,
-  owner /home/*/.local/share/icons/ r,
-  owner /home/*/.local/share/icons/** r,
-  owner /home/*/Pictures/LauncherIcons/ r,
-  owner /home/*/Pictures/LauncherIcons/** r,
-
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-
-  owner /tmp/.Xauth* r,
-
   /etc/fonts/** r,
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
   /usr/lib/gconv/gconv-modules r,
+  /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so r,
   /usr/lib/gdk-pixbuf-?.*/*/loaders.cache r,
   /usr/lib/gdk-pixbuf-?.*/*/loaders/libpixbufloader-png.so mr,
   /usr/lib/gio/modules/ r,
@@ -159,5 +152,19 @@
   /usr/share/themes/Default/xfce-notify-4.0/gtk.css r,
   /var/cache/fontconfig/ w,
   /var/cache/fontconfig/*-*-*-*-*-*.cache-* r,
+  owner /home/*/.Xauthority r,
+  owner /home/*/.cache/fontconfig/*cache-? rw,
+  owner /home/*/.cache/fontconfig/*cache-?.* w,
+  owner /home/*/.config/gtk-3.0/gtk.css r,
+  owner /home/*/.config/gtk-3.0/settings.ini r,
+  owner /home/*/.icons/ r,
+  owner /home/*/.local/share/icons/ r,
+  owner /home/*/.local/share/icons/** r,
+  owner /home/*/.local/share/mime/mime.cache r,
+  owner /home/*/Pictures/LauncherIcons/ r,
+  owner /home/*/Pictures/LauncherIcons/** r,
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /tmp/.Xauth* r,
 
 }
