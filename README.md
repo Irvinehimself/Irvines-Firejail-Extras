@@ -8,11 +8,13 @@ My current long term project is to experiment with building a high-security Os u
 1. Write tools, particularly for Firejail, to help manage the enviroment.
 
 I have split things up into the following sections
-* [Firejail profiles and local customisations](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/Firejail)
-* [Tools to manage Firejail profiles](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/FjTools)
-* [Apparmor profiles for daemons and low level utilites](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/AppArmor)
-* [Anti-virus tools](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/AvTools)
-* [Security and monitoring tools](https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/HsTools)
+* [Firejail profiles and local customisations](Firejail)
+* [Tools to manage Firejail profiles](FjTools)
+* [Apparmor profiles for daemons and low level utilites](AppArmor)
+* [Tools to help manage and write Apparmor profiles](ApToos)
+* [Anti-virus tools](AvTools)
+* [Security and monitoring tools](HsTools)
+* [Simple update shedular](UpdateScheduler)
 
 For your convenience, each section has it's own readme with the important details
 
