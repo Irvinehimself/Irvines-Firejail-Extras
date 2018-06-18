@@ -31,11 +31,11 @@ The `hard-coded` parameters `snooze` and `repeat` can be adjusted by editing the
 Unless you use an Arch based distro, this wont be of much use without editing the line `sudo pacman -Syu`. Although I make no guarantees, I believe the equivalent on Ubuntu based distros is something like:
 ```
 sudo -s -- <<EOF
-apt-get update
-apt-get upgrade -y
-apt-get dist-upgrade -y
-apt-get autoremove -y
-apt-get autoclean -y
+	apt-get update
+	apt-get upgrade -y
+	apt-get dist-upgrade -y
+	apt-get autoremove -y
+	apt-get autoclean -y
 EOF
 ```
 
