@@ -41,7 +41,23 @@ EOF
 
 
 ### UserSystemd--Examples
-Just a couple of example alarms to give you an idea how things work.
+Just a couple of example alarms to give you an idea how things work. To test them they should be placed in `${HOME}/.config/systemd/user/`. *(If the folders don't exist, just create them.)*
+
+Also, since these are *user* `systemd` units, the `user` flag for `systemctl` needs to be set. For example:
+```
+# Enable/Disable a unit
+systemctl --user enable [--now] <unit>
+systemctl --user  disable <unit>
+
+# Reload
+systemctl --user daemon-reload
+
+# Stop/Start/Status
+systemctl --user stop <unit>
+systemctl --user start <unit>
+systemctl --user status <unit>
+
+```
 
 #### PacmanMorningAlarm
 If you are unfamiliar with `systemd`, then it probably sounds stupid, but: The `timer` launches the `service` which launches `Hu-AlarmClockMusic`. Because the `Mesg` *"PacmanMorningAlarm"* contains the substring `Pacman`, `Hu-AlarmClockMusic` runs `sudo pacman -Syu` in a terminal ready for ypur *password*.
@@ -50,4 +66,6 @@ If you are unfamiliar with `systemd`, then it probably sounds stupid, but: The `
 An example of using the package as a *traditional* alarm clock. Notice how, since the `Mesg` does not contain the substring `Pacman`, `Hu-AlarmClockMusic` does not run `sudo pacman -Syu`
 
 #### Tips
-When setting up an alarm, you can use `systemd-analyze calendar` to check the `OnCalendar` parameter is correctly formatted, see the *Tip section* [here](https://wiki.archlinux.org/index.php/Systemd/Timers#Realtime_timer) for an example.
+1. When setting up an alarm, you can use `systemd-analyze calendar` to check the `OnCalendar` parameter is correctly formatted, see the *Tip section* [here](https://wiki.archlinux.org/index.php/Systemd/Timers#Realtime_timer) for an example.
+1. It's not a problem for me, but, if a service compains about the *enviroment display variable*, you can get the correct value by running `env` in a terminal and un-commenting/editing the line `#Environment=??` in the units `.service` file.
+
