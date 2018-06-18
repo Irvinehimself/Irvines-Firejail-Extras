@@ -17,6 +17,7 @@
 
   signal receive set=cont peer=unconfined,
   signal receive set=exists peer=/usr/bin/pulseaudio,
+  signal receive set=exists peer=unconfined,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
   signal receive set=term peer=unconfined,

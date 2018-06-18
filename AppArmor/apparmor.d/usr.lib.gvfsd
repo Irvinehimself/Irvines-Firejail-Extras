@@ -58,6 +58,7 @@
   /sys/devices/system/cpu/ r,
   /sys/devices/system/cpu/online r,
   /usr/bin/fusermount mrix,
+  /usr/lib/libavahi-client.so.* mr,
   /usr/lib/gconv/gconv-modules r,
   /usr/lib/gio/modules/ r,
   /usr/lib/gio/modules/giomodule.cache r,

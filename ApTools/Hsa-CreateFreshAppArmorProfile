@@ -65,6 +65,7 @@ function CreateFreshProfile() {
 	echo "  #include <local/$ProfileName>" | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "" | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "  signal receive set=cont peer=unconfined," | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "  #signal receive set=exists peer=unconfined," | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "  #signal receive set=hup peer=unconfined," | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "  signal receive set=kill peer=unconfined," | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "  signal receive set=stop peer=unconfined," | sudo tee -a "$EtcApparmor/$ProfileName"
