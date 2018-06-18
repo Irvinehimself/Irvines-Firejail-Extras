@@ -9,14 +9,14 @@ This is the point of entry for a `systemd` timer. It can take two optional param
 1. The message to be displayed by `notify-send`
 1. An `mp3` formatted music sequence.
 
-#### IMPORTANT:
+##### IMPORTANT:
 1. Whatever the usage, the `timer`  *name*, (and it's related service,) **must** contain the substring `Alarm`
 1. Whatever the usage, the `Music` *name* **must** contain the substring `Alarm`
 1. When using this package as a system update reminder, the `Mesg` parameter *should* contain the substring `Pacman`
 
 *(see the examples in [UserSystemd](UserSystemd))*
 
-*Tweaks: You will need to change the default `Music`, (which must be in the `mp3` format,) and the location of the icon for `notify-send`
+*Tweaks:* You will need to change the default `Music`, (which must be in the `mp3` format,) and the location of the icon for `notify-send`
 
 
 ### Hu-AlarmClockCntrl
@@ -60,7 +60,7 @@ systemctl --user status <unit>
 ```
 
 #### PacmanMorningAlarm
-If you are unfamiliar with `systemd`, then it probably sounds stupid, but: The `timer` launches the `service` which launches `Hu-AlarmClockMusic`. Because the `Mesg` *"PacmanMorningAlarm"* contains the substring `Pacman`, `Hu-AlarmClockMusic` runs `sudo pacman -Syu` in a terminal ready for your *password*.
+If you are unfamiliar with `systemd` then it probably sounds stupid, but: The `timer` launches the `service` which launches `Hu-AlarmClockMusic`, and, because the `Mesg` *"PacmanMorningAlarm"* contains the substring `Pacman`, `Hu-AlarmClockMusic` runs `sudo pacman -Syu` in a terminal.
 
 #### WeekDayAlarm
 An example of using the package as a *traditional* alarm clock. Notice how, since the `Mesg` does not contain the substring `Pacman`, `Hu-AlarmClockMusic` does not run `sudo pacman -Syu`
