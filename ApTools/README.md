@@ -30,7 +30,7 @@ List disabled profiles
 
 
 ### Hsa-CreateFreshAppArmorProfile
-Takes the drudgery out of starting new Apparmor profiles. It takes the path to an `executable` and creates an empty profile with it's  `site specific` customisation file. It also does housekeeping; for example, loading te profile and adding it to [AppArmor-ProfileList](A/AppArmor/AppArmor-ProfileList).
+Takes the drudgery out of starting new Apparmor profiles. It takes the path to an `executable` and creates an empty profile with it's  `site specific` customisation file. It also does housekeeping; for example, loading te profile and adding it to [AppArmor-ProfileList](/AppArmor/AppArmor-ProfileList).
 
 
 ### Hsa-AaLogProf
