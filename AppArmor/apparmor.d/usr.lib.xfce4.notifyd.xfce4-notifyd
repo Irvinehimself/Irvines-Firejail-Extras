@@ -12,6 +12,7 @@
   #include <local/usr.lib.xfce4.notifyd.xfce4-notifyd>
 
   signal receive set=cont peer=unconfined,
+  signal receive set=exists peer=unconfined,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
   signal receive set=term peer=/usr/lib/xfce4/notifyd/xfce4-notifyd,

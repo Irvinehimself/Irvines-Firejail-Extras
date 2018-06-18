@@ -24,6 +24,7 @@
   umount,
 
   signal receive set=cont peer=unconfined,
+  signal receive set=int peer=unconfined,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
   signal receive set=term peer=/usr/lib/udisks2/udisksd,

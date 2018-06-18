@@ -12,6 +12,7 @@
   capability sys_admin,
 
   signal receive set=cont peer=unconfined,
+  signal receive set=exists peer=unconfined,
   signal receive set=hup peer=/usr/lib/gvfsd,
   signal receive set=kill peer=unconfined,
   signal receive set=rtmin+0 peer=/usr/lib/gvfsd,
