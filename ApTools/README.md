@@ -14,7 +14,7 @@ As it says, a quick no muss no fuss way of reloading a set of profiles that matc
 
 
 ### Hsa-ReloadAllProfiles
-As above, but uses my local copy of [AppArmor-ProfileList](AppArmor/AppArmor-ProfileList) to reload all the profiles I am working on. This can extremely useful when making bulk edits and you want to quickly check for mistakes.
+As above, but uses my local copy of [AppArmor-ProfileList](/AppArmor/AppArmor-ProfileList) to reload all the profiles I am working on. This can extremely useful when making bulk edits and you want to quickly check for mistakes.
 
 
 ### Hsa-ComplainEnforce
@@ -30,14 +30,14 @@ List disabled profiles
 
 
 ### Hsa-CreateFreshAppArmorProfile
-Takes the drudgery out of starting new Apparmor profiles. It takes the path to an `executable` and creates an empty profile with it's  `site specific` customisation file. It also does housekeeping; for example, loading te profile and adding it to [AppArmor-ProfileList](Apparmor/AppArmor-ProfileList).
+Takes the drudgery out of starting new Apparmor profiles. It takes the path to an `executable` and creates an empty profile with it's  `site specific` customisation file. It also does housekeeping; for example, loading te profile and adding it to [AppArmor-ProfileList](A/AppArmor/AppArmor-ProfileList).
 
 
 ### Hsa-AaLogProf
 A wrapper to run `aa-logprof` with a mouseclick
 
 ### Hsa-CleanProfList
-Using [AppArmor-ProfileList](Apparmor/AppArmor-ProfileList), it creates a list of executable paths prepended with `sudo aa-cleanprof -d /etc/apparmor.d/`. While it echo's the output to the terminal window for quick copy pasting, it is also `tee-ed` to a file which can be used directly as an executable to run `aa-cleanprof` on **ALL** the profiles on the list. Again, although it is extremely trivial it really does cut down a lot of the drudge work.
+Using [AppArmor-ProfileList](/AppArmor/AppArmor-ProfileList), it creates a list of executable paths prepended with `sudo aa-cleanprof -d /etc/apparmor.d/`. While it echo's the output to the terminal window for quick copy pasting, it is also `tee-ed` to a file which can be used directly as an executable to run `aa-cleanprof` on **ALL** the profiles on the list. Again, although it is extremely trivial it really does cut down a lot of the drudge work.
 
 
 ### Hsa-Shared
