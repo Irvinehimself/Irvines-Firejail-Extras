@@ -1,4 +1,4 @@
-# Last Modified: Fri Jun 15 04:25:23 2018
+# Last Modified: Mon Jun 18 07:28:56 2018
 # vim:syntax=apparmor
 # Combined AppArmor policy for NetworkManager and OpenVpn
 # Author: irvine mcminn at gmail dot com
@@ -18,26 +18,13 @@
   capability setuid,
   capability sys_module,
 
-
-  # deny signal receive set=exists peer=unconfined,
-  # deny signal receive set=hup peer=unconfined,
-  # deny signal receive set=int peer=unconfined,
-
   signal receive set=cont peer=unconfined,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
-  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
-
   signal receive set=term peer=/usr/bin/NetworkManager,
+  signal receive set=term peer=unconfined,
   signal send set=term peer=/usr/bin/NetworkManager,
   signal send set=term peer=/usr/bin/NetworkManager//null-/usr/bin/openvpn,
-
-  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
 
   deny /sys/devices/system/cpu/ r,
   deny /sys/devices/system/cpu/online r,
@@ -48,11 +35,9 @@
   deny owner /usr/bin/bash mr,
   deny owner /usr/bin/kmod mr,
 
-  # allow /home/ read
-  /home/*/.cert/nm-openvpn/*.pem r,
-
   /etc/ld.so.cache r,
   /etc/ld.so.preload r,
+  /home/*/.cert/nm-openvpn/*.pem r,
   /proc/*/stat r,
   /usr/bin/openvpn mrix,
   /usr/lib/libnm.so.* r,

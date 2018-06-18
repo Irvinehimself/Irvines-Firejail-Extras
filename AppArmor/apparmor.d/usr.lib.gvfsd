@@ -1,4 +1,4 @@
-# Last Modified: Sun Jun 17 06:05:21 2018
+# Last Modified: Mon Jun 18 07:29:17 2018
 # vim:syntax=apparmor
 # AppArmor policy for gvfs
 # Author: irvine mcminn at gmail dot com
@@ -11,29 +11,37 @@
   capability dac_read_search,
   capability sys_admin,
 
-  # deny signal receive set=exists peer=unconfined,
-  # deny signal receive set=hup peer=unconfined,
-  # deny signal receive set=int peer=unconfined,
-
   signal receive set=cont peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
-  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
-
   signal receive set=hup peer=/usr/lib/gvfsd,
+  signal receive set=kill peer=unconfined,
   signal receive set=rtmin+0 peer=/usr/lib/gvfsd,
+  signal receive set=stop peer=unconfined,
   signal receive set=term peer=/usr/lib/gvfsd,
+  signal receive set=term peer=unconfined,
   signal send set=hup peer=/usr/lib/gvfsd,
   signal send set=rtmin+0 peer=/usr/lib/gvfsd,
   signal send set=term peer=/usr/lib/gvfsd,
 
-  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+
+  owner /home/*/.config/dconf/user r,
+  owner /home/*/.gvfs/ rw,
+  owner /home/*/.local/share/Trash/files/ r,
+  owner /home/*/.local/share/Trash/info/* r,
+
+  owner /etc/nsswitch.conf r,
+  owner /etc/passwd r,
+
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /proc/*/maps r,
+  owner /proc/*/mountinfo r,
+  owner /root/.gvfs/ r,
+
+  owner /run/user/*/dconf/user rw,
+  owner /run/user/*/gvfs/ rw,
+
+  owner /usr/lib/libnss_files-*.so mr,
 
   /dev/fuse rw,
   /dev/null rw,
@@ -114,19 +122,5 @@
   /usr/share/locale/*/LC_MESSAGES/gvfs.mo r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/locale.alias r,
-  owner /etc/nsswitch.conf r,
-  owner /etc/passwd r,
-  owner /home/*/.config/dconf/user r,
-  owner /home/*/.gvfs/ rw,
-  owner /home/*/.local/share/Trash/files/ r,
-  owner /home/*/.local/share/Trash/info/* r,
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-  owner /proc/*/maps r,
-  owner /proc/*/mountinfo r,
-  owner /root/.gvfs/ r,
-  owner /run/user/*/dconf/user rw,
-  owner /run/user/*/gvfs/ rw,
-  owner /usr/lib/libnss_files-*.so mr,
 
 }

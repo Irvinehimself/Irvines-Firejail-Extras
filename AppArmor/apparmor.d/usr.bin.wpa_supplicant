@@ -1,4 +1,4 @@
-# Last Modified: Fri Jun 15 04:30:43 2018
+# Last Modified: Mon Jun 18 07:29:07 2018
 # vim:syntax=apparmor
 # AppArmor policy for wpa_supplicant
 # Author: irvine mcminn at gmail dot com
@@ -29,24 +29,12 @@
   capability net_raw,
   capability sys_module,
 
-  # deny signal receive set=exists peer=unconfined,
-  # deny signal receive set=hup peer=unconfined,
-  # deny signal receive set=int peer=unconfined,
-
   signal receive set=cont peer=unconfined,
+  signal receive set=io peer=/usr/bin/wpa_supplicant,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
   signal receive set=term peer=unconfined,
-
-  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
-
-  signal receive set=io peer=/usr/bin/wpa_supplicant,
   signal send set=io peer=/usr/bin/wpa_supplicant,
-
-  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
 
   owner /dev/null rw,
   owner /dev/rfkill r,

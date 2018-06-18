@@ -1,4 +1,4 @@
-# Last Modified: Sun Jun 17 07:48:47 2018
+# Last Modified: Mon Jun 18 07:29:03 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -11,28 +11,17 @@
   #include <abstractions/freedesktop.org>
   #include <local/usr.bin.nm-applet>
 
-  # deny signal receive set=exists peer=unconfined,
-  # deny signal receive set=hup peer=unconfined,
-  # deny signal receive set=int peer=unconfined,
-
+  signal receive set=abrt peer=/usr/bin/nm-applet,
   signal receive set=cont peer=unconfined,
+  signal receive set=exists peer=/usr/bin/NetworkManager,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
-  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
-
-  signal receive set=abrt peer=/usr/bin/nm-applet,
-  signal receive set=exists peer=/usr/bin/NetworkManager,
   signal receive set=term peer=/usr/bin/nm-applet,
+  signal receive set=term peer=unconfined,
   signal send set=abrt peer=/usr/bin/nm-applet,
   signal send set=exists peer=/usr/bin/nm-applet,
   signal send set=term peer=/usr/bin/nm-applet,
 
-  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   owner /home/*/.Xauthority r,
@@ -55,6 +44,7 @@
 
   owner /run/user/*/dconf/user rw,
   owner /run/user/*/pulse/ rw,
+
   owner /tmp/.Xauth* r,
 
   /dev/dri/ r,

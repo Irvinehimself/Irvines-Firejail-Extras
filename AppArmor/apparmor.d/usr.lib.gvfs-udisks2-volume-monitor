@@ -1,4 +1,4 @@
-# Last Modified: Sun Jun 17 06:05:19 2018
+# Last Modified: Mon Jun 18 07:29:19 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -11,34 +11,13 @@
   #include <abstractions/freedesktop.org>
   #include <local/usr.lib.gvfs-udisks2-volume-monitor>
 
-  # deny signal receive set=exists peer=unconfined,
-  # deny signal receive set=hup peer=unconfined,
-  # deny signal receive set=int peer=unconfined,
-
   signal receive set=cont peer=unconfined,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
-  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
-
   signal receive set=term peer=/usr/lib/gvfs-udisks2-volume-monitor,
+  signal receive set=term peer=unconfined,
   signal send set=term peer=/usr/lib/gvfs-udisks2-volume-monitor,
 
-  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
-
-  # deny volume-monitor networks
-  deny /proc/*/net/netlink r,
-  deny /proc/*/net/packet r,
-  deny /proc/*/net/raw r,
-
-  # allow volume-monitor unix
-  /proc/*/net/unix r,
-
-  # deny volume-monitor actions in mount folders
   deny /home/*/Docs/ mwlkx,
   deny /home/*/Docs/** mwlkx,
   deny /home/*/Shared** mwlkx,
@@ -46,14 +25,16 @@
   deny /home/*/Usbs/ mwlkx,
   deny /home/*/Usbs/** mwlkx,
 
-  # allow volume-monitor read in mount folders
-  /home/*/Docs/ r,
-  /home/*/Docs/** r,
-  /home/*/Shared** r,
-  /home/*/Shared/ r,
-  /home/*/Usbs/ r,
-  /home/*/Usbs/** r,
+  deny /proc/*/net/netlink r,
+  deny /proc/*/net/packet r,
+  deny /proc/*/net/raw r,
 
+  owner /home/*/.local/share/mime/treemagic r,
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /proc/*/mountinfo r,
+  owner /proc/*/mounts r,
+  owner /run/systemd/sessions/1 r,
 
   / r,
   /dev/null rw,
@@ -62,6 +43,12 @@
   /etc/ld.so.preload r,
   /etc/nsswitch.conf r,
   /etc/passwd r,
+  /home/*/Docs/ r,
+  /home/*/Docs/** r,
+  /home/*/Shared** r,
+  /home/*/Shared/ r,
+  /home/*/Usbs/ r,
+  /home/*/Usbs/** r,
   /proc/ r,
   /proc/*/cgroup r,
   /proc/*/maps r,
@@ -139,11 +126,5 @@
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/*/LC_MESSAGES/udisks2.mo r,
   /usr/share/locale/locale.alias r,
-  owner /home/*/.local/share/mime/treemagic r,
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-  owner /proc/*/mountinfo r,
-  owner /proc/*/mounts r,
-  owner /run/systemd/sessions/1 r,
 
 }

@@ -1,4 +1,4 @@
-# Last Modified: Fri Jun 15 04:44:22 2018
+# Last Modified: Mon Jun 18 07:29:31 2018
 # vim:syntax=apparmor
 # AppArmor policy for ffplay
 # Author: irvine mcminn at gmail dot com
@@ -8,39 +8,24 @@
 /usr/bin/ffplay {
   #include <local/usr.bin.ffplay>
 
-  # deny signal receive set=exists peer=unconfined,
-  # deny signal receive set=hup peer=unconfined,
-  # deny signal receive set=int peer=unconfined,
-
   signal receive set=cont peer=unconfined,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
   signal receive set=term peer=unconfined,
 
-  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
+  /home/*/.Xauthority r,
+  /home/*/.cache/mesa_shader_cache/** rwk,
+  /home/*/.icons/default/index.theme r,
 
-
-  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
-
-  # allow mount folders read only
-  /home/*/Docs/** r,
-  /home/*/Shared/** r,
-  /home/*/Usbs/** r,
-
-  # allow ${HOME} document folders read only
   /home/*/Desktop/** r,
+  /home/*/Docs/** r,
   /home/*/Documents/** r,
   /home/*/Music/** r,
   /home/*/Pictures/** r,
   /home/*/Public/** r,
+  /home/*/Shared/** r,
+  /home/*/Usbs/** r,
   /home/*/Videos/** r,
-
-  /home/*/.Xauthority r,
-  /home/*/.cache/mesa_shader_cache/** rwk,
-  /home/*/.icons/default/index.theme r,
 
   /dev/dri/ r,
   /dev/shm/ r,

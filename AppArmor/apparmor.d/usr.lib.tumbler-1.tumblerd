@@ -1,4 +1,4 @@
-# Last Modified: Sun Jun 17 06:30:53 2018
+# Last Modified: Mon Jun 18 07:29:25 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -13,24 +13,13 @@
 
   capability dac_read_search,
 
-  # deny signal receive set=exists peer=unconfined,
-  # deny signal receive set=hup peer=unconfined,
-  # deny signal receive set=int peer=unconfined,
-
   signal receive set=cont peer=unconfined,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
-  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
-
   signal receive set=term peer=/usr/lib/tumbler-1/tumblerd,
+  signal receive set=term peer=unconfined,
   signal send set=term peer=/usr/lib/tumbler-1/tumblerd,
 
-  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
   deny /proc/*/stat r,
@@ -41,6 +30,32 @@
   deny owner /home/*/Docs/** mwlkx,
   deny owner /home/*/Shared/** mwlkx,
   deny owner /home/*/Usbs/** mwlkx,
+  deny owner /home/*/Downloads/** rmwlkx,
+
+  owner /home/*/.cache/fontconfig/*.cache* rw,
+  owner /home/*/.cache/thumbnails/** rw,
+  owner /home/*/.local/share/gvfs-metadata/home r,
+  owner /home/*/.local/share/gvfs-metadata/home-*.log r,
+  owner /home/*/.local/share/mime/mime.cache r,
+
+  owner /home/*/Desktop/** r,
+  owner /home/*/Docs/** r,
+  owner /home/*/Documents/** r,
+  owner /home/*/Music/** r,
+  owner /home/*/Pictures/** r,
+  owner /home/*/Public/** r,
+  owner /home/*/Shared/** r,
+  owner /home/*/Usbs/** r,
+  owner /home/*/Videos/** r,
+
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /proc/*/maps r,
+
+  owner /tmp/* r,
+  owner /tmp/gdkpixbuf-xpm-tmp.* rw,
+  owner /tmp/gsf-thumbnailer-* rw,
+  owner /tmp/tumbler-*.png rw,
 
   /dev/null r,
   /etc/fonts/** r,
@@ -208,27 +223,5 @@
   /usr/share/thumbnailers/gsf-office.thumbnailer r,
   /usr/share/thumbnailers/librsvg.thumbnailer r,
   /usr/share/zoneinfo/** r,
-  owner "/home/*/Downloads/The Angry Sea   A Blender Animation-mjHptVRs3O8.webm" r,
-  owner /home/*/.cache/fontconfig/*.cache* rw,
-  owner /home/*/.cache/thumbnails/** rw,
-  owner /home/*/.local/share/gvfs-metadata/home r,
-  owner /home/*/.local/share/gvfs-metadata/home-*.log r,
-  owner /home/*/.local/share/mime/mime.cache r,
-  owner /home/*/Desktop/** r,
-  owner /home/*/Docs/** r,
-  owner /home/*/Documents/** r,
-  owner /home/*/Music/** r,
-  owner /home/*/Pictures/** r,
-  owner /home/*/Public/** r,
-  owner /home/*/Shared/** r,
-  owner /home/*/Usbs/** r,
-  owner /home/*/Videos/** r,
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-  owner /proc/*/maps r,
-  owner /tmp/* r,
-  owner /tmp/gdkpixbuf-xpm-tmp.* rw,
-  owner /tmp/gsf-thumbnailer-* rw,
-  owner /tmp/tumbler-*.png rw,
 
 }

@@ -1,4 +1,4 @@
-# Last Modified: Fri Jun 15 04:39:10 2018
+# Last Modified: Mon Jun 18 07:29:26 2018
 # vim:syntax=apparmor
 # AppArmor policy for CheckLinuxhardenedUpdate
 # Author: irvine mcminn at gmail dot com
@@ -8,21 +8,10 @@
 /usr/local/bin/CheckLinuxhardenedUpdate {
   #include <local/usr.local.bin.CheckLinuxhardenedUpdate>
 
-  # deny signal receive set=exists peer=unconfined,
-  # deny signal receive set=hup peer=unconfined,
-  # deny signal receive set=int peer=unconfined,
-
   signal receive set=cont peer=unconfined,
   signal receive set=kill peer=unconfined,
   signal receive set=stop peer=unconfined,
   signal receive set=term peer=unconfined,
-
-  signal receive set=cont peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=kill peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=stop peer=/usr/bin/xfce4-taskmanager,
-  signal receive set=term peer=/usr/bin/xfce4-taskmanager,
-
-  ptrace tracedby peer=/usr/bin/xfce4-taskmanager,
 
   deny /proc/cpuinfo r,
   deny /proc/filesystems r,
