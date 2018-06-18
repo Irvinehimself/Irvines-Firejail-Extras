@@ -60,7 +60,7 @@ systemctl --user status <unit>
 ```
 
 #### PacmanMorningAlarm
-If you are unfamiliar with `systemd`, then it probably sounds stupid, but: The `timer` launches the `service` which launches `Hu-AlarmClockMusic`. Because the `Mesg` *"PacmanMorningAlarm"* contains the substring `Pacman`, `Hu-AlarmClockMusic` runs `sudo pacman -Syu` in a terminal ready for ypur *password*.
+If you are unfamiliar with `systemd`, then it probably sounds stupid, but: The `timer` launches the `service` which launches `Hu-AlarmClockMusic`. Because the `Mesg` *"PacmanMorningAlarm"* contains the substring `Pacman`, `Hu-AlarmClockMusic` runs `sudo pacman -Syu` in a terminal ready for your *password*.
 
 #### WeekDayAlarm
 An example of using the package as a *traditional* alarm clock. Notice how, since the `Mesg` does not contain the substring `Pacman`, `Hu-AlarmClockMusic` does not run `sudo pacman -Syu`
