@@ -10,7 +10,11 @@ A simple shell to get the status of Apparmor and `grep` `dmesg` for messages con
 
 
 ### Hsa-ReloadProfiles
-As it says, a quick no muss no fuss way of reloading profiles matching a pattern
+As it says, a quick no muss no fuss way of reloading a set of profiles that match a pattern.
+
+
+### Hsa-ReloadAllProfiles
+As above, but uses my local copy of [AppArmor-ProfileList](AppArmor/AppArmor-ProfileList) to reload all the profiles I am working on. This can extremely useful when making bulk edits and you want to quickly check for mistakes.
 
 
 ### Hsa-ComplainEnforce
