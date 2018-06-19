@@ -36,7 +36,7 @@ Key="forever"
 
 function CheckSystemUpdate() {
 	if [[ "$Mesg" == *"Pacman"* ]] ; then
-	    xfce4-terminal -x Hu-PacmanSyu
+	    xfce4-terminal -x Hu-PacmanSyu && disown
 	fi
 }
 
