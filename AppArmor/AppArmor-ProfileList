@@ -14,13 +14,13 @@ usr.lib.tumbler-1.tumblerd
 usr.local.bin.CheckLinuxhardenedUpdate
 usr.bin.ffmpegthumbnailer
 usr.bin.ffplay
+usr.bin.vnstatd
+usr.bin.mpg123
 
 # complain mode
 usr.bin.ffmpeg
 usr.bin.youtube-dl
 usr.bin.magick
 usr.bin.vnstat
-usr.bin.vnstatd
 usr.bin.vnstati
-usr.bin.mpg123
 usr.bin.aplay

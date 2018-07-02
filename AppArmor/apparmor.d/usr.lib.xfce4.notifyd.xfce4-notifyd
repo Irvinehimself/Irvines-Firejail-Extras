@@ -1,4 +1,4 @@
-# Last Modified: Mon Jun 18 07:29:23 2018
+# Last Modified: Mon Jul  2 12:52:57 2018
 #include <tunables/home>
 
 # vim:syntax=apparmor
@@ -34,10 +34,8 @@
   owner /home/*/.local/share/icons/ r,
   owner /home/*/.local/share/icons/** r,
   owner /home/*/.local/share/mime/mime.cache r,
-
   owner /home/*/Pictures/LauncherIcons/ r,
   owner /home/*/Pictures/LauncherIcons/** r,
-
   owner /proc/*/fd/ r,
   owner /proc/*/fdinfo/* r,
   owner /tmp/.Xauth* r,

@@ -67,6 +67,9 @@ BgLgtCyn=$'\e[106m'		# LightCyan
 PressKeyQuit="${Dimd}(press any key to quit)${End}"
 PressKeyContinue="${Dimd}(press any key to continue)${End}"
 
+MyName=$(logname)
+MyHome="/home/$MyName"
+
 function SetTerminalBgColour() {
     printf $1 ; clear
 }

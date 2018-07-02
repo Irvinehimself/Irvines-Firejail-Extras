@@ -27,15 +27,15 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but thes
 1. usr.bin.ffmpegthumbnailer
 
 **Testing in enforce mode**
+1. usr.bin.vnstatd
+1. usr.bin.mpg123
 
 **Testing in complain mode**
 1. usr.bin.ffmpeg
 1. usr.bin.youtube-dl
 1. usr.bin.vnstat
-1. usr.bin.vnstatd
 1. usr.bin.vnstati
 1. usr.bin.magick
-1. usr.bin.mpg123
 1. usr.bin.aplay
 
 #### **IMPORTANT**

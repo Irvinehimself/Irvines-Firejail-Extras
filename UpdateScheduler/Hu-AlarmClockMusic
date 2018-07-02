@@ -29,14 +29,14 @@
 # ### ### ### Constants and variables ### ### ###
 NotifyIcon="${HOME}/Pictures/LauncherIcons/AlarmClock-small.png"
 
-Mesg=${1:-TestAlarm}
+Mesg=${1:-TestPacmanAlarm}
 Music=${2:-$HOME/Music/Alarm-Rain.mp3}
 
 Key="forever"
 
 function CheckSystemUpdate() {
 	if [[ "$Mesg" == *"Pacman"* ]] ; then
-	    xfce4-terminal -x Hu-PacmanSyu && disown
+	    xfce4-terminal -x Hu-PacmanSyu &
 	fi
 }
 

@@ -1,4 +1,4 @@
-# Last Modified: Mon Jun 18 07:29:12 2018
+# Last Modified: Mon Jul  2 12:52:57 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -63,6 +63,7 @@
   owner /proc/*/mounts r,
   owner /proc/filesystems r,
   owner /proc/swaps r,
+  owner /proc/sys/vm/overcommit_memory r,
   owner /run/mount/utab rw,
   owner /run/mount/utab.* rw,
   owner /run/mount/utab.lock rwk,

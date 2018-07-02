@@ -5,7 +5,7 @@
 # Licence: GPL3
 
 
-/usr/bin/vnstatd flags=(complain) {
+/usr/bin/vnstatd {
   #include <local/usr.bin.vnstatd>
 
   signal receive set=cont peer=unconfined,
