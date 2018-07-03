@@ -1,4 +1,6 @@
-# Last Modified: Mon Jun 18 07:29:37 2018
+# Last Modified: Tue Jul  3 08:56:06 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # AppArmor policy for youtube-dl
 # Author: irvine mcminn at that gmail place dot com
@@ -7,32 +9,22 @@
 
 /usr/bin/youtube-dl flags=(complain) {
   #include <abstractions/python>
+  #include <local/MyBase>
   #include <local/usr.bin.youtube-dl>
-
-  signal receive set=cont peer=unconfined,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
 
   deny /usr/bin/ r,
   deny /usr/lib/python3.6/site-packages/^(youtube_dl|packaging|pkg_resources)$*.egg-info r,
   deny /usr/lib/python3.6/site-packages/^(youtube_dl|packaging|pkg_resources)$*.egg-info/PKG-INFO r,
 
-  /dev/null rw,
-  /dev/urandom r,
   /etc/ca-certificates/extracted/tls-ca-bundle.pem r,
   /etc/gai.conf r,
   /etc/host.conf r,
   /etc/hosts r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
   /etc/mime.types r,
   /etc/nsswitch.conf r,
   /etc/resolv.conf r,
   /usr/bin/ldconfig mrix,
   /usr/bin/youtube-dl r,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/libbz2.so.* mr,
   /usr/lib/libc-*.so mr,
   /usr/lib/libcrypto.so.* mr,
@@ -53,7 +45,6 @@
   /usr/lib/libutil-*.so mr,
   /usr/lib/libuuid.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
   /usr/lib/python3.6/ r,
   /usr/lib/python3.6/collections/ r,
   /usr/lib/python3.6/ctypes/ r,
@@ -79,7 +70,6 @@
   /usr/lib/python3.6/xml/ r,
   /usr/lib/python3.6/xml/etree/ r,
   /usr/lib/python3.6/xml/parsers/ r,
-  /usr/share/zoneinfo/** r,
   owner /home/*/Downloads/** rw,
   owner /proc/*/fd/ r,
   owner /proc/*/mounts r,

@@ -1,5 +1,6 @@
-# Last Modified: Mon Jul  2 12:52:57 2018
+# Last Modified: Tue Jul  3 08:55:19 2018
 #include <tunables/home>
+#include <tunables/kernelvars>
 
 # vim:syntax=apparmor
 # AppArmor policy for xfce4-notifyd
@@ -7,43 +8,14 @@
 # GPL3
 
 
-/usr/lib/xfce4/notifyd/xfce4-notifyd {
+/usr/lib/xfce4/notifyd/xfce4-notifyd flags=(complain) {
   #include <abstractions/freedesktop.org>
+  #include <local/MyBase>
   #include <local/usr.lib.xfce4.notifyd.xfce4-notifyd>
-
-  signal receive set=cont peer=unconfined,
-  signal receive set=exists peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=/usr/lib/xfce4/notifyd/xfce4-notifyd,
-  signal receive set=term peer=unconfined,
-  signal send set=term peer=/usr/lib/xfce4/notifyd/xfce4-notifyd,
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor/null-/usr/bin/lsof,
 
-  deny owner /proc/*/maps r,
-  deny owner /proc/*/stat r,
-  deny owner /proc/filesystems r,
-
-  owner /home/*/.Xauthority r,
-  owner /home/*/.cache/fontconfig/*cache-? rw,
-  owner /home/*/.cache/fontconfig/*cache-?.* w,
-  owner /home/*/.config/gtk-3.0/gtk.css r,
-  owner /home/*/.config/gtk-3.0/settings.ini r,
-  owner /home/*/.icons/ r,
-  owner /home/*/.local/share/icons/ r,
-  owner /home/*/.local/share/icons/** r,
-  owner /home/*/.local/share/mime/mime.cache r,
-  owner /home/*/Pictures/LauncherIcons/ r,
-  owner /home/*/Pictures/LauncherIcons/** r,
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-  owner /tmp/.Xauth* r,
-
   /etc/fonts/** r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so r,
   /usr/lib/gdk-pixbuf-?.*/*/loaders.cache r,
   /usr/lib/gdk-pixbuf-?.*/*/loaders/libpixbufloader-png.so mr,
@@ -139,10 +111,7 @@
   /usr/lib/libxfconf-0.so.* mr,
   /usr/lib/libxkbcommon.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
   /usr/share/X11/locale/*.UTF-8/XLC_LOCALE r,
-  /usr/share/X11/locale/locale.alias r,
-  /usr/share/X11/locale/locale.dir r,
   /usr/share/fonts/ r,
   /usr/share/fonts/** r,
   /usr/share/gtk-3.0/settings.ini r,
@@ -153,9 +122,22 @@
   /usr/share/locale/*/LC_MESSAGES/gtk30.mo r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/*/LC_MESSAGES/xfce4-notifyd.mo r,
-  /usr/share/locale/locale.alias r,
   /usr/share/themes/Default/xfce-notify-4.0/gtk.css r,
   /var/cache/fontconfig/ w,
   /var/cache/fontconfig/*-*-*-*-*-*.cache-* r,
+  owner /home/*/.Xauthority r,
+  owner /home/*/.cache/fontconfig/*cache-? rw,
+  owner /home/*/.cache/fontconfig/*cache-?.* w,
+  owner /home/*/.config/gtk-3.0/gtk.css r,
+  owner /home/*/.config/gtk-3.0/settings.ini r,
+  owner /home/*/.icons/ r,
+  owner /home/*/.local/share/icons/ r,
+  owner /home/*/.local/share/icons/** r,
+  owner /home/*/.local/share/mime/mime.cache r,
+  owner /home/*/Pictures/LauncherIcons/ r,
+  owner /home/*/Pictures/LauncherIcons/** r,
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /tmp/.Xauth* r,
 
 }

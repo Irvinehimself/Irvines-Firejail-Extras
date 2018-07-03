@@ -1,12 +1,15 @@
-# Last Modified: Mon Jun 18 07:28:56 2018
+# Last Modified: Tue Jul  3 08:54:12 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # Combined AppArmor policy for NetworkManager and OpenVpn
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
-/usr/bin/NetworkManager {
+/usr/bin/NetworkManager flags=(complain) {
   #include <abstractions/dbus-session-strict>
+  #include <local/MyBase>
   #include <local/usr.bin.NetworkManager>
 
   capability dac_override,
@@ -18,25 +21,14 @@
   capability setuid,
   capability sys_module,
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=/usr/bin/NetworkManager,
-  signal receive set=term peer=unconfined,
-  signal send set=term peer=/usr/bin/NetworkManager,
   signal send set=term peer=/usr/bin/NetworkManager//null-/usr/bin/openvpn,
 
-  deny /sys/devices/system/cpu/ r,
-  deny /sys/devices/system/cpu/online r,
   deny /usr/bin/bash x,
   deny /usr/bin/kmod x,
   deny owner /etc/modprobe.d/ r,
-  deny owner /proc/cpuinfo r,
   deny owner /usr/bin/bash mr,
   deny owner /usr/bin/kmod mr,
 
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
   /home/*/.cert/nm-openvpn/*.pem r,
   /proc/*/stat r,
   /usr/bin/openvpn mrix,
@@ -44,10 +36,8 @@
   /usr/lib/nm-openvpn-service mrix,
   /usr/lib/nm-openvpn-service-openvpn-helper mrix,
   owner /dev/net/tun rw,
-  owner /dev/null r,
   owner /dev/rfkill rw,
   owner /dev/tty rw,
-  owner /dev/urandom r,
   owner /etc/NetworkManager/** rw,
   owner /etc/gai.conf r,
   owner /etc/group r,
@@ -62,8 +52,6 @@
   owner /proc/*/mounts r,
   owner /proc/*/net/route r,
   owner /proc/cmdline r,
-  owner /proc/filesystems r,
-  owner /proc/stat r,
   owner /proc/sys/kernel/random/boot_id r,
   owner /proc/sys/net/ipv4/conf/*p*s0/rp_filter rw,
   owner /proc/sys/net/ipv4/conf/all/rp_filter r,
@@ -129,7 +117,6 @@
   owner /usr/lib/NetworkManager/** m,
   owner /usr/lib/NetworkManager/** rk,
   owner /usr/lib/firmware/rtl_nic/rtl8168g-2.fw r,
-  owner /usr/lib/gconv/gconv-modules r,
   owner /usr/lib/gio/modules/ r,
   owner /usr/lib/gio/modules/giomodule.cache r,
   owner /usr/lib/gio/modules/libdconfsettings.so mr,
@@ -210,15 +197,12 @@
   owner /usr/lib/libuuid.so.* mr,
   owner /usr/lib/libz.so.* mr,
   owner /usr/lib/libzmq.so.* mr,
-  owner /usr/lib/locale/locale-archive r,
   owner /usr/share/gvfs/remote-volume-monitors/ r,
   owner /usr/share/gvfs/remote-volume-monitors/udisks2.monitor r,
   owner /usr/share/locale/*/LC_MESSAGES/NetworkManager-openvpn.mo r,
   owner /usr/share/locale/*/LC_MESSAGES/NetworkManager.mo r,
   owner /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
   owner /usr/share/locale/*/LC_MESSAGES/libc.mo r,
-  owner /usr/share/locale/locale.alias r,
-  owner /usr/share/zoneinfo/** r,
   owner /var/lib/NetworkManager/.#internal-*.lease* rw,
   owner /var/lib/NetworkManager/.#internal-*wlp2s0.lease rw,
   owner /var/lib/NetworkManager/NetworkManager-intern.conf r,

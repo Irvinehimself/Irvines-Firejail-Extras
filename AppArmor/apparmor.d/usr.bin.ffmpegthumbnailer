@@ -1,18 +1,15 @@
-# Last Modified: Mon Jun 18 07:29:29 2018
+# Last Modified: Tue Jul  3 08:55:40 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # AppArmor policy for ffmpegthumbnailer
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
-/usr/bin/ffmpegthumbnailer {
+/usr/bin/ffmpegthumbnailer flags=(complain) {
+  #include <local/MyBase>
   #include <local/usr.bin.ffmpegthumbnailer>
-
-  signal receive set=cont peer=unconfined,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
 
   /home/*/Desktop/** rw,
   /home/*/Docs/** r,
@@ -22,11 +19,6 @@
   /home/*/Shared/** r,
   /home/*/Usbs/** r,
   /home/*/Videos/** rw,
-
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
-  /sys/devices/system/cpu/ r,
-  /sys/devices/system/cpu/online r,
   /usr/lib/libX11.so.* mr,
   /usr/lib/libXau.so.* mr,
   /usr/lib/libXdmcp.so.* mr,
@@ -108,6 +100,5 @@
   /usr/lib/libxvidcore.so.* mr,
   /usr/lib/libz.so.* mr,
   /usr/lib/locale/** r,
-  /usr/share/zoneinfo/** r,
 
 }

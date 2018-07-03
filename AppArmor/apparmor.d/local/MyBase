@@ -1,0 +1,91 @@
+# vim:syntax=apparmor
+# ------------------------------------------------------------------
+#
+#  Based on the "base" apparmor abstraction by Novell and Canonical
+#
+#  Primarily, this is to allow "Signal" and "Unix Socket" operations
+#  See notes on my GitHub page.
+#
+# ------------------------------------------------------------------
+
+
+  /dev/log                       w,
+  /dev/random                    r,
+  /dev/urandom                   r,
+  /etc/locale/**                 r,
+  /etc/locale.alias              r,
+  /etc/localtime                 r,
+  /usr/share/locale-bundle/**    r,
+  /usr/share/locale-langpack/**  r,
+  /usr/share/locale/**           r,
+  /usr/share/**/locale/**        r,
+  /usr/share/zoneinfo/           r,
+  /usr/share/zoneinfo/**         r,
+  /usr/share/X11/locale/**       r,
+  /run/systemd/journal/dev-log w,
+
+  /run/systemd/journal/socket w,
+  /run/systemd/journal/stdout rw,
+
+  /usr/lib{,32,64}/locale/**             mr,
+  /usr/lib{,32,64}/gconv/*.so            mr,
+  /usr/lib{,32,64}/gconv/gconv-modules*  mr,
+
+
+  # available everywhere
+  /etc/ld.so.cache               mr,
+  /etc/ld.so.conf                r,
+  /etc/ld.so.conf.d/{,*.conf}    r,
+  /etc/ld.so.preload             r,
+
+
+  /dev/null                      rw,
+  /dev/zero                      rw,
+  /dev/full                      rw,
+
+  /proc/sys/kernel/version     r,
+  /proc/sys/kernel/ngroups_max r,
+
+  # glibc's sysconf(3) routine to determine free memory, etc
+  /proc/meminfo                r,
+  /proc/stat                   r,
+  /proc/cpuinfo                r,
+  /sys/devices/system/cpu/       r,
+  /sys/devices/system/cpu/online r,
+
+  # glibc's *printf protections read the maps file
+  /proc/@{pid}/{maps,auxv,status} r,
+
+  # libgcrypt reads some flags from /proc
+  /proc/sys/crypto/*           r,
+
+  # some applications will display license information
+  /usr/share/common-licenses/**  r,
+
+  # glibc statvfs
+  /proc/filesystems            r,
+
+  # Allow us to ptrace read ourselves
+  ptrace (read) peer=@{profile_name},
+
+  # Allow unconfined processes to send us signals by default
+  signal (receive) peer=unconfined,
+
+  # Allow us to signal ourselves
+  signal peer=@{profile_name},
+
+  # Checking for PID existence is quite common so add it by default for now
+  signal (receive, send) set=("exists"),
+
+  # Allow us to create and use abstract and anonymous sockets
+  unix peer=(label=@{profile_name}),
+
+  # Allow unconfined processes to us via unix sockets
+  unix (receive) peer=(label=unconfined),
+
+  # Allow us to create abstract and anonymous sockets
+  unix (create),
+
+  # Allow us to getattr, getopt, setop and shutdown on unix sockets
+  unix (getattr, getopt, setopt, shutdown),
+

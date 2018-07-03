@@ -55,6 +55,8 @@ function GetProfileName() {
 }
 
 function CreateFreshProfile() {
+    echo "#include <tunables/kernelvars>" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "" | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "# vim:syntax=apparmor" | sudo tee "$EtcApparmor/$ProfileName"
 	echo "# AppArmor policy for $AppName" | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "$Author" | sudo tee -a "$EtcApparmor/$ProfileName"
@@ -62,6 +64,7 @@ function CreateFreshProfile() {
 	echo "" | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "" | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "$ExecutablePath flags=(complain) {" | sudo tee -a "$EtcApparmor/$ProfileName"
+	echo "  #include <local/MyBase>" | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "  #include <local/$ProfileName>" | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "" | sudo tee -a "$EtcApparmor/$ProfileName"
 	echo "  signal receive set=cont peer=unconfined," | sudo tee -a "$EtcApparmor/$ProfileName"

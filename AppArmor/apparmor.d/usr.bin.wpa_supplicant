@@ -1,27 +1,14 @@
-# Last Modified: Mon Jun 18 07:29:07 2018
+# Last Modified: Tue Jul  3 08:54:23 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # AppArmor policy for wpa_supplicant
 # Author: irvine mcminn at gmail dot com
 # GPL3
-# ### Overview ###
-# For obvious reasons, it needs a few capabilities related network admin, but
-# overall it is very restrictive. It has no access to any user directories;
-# extremely limited access to /dev/, /etc/, /proc/ and /usr/lib/, and cannot see
-# the pid's of other processes or attach ptrace.
-#
-# Even though the referenced vulnerability was fixed with `Address Space Layout
-# Randomization`, after reading about a possible 'POSIX Signals Security Bypass'
-# I decided it is best to err on the side of caution and deny any 'signal receive'
-# from 'peer=unconfined'. 'Signal' doesn't do wild cards, so the list of denied
-# signals represents the list of signals it would like to receive. On the other
-# hand, signals requests from well defined sources are allowed. Needless to say,
-# signals, or any other action, for which it doesn't have a specific rule are
-# also denied.
-# see  https://tools.cisco.com/security/center/viewAlert.x?alertId=30107
-# ### ###  ### ###
 
 
-/usr/bin/wpa_supplicant {
+/usr/bin/wpa_supplicant flags=(complain) {
+  #include <local/MyBase>
   #include <local/usr.bin.wpa_supplicant>
 
   capability mknod,
@@ -29,18 +16,7 @@
   capability net_raw,
   capability sys_module,
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=io peer=/usr/bin/wpa_supplicant,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-  signal send set=io peer=/usr/bin/wpa_supplicant,
-
-  owner /dev/null rw,
   owner /dev/rfkill r,
-  owner /dev/urandom r,
-  owner /etc/ld.so.cache r,
-  owner /etc/ld.so.preload r,
   owner /proc/sys/net/ipv4/conf/wlp2s0/drop_gratuitous_arp rw,
   owner /proc/sys/net/ipv4/conf/wlp2s0/drop_unicast_in_l2_multicast rw,
   owner /proc/sys/net/ipv6/conf/wlp2s0/drop_unicast_in_l2_multicast rw,

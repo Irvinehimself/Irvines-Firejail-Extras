@@ -1,4 +1,6 @@
-# Last Modified: Mon Jun 18 07:29:33 2018
+# Last Modified: Tue Jul  3 08:56:04 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # AppArmor policy for ffmpeg
 # Author: irvine mcminn at gmail dot com
@@ -6,12 +8,7 @@
 
 
 /usr/bin/ffmpeg flags=(complain) {
+  #include <local/MyBase>
   #include <local/usr.bin.ffmpeg>
-
-  signal receive set=cont peer=unconfined,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
 
 }

@@ -1,47 +1,23 @@
-# Last Modified: Mon Jun 18 07:29:20 2018
+# Last Modified: Tue Jul  3 08:54:49 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # AppArmor policy for gvfsd-metadata
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
-/usr/lib/gvfsd-metadata {
+/usr/lib/gvfsd-metadata flags=(complain) {
+  #include <local/MyBase>
   #include <local/usr.lib.gvfsd-metadata>
-
-  signal receive set=cont peer=unconfined,
-  signal receive set=exists peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
-  owner /home/*/.local/share/gvfs-metadata/ r,
-  owner /home/*/.local/share/gvfs-metadata/home rw,
-  owner /home/*/.local/share/gvfs-metadata/home-*.log rw,
-  owner /home/*/.local/share/gvfs-metadata/home-*.log.* rw,
-  owner /home/*/.local/share/gvfs-metadata/home.* rw,
-  owner /home/*/.local/share/gvfs-metadata/root r,
-  owner /home/*/.local/share/gvfs-metadata/root.* w,
-  owner /home/*/.local/share/gvfs-metadata/uuid-*-*-*-*-* rw,
-  owner /home/*/.local/share/gvfs-metadata/uuid-*-*-*-*-*-*.log rw,
-  owner /home/*/.local/share/gvfs-metadata/uuid-*-*-*-*-*-*.log.* rw,
-
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-  owner /proc/*/maps r,
-  owner /proc/*/stat r,
-
-  /dev/urandom r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
-  /proc/filesystems r,
   /run/udev/data/b8:* r,
   /sys/devices/pci0000:00/0000:00:??.?/ata?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
   /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?.?/?-?.?.?/?-?.?.?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
   /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?.?/?-?.?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
   /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/gvfs/libgvfscommon.so mr,
   /usr/lib/libblkid.so.* mr,
   /usr/lib/libc-*.so mr,
@@ -61,9 +37,21 @@
   /usr/lib/libudev.so.* mr,
   /usr/lib/libuuid.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
   /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
   /usr/share/locale/*/LC_MESSAGES/gvfs.mo r,
-  /usr/share/locale/locale.alias r,
+  owner /home/*/.local/share/gvfs-metadata/ r,
+  owner /home/*/.local/share/gvfs-metadata/home rw,
+  owner /home/*/.local/share/gvfs-metadata/home-*.log rw,
+  owner /home/*/.local/share/gvfs-metadata/home-*.log.* rw,
+  owner /home/*/.local/share/gvfs-metadata/home.* rw,
+  owner /home/*/.local/share/gvfs-metadata/root r,
+  owner /home/*/.local/share/gvfs-metadata/root.* w,
+  owner /home/*/.local/share/gvfs-metadata/uuid-*-*-*-*-* rw,
+  owner /home/*/.local/share/gvfs-metadata/uuid-*-*-*-*-*-*.log rw,
+  owner /home/*/.local/share/gvfs-metadata/uuid-*-*-*-*-*-*.log.* rw,
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /proc/*/maps r,
+  owner /proc/*/stat r,
 
 }

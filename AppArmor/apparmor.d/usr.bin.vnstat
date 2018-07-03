@@ -1,4 +1,6 @@
-# Last Modified: Mon Jun 18 07:29:40 2018
+# Last Modified: Tue Jul  3 08:56:23 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # AppArmor policy for vnstat
 # Author: irvine mcminn at that gmail place dot com
@@ -6,29 +8,17 @@
 
 
 /usr/bin/vnstat flags=(complain) {
+  #include <local/MyBase>
   #include <local/usr.bin.vnstat>
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
   /etc/vnstat.conf r,
   /proc/*/net/dev r,
-  /proc/stat r,
   /sys/devices/pci0000:00/0000:00:1c.4/0000:02:00.0/net/*/speed r,
   /sys/devices/pci0000:00/0000:00:1c.5/0000:03:00.0/net/enp3s0/speed r,
   /sys/devices/virtual/net/*/speed r,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/libc-*.so mr,
   /usr/lib/libm-*.so mr,
-  /usr/lib/locale/locale-archive r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
-  /usr/share/locale/locale.alias r,
-  /usr/share/zoneinfo/** r,
   /var/lib/vnstat/ r,
   /var/lib/vnstat/* rk,
 

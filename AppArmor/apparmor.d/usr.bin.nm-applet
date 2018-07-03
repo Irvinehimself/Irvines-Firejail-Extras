@@ -1,5 +1,6 @@
-# Last Modified: Mon Jun 18 07:29:03 2018
+# Last Modified: Tue Jul  3 15:45:36 2018
 #include <tunables/home>
+#include <tunables/kernelvars>
 
 # vim:syntax=apparmor
 # AppArmor policy for nm-applet
@@ -7,56 +8,18 @@
 # GPL3
 
 
-/usr/bin/nm-applet {
+/usr/bin/nm-applet flags=(complain) {
   #include <abstractions/freedesktop.org>
+  #include <local/MyBase>
   #include <local/usr.bin.nm-applet>
-
-  signal receive set=abrt peer=/usr/bin/nm-applet,
-  signal receive set=cont peer=unconfined,
-  signal receive set=exists peer=/usr/bin/NetworkManager,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=/usr/bin/nm-applet,
-  signal receive set=term peer=unconfined,
-  signal send set=abrt peer=/usr/bin/nm-applet,
-  signal send set=exists peer=/usr/bin/nm-applet,
-  signal send set=term peer=/usr/bin/nm-applet,
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
-  owner /home/*/.Xauthority r,
-  owner /home/*/.cache/event-sound-cache.tdb.*.x86_64-unknown-linux-gnu rwk,
-  owner /home/*/.cache/mesa_shader_cache/index rw,
-  owner /home/*/.config/dconf/user r,
-  owner /home/*/.config/gtk-3.0/gtk.css r,
-  owner /home/*/.config/gtk-3.0/settings.ini r,
-  owner /home/*/.config/pulse/cookie rk,
-  owner /home/*/.icons/ r,
-  owner /home/*/.local/share/icons/ r,
-  owner /home/*/.local/share/icons/** r,
-  owner /home/*/.local/share/mime/mime.cache r,
-
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-  owner /proc/*/maps r,
-  owner /proc/*/stat r,
-  owner /proc/filesystems r,
-
-  owner /run/user/*/dconf/user rw,
-  owner /run/user/*/pulse/ rw,
-
-  owner /tmp/.Xauth* r,
-
   /dev/dri/ r,
-  /dev/null r,
   /dev/shm/ r,
-  /dev/urandom r,
   /etc/NetworkManager/VPN/ r,
   /etc/drirc r,
   /etc/fonts/** r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
   /etc/machine-id r,
   /etc/nsswitch.conf r,
   /etc/passwd r,
@@ -66,10 +29,10 @@
   /sys/devices/pci0000:00/0000:00:0?.0/subsystem_vendor r,
   /sys/devices/pci0000:00/0000:00:0?.0/uevent r,
   /sys/devices/pci0000:00/0000:00:0?.0/vendor r,
+  /usr/bin/nm-connection-editor mrix,
   /usr/lib/NetworkManager/VPN/ r,
   /usr/lib/NetworkManager/VPN/nm-openvpn-service.name r,
   /usr/lib/dri/i965_dri.so mr,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/gdk-pixbuf-*/*/loaders.cache r,
   /usr/lib/gdk-pixbuf-*/*/loaders/libpixbufloader-png.so mr,
   /usr/lib/gdk-pixbuf-*/*/loaders/libpixbufloader-svg.so mr,
@@ -81,6 +44,7 @@
   /usr/lib/gio/modules/libgiolibproxy.so mr,
   /usr/lib/gio/modules/libgsettingsgconfbackend.so mr,
   /usr/lib/gio/modules/libgvfsdbus.so mr,
+  /usr/lib/gtk-3.0/3.0.0/immodules.cache r,
   /usr/lib/gtk-3.0/modules/libcanberra-gtk3-module.so mr,
   /usr/lib/gvfs/libgvfscommon.so mr,
   /usr/lib/ld-*.so mr,
@@ -151,6 +115,7 @@
   /usr/lib/libhogweed.so.* mr,
   /usr/lib/libicudata.so.* r,
   /usr/lib/libicuuc.so.* mr,
+  /usr/lib/libjansson.so.* mr,
   /usr/lib/libltdl.so.* mr,
   /usr/lib/liblz4.so.* mr,
   /usr/lib/liblzma.so.* mr,
@@ -210,12 +175,9 @@
   /usr/lib/libxml2.so.* mr,
   /usr/lib/libxshmfence.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
   /usr/lib/nm-openvpn-auth-dialog mrix,
   /usr/lib/pulseaudio/libpulsecommon-*.so mr,
   /usr/share/X11/locale/*.UTF-8/XLC_LOCALE r,
-  /usr/share/X11/locale/locale.alias r,
-  /usr/share/X11/locale/locale.dir r,
   /usr/share/fonts/ r,
   /usr/share/fonts/** r,
   /usr/share/glib-*/schemas/gschemas.compiled r,
@@ -229,10 +191,26 @@
   /usr/share/locale/*/LC_MESSAGES/gtk30.mo r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/*/LC_MESSAGES/nm-applet.mo r,
-  /usr/share/locale/locale.alias r,
   /usr/share/sounds/freedesktop/index.theme r,
   /usr/share/sounds/freedesktop/stereo/dialog-warning.oga r,
-  /usr/share/zoneinfo/** r,
   /var/cache/fontconfig/*-*-*-*-*-*.cache-* r,
+  owner /home/*/.Xauthority r,
+  owner /home/*/.cache/event-sound-cache.tdb.*.x86_64-unknown-linux-gnu rwk,
+  owner /home/*/.cache/mesa_shader_cache/index rw,
+  owner /home/*/.config/dconf/user r,
+  owner /home/*/.config/gtk-3.0/gtk.css r,
+  owner /home/*/.config/gtk-3.0/settings.ini r,
+  owner /home/*/.config/pulse/cookie rk,
+  owner /home/*/.icons/ r,
+  owner /home/*/.local/share/icons/ r,
+  owner /home/*/.local/share/icons/** r,
+  owner /home/*/.local/share/mime/mime.cache r,
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /proc/*/maps r,
+  owner /proc/*/stat r,
+  owner /run/user/*/dconf/user rw,
+  owner /run/user/*/pulse/ rw,
+  owner /tmp/.Xauth* r,
 
 }

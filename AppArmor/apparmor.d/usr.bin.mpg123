@@ -1,5 +1,6 @@
-# Last Modified: Mon Jun 18 07:29:44 2018
+# Last Modified: Tue Jul  3 08:56:01 2018
 #include <tunables/home>
+#include <tunables/kernelvars>
 #include <tunables/proc>
 
 # vim:syntax=apparmor
@@ -8,25 +9,15 @@
 # Licence: GPL3
 
 
-/usr/bin/mpg123 {
+/usr/bin/mpg123 flags=(complain) {
   #include <abstractions/audio>
+  #include <local/MyBase>
   #include <local/usr.bin.mpg123>
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
-  /dev/urandom r,
   /etc/group r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
   /etc/machine-id r,
   /etc/nsswitch.conf r,
-  /proc/cpuinfo r,
   /usr/lib/alsa-lib/libasound_module_rate_speexrate.so mr,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/libFLAC.so.* mr,
   /usr/lib/libSDL-1.2.so.* mr,
   /usr/lib/libXau.so.* mr,

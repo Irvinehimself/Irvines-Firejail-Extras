@@ -1,4 +1,4 @@
-# Last Modified: Mon Jul  2 12:52:57 2018
+# Last Modified: Tue Jul  3 08:54:31 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -7,8 +7,9 @@
 # GPL3
 
 
-/usr/lib/udisks2/udisksd {
+/usr/lib/udisks2/udisksd flags=(complain) {
   #include <abstractions/dri-enumerate>
+  #include <local/MyBase>
   #include <local/usr.lib.udisks2.udisksd>
 
   capability dac_override,
@@ -23,16 +24,6 @@
   remount,
   umount,
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=int peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=/usr/lib/udisks2/udisksd,
-  signal receive set=term peer=unconfined,
-  signal send set=term peer=/usr/lib/udisks2/udisksd,
-
-  # This stops udisks2 from mounting usbs, drives and partitions. As a result, all mounts are handled by 'Hs-MountReadWrite'.
-  # See: https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/HsTools#udisks2-hardening
   deny /media/ mrwlkx,
   deny /media/** mrwlkx,
   deny /run/media/ mrwlkx,
@@ -43,16 +34,12 @@
   /usr/bin/ntfs-3g mrix,
   /usr/bin/umount mrix,
   owner /dev/fuse rw,
-  owner /dev/null r,
-  owner /dev/null w,
   owner /dev/sd? rwk,
   owner /dev/sd?? rwk,
   owner /dev/sr0 rw,
   owner /etc/crypttab r,
   owner /etc/fstab r,
   owner /etc/group r,
-  owner /etc/ld.so.cache r,
-  owner /etc/ld.so.preload r,
   owner /etc/libblockdev/conf.d/ r,
   owner /etc/libblockdev/conf.d/00-default.cfg r,
   owner /etc/nsswitch.conf r,
@@ -61,7 +48,6 @@
   owner /proc/*/fd/ r,
   owner /proc/*/mountinfo r,
   owner /proc/*/mounts r,
-  owner /proc/filesystems r,
   owner /proc/swaps r,
   owner /proc/sys/vm/overcommit_memory r,
   owner /run/mount/utab rw,
@@ -118,7 +104,6 @@
   owner /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?:?.?/host?/target?:?:?/?:?:?:?/block/sr0/ro r,
   owner /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?:?.?/host?/target?:?:?/?:?:?:?/block/sr0/size r,
   owner /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/remove w,
-  owner /usr/lib/gconv/gconv-modules r,
   owner /usr/lib/gio/modules/ r,
   owner /usr/lib/gio/modules/giomodule.cache r,
   owner /usr/lib/gio/modules/libdconfsettings.so mr,
@@ -208,7 +193,6 @@
   owner /usr/share/gvfs/remote-volume-monitors/ r,
   owner /usr/share/gvfs/remote-volume-monitors/udisks2.monitor r,
   owner /usr/share/locale/*/LC_MESSAGES/libc.mo r,
-  owner /usr/share/locale/locale.alias r,
   owner /usr/share/zoneinfo/*/* r,
 
 }

@@ -1,4 +1,4 @@
-# Last Modified: Mon Jul  2 12:52:56 2018
+# Last Modified: Tue Jul  3 08:55:10 2018
 #include <tunables/home>
 #include <tunables/kernelvars>
 #include <tunables/proc>
@@ -9,52 +9,22 @@
 # GPL3
 
 
-/usr/bin/pulseaudio {
+/usr/bin/pulseaudio flags=(complain) {
   #include <abstractions/audio>
   #include <abstractions/dbus-session-strict>
   #include <abstractions/dri-enumerate>
+  #include <local/MyBase>
   #include <local/usr.bin.pulseaudio>
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=exists peer=/usr/bin/pulseaudio,
-  signal receive set=exists peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-  signal send set=exists peer=/usr/bin/pulseaudio,
   signal send set=term peer=/usr/bin/pulseaudio//null-/usr/lib/pulse/gsettings-helper,
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
-  deny /proc/*/maps r,
-  deny /proc/*/stat r,
-  deny /proc/cpuinfo r,
-  deny /proc/stat r,
-  deny /sys/devices/system/cpu/ r,
-  deny /sys/devices/system/cpu/online r,
   deny /usr/share/applications/ r,
   deny /usr/share/applications/*.desktop r,
   deny owner /**/orcexec.* mrw,
   deny owner /home/*/ rw,
 
-  owner /home/*/.Xauthority r,
-  owner /home/*/.config/dconf/user r,
-  owner /home/*/.config/pulse/ r,
-  owner /home/*/.config/pulse/* rw,
-  owner /home/*/.config/pulse/cookie rk,
-  owner /home/*/.esd_auth rwk,
-  owner /home/*/.local/share/gsettings-data-convert r,
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-  owner /run/user/*/dconf/user rw,
-  owner /tmp/.Xauth* r,
-  owner /tmp/.esd-????/ rw,
-  owner /tmp/.esd-????/socket w,
-
-  /dev/null rw,
-  /dev/urandom r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
   /proc/asound/card0/ r,
   /proc/asound/card0/pcm*/ r,
   /proc/asound/card0/pcm*/sub0/status r,
@@ -69,7 +39,6 @@
   /sys/devices/virtual/sound/timer/uevent r,
   /usr/bin/gsettings-data-convert mrix,
   /usr/bin/pulseaudio mrix,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/gio/modules/ r,
   /usr/lib/gio/modules/giomodule.cache r,
   /usr/lib/gio/modules/libdconfsettings.so mr,
@@ -120,7 +89,6 @@
   /usr/lib/libvorbisenc.so.* mr,
   /usr/lib/libxcb.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
   /usr/lib/pulse-*/** mr,
   /usr/lib/pulse/gsettings-helper mrix,
   /usr/lib/pulseaudio/libpulsecommon-*.so mr,
@@ -128,7 +96,19 @@
   /usr/share/GConf/gsettings/ r,
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
-  /usr/share/locale/locale.alias r,
   /usr/share/pulseaudio/** r,
+  owner /home/*/.Xauthority r,
+  owner /home/*/.config/dconf/user r,
+  owner /home/*/.config/pulse/ r,
+  owner /home/*/.config/pulse/* rw,
+  owner /home/*/.config/pulse/cookie rk,
+  owner /home/*/.esd_auth rwk,
+  owner /home/*/.local/share/gsettings-data-convert r,
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /run/user/*/dconf/user rw,
+  owner /tmp/.Xauth* r,
+  owner /tmp/.esd-????/ rw,
+  owner /tmp/.esd-????/socket w,
 
 }

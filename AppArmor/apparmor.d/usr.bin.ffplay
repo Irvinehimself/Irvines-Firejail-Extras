@@ -1,23 +1,26 @@
-# Last Modified: Mon Jun 18 07:29:31 2018
+# Last Modified: Tue Jul  3 08:55:50 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # AppArmor policy for ffplay
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
-/usr/bin/ffplay {
+/usr/bin/ffplay flags=(complain) {
+  #include <local/MyBase>
   #include <local/usr.bin.ffplay>
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
+  /dev/dri/ r,
+  /dev/shm/ r,
+  /etc/drirc r,
+  /etc/machine-id r,
+  /etc/nsswitch.conf r,
+  /etc/passwd r,
+  /etc/pulse/client.conf r,
   /home/*/.Xauthority r,
   /home/*/.cache/mesa_shader_cache/** rwk,
   /home/*/.icons/default/index.theme r,
-
   /home/*/Desktop/** r,
   /home/*/Docs/** r,
   /home/*/Documents/** r,
@@ -27,27 +30,13 @@
   /home/*/Shared/** r,
   /home/*/Usbs/** r,
   /home/*/Videos/** r,
-
-  /dev/dri/ r,
-  /dev/shm/ r,
-  /dev/urandom r,
-  /etc/drirc r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
-  /etc/machine-id r,
-  /etc/nsswitch.conf r,
-  /etc/passwd r,
-  /etc/pulse/client.conf r,
   /sys/devices/pci0000:00/0000:00:02.0/device r,
   /sys/devices/pci0000:00/0000:00:02.0/subsystem_device r,
   /sys/devices/pci0000:00/0000:00:02.0/subsystem_vendor r,
   /sys/devices/pci0000:00/0000:00:02.0/uevent r,
   /sys/devices/pci0000:00/0000:00:02.0/vendor r,
-  /sys/devices/system/cpu/ r,
-  /sys/devices/system/cpu/online r,
   /tmp/.Xauth* r,
   /usr/lib/dri/i965_dri.so mr,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/libFLAC.so.* mr,
   /usr/lib/libGL.so.* mr,
   /usr/lib/libGLX.so.* mr,
@@ -174,15 +163,9 @@
   /usr/lib/libxshmfence.so.* mr,
   /usr/lib/libxvidcore.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
   /usr/lib/pulseaudio/libpulsecommon-*.so mr,
   /usr/share/X11/locale/*.UTF-8/Compose r,
   /usr/share/X11/locale/*.UTF-8/XLC_LOCALE r,
-  /usr/share/X11/locale/C/XLC_LOCALE r,
-  /usr/share/X11/locale/compose.dir r,
-  /usr/share/X11/locale/locale.alias r,
-  /usr/share/X11/locale/locale.dir r,
   /usr/share/icons/Adwaita/index.theme r,
-  /usr/share/zoneinfo/** r,
 
 }

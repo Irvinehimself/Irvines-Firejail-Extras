@@ -43,10 +43,16 @@ The `usr.lib.udisks2.udisksd` profile deny's all operations on `/run/media` and 
 
 Suffice to say, my `usr.lib.udisks2.udisksd` profile in combination with [Hs-MountReadWrite](/HsTools#hs-mountreadwrite) offer full control of mount operations in a manner that is secure against threats like, for example, [Stuxnet](https://en.wikipedia.org/wiki/Stuxnet#Operation).
 
-#### signal receive ~~ peer=*unconfined*
-After doing some research and finding [old vulnerabilities](https://tools.cisco.com/security/center/viewAlert.x?alertId=30107), (long since fixed,) my first reaction was to deny `signal receive ~~ peer=unconfined`. However, in practice, this is not practical.  At the very least, the task-manager needs to be able to `kill`, `terminate`, `stop` and `continue` processes; as do I, from both the terminal and my maintenance shells.
+#### Signal receive ~~ peer=*unconfined*
+After a bit of research and finding [old vulnerabilities](https://tools.cisco.com/security/center/viewAlert.x?alertId=30107), (long since fixed,) my first reaction was to deny `signal receive ~~ peer=unconfined`. However, in practice, this is not practical.  At the very least, the task-manager needs to be able to `kill`, `terminate`, `stop` and `continue` processes; as do I.
 
-At first, not realising the complexity of the problem, I tried confining the processes that brought the issue to my immediate attention. But, as I stated above, this is just not practical. I will keep the situation under review, but for the moment I am allowing basic `signal receive ~~ peer=unconfined` commands sufficient to allow normal system maintenance while logging any other `signal` event that may occur.
+After further research revealed the complexity of the problem, I reviewed `abstractions/base`, which is the recomended abstraction.
+
+My main objection are:
+1. It allows the confined `PROT_EXEC` access to the entirety of `usr\lib`
+1. It allows `ptrace (readby)` and `  ptrace (tracedby)`
+
+As a result, I created a more restrictive version of `abstractions/base` called `local/MyBase` and am now including it as standard in all my profiles.
 
 #### Notes:
 1. `usr.bin.magick` is the main entry point for *ImageMagick*

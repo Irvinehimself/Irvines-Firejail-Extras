@@ -89,6 +89,7 @@ function UpdateApparmor(){
         	cp "/etc/apparmor.d/local/$Line" "$GitAppArmorLocals/$Line"
         fi
     done
+    cp "/etc/apparmor.d/local/MyBase" "$GitAppArmorLocals/MyBase"
     cp "/etc/apparmor.d/local/firejail-local" "$GitAppArmorLocals/firejail-local"
     echo "Updating ApTools"
     cd "/usr/local/bin"

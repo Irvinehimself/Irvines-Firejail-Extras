@@ -1,5 +1,6 @@
-# Last Modified: Mon Jun 18 07:29:19 2018
+# Last Modified: Tue Jul  3 08:54:41 2018
 #include <tunables/home>
+#include <tunables/kernelvars>
 
 # vim:syntax=apparmor
 # AppArmor policy for gvfs-udisks2-volume-monitor
@@ -7,18 +8,10 @@
 # GPL3
 
 
-/usr/lib/gvfs-udisks2-volume-monitor {
+/usr/lib/gvfs-udisks2-volume-monitor flags=(complain) {
   #include <abstractions/freedesktop.org>
+  #include <local/MyBase>
   #include <local/usr.lib.gvfs-udisks2-volume-monitor>
-
-  signal receive set=cont peer=unconfined,
-  signal receive set=exists peer=unconfined,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=/usr/lib/gvfs-udisks2-volume-monitor,
-  signal receive set=term peer=unconfined,
-  signal send set=term peer=/usr/lib/gvfs-udisks2-volume-monitor,
 
   deny /home/*/Docs/ mwlkx,
   deny /home/*/Docs/** mwlkx,
@@ -26,23 +19,12 @@
   deny /home/*/Shared/ mwlkx,
   deny /home/*/Usbs/ mwlkx,
   deny /home/*/Usbs/** mwlkx,
-
   deny /proc/*/net/netlink r,
   deny /proc/*/net/packet r,
   deny /proc/*/net/raw r,
 
-  owner /home/*/.local/share/mime/treemagic r,
-  owner /proc/*/fd/ r,
-  owner /proc/*/fdinfo/* r,
-  owner /proc/*/mountinfo r,
-  owner /proc/*/mounts r,
-  owner /run/systemd/sessions/1 r,
-
   / r,
-  /dev/null rw,
   /etc/fstab r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
   /etc/nsswitch.conf r,
   /etc/passwd r,
   /home/*/Docs/ r,
@@ -56,7 +38,6 @@
   /proc/*/maps r,
   /proc/*/net/unix r,
   /proc/*/stat r,
-  /proc/filesystems r,
   /proc/locks r,
   /run/mount/utab r,
   /run/udev/data/b8:* r,
@@ -65,7 +46,6 @@
   /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?.?/?-?.?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
   /sys/devices/pci0000:00/0000:00:??.?/usb?/?-?/?-?:?.?/host?/target?:?:?/?:?:?:?/block/sd?/sd??/uevent r,
   /usr/bin/lsof mrix,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/gio/modules/ r,
   /usr/lib/gio/modules/giomodule.cache r,
   /usr/lib/gio/modules/libgiognomeproxy.so mr,
@@ -122,11 +102,15 @@
   /usr/lib/libuuid.so.* mr,
   /usr/lib/libxml2.so.* mr,
   /usr/lib/libz.so.* mr,
-  /usr/lib/locale/locale-archive r,
   /usr/share/locale/*/LC_MESSAGES/glib20.mo r,
   /usr/share/locale/*/LC_MESSAGES/gvfs.mo r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /usr/share/locale/*/LC_MESSAGES/udisks2.mo r,
-  /usr/share/locale/locale.alias r,
+  owner /home/*/.local/share/mime/treemagic r,
+  owner /proc/*/fd/ r,
+  owner /proc/*/fdinfo/* r,
+  owner /proc/*/mountinfo r,
+  owner /proc/*/mounts r,
+  owner /run/systemd/sessions/1 r,
 
 }

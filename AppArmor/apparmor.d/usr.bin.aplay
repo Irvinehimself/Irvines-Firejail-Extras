@@ -1,5 +1,6 @@
-# Last Modified: Mon Jun 18 07:29:46 2018
+# Last Modified: Tue Jul  3 08:56:31 2018
 #include <tunables/home>
+#include <tunables/kernelvars>
 #include <tunables/proc>
 
 # vim:syntax=apparmor
@@ -10,19 +11,11 @@
 
 /usr/bin/aplay flags=(complain) {
   #include <abstractions/audio>
+  #include <local/MyBase>
   #include <local/usr.bin.aplay>
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
   /etc/group r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
   /etc/nsswitch.conf r,
-  /proc/cpuinfo r,
   /usr/lib/alsa-lib/libasound_module_rate_speexrate.so mr,
   /usr/lib/libasound.so.* mr,
   /usr/lib/libc-*.so mr,
@@ -32,9 +25,6 @@
   /usr/lib/libpthread-*.so mr,
   /usr/lib/librt-*.so mr,
   /usr/lib/libspeexdsp.so.* mr,
-  /usr/lib/locale/locale-archive r,
-  /usr/share/locale/en_GB/LC_MESSAGES/libc.mo r,
-  /usr/share/locale/locale.alias r,
   owner /home/*/Desktop/** r,
   owner /home/*/Docs/Music/** r,
   owner /home/*/Music/** r,

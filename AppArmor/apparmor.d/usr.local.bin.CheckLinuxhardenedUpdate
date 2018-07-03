@@ -1,36 +1,25 @@
-# Last Modified: Mon Jun 18 07:29:26 2018
+# Last Modified: Tue Jul  3 08:55:32 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # AppArmor policy for CheckLinuxhardenedUpdate
 # Author: irvine mcminn at gmail dot com
 # GPL3
 
 
-/usr/local/bin/CheckLinuxhardenedUpdate {
+/usr/local/bin/CheckLinuxhardenedUpdate flags=(complain) {
+  #include <local/MyBase>
   #include <local/usr.local.bin.CheckLinuxhardenedUpdate>
-
-  signal receive set=cont peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
-  deny /proc/cpuinfo r,
-  deny /proc/filesystems r,
-
-  owner /home/*/.config/CheckLinuxHardenedUpdate.conf rw,
-  owner /home/*/Music/*Alarm* r,
 
   /dev/snd/controlC0 rw,
   /dev/snd/pcmC0D0p rw,
   /dev/snd/timer r,
   /dev/tty rw,
-  /dev/urandom r,
   /etc/ca-certificates/** r,
   /etc/gai.conf r,
   /etc/group r,
   /etc/host.conf r,
   /etc/hosts r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
   /etc/nsswitch.conf r,
   /etc/resolv.conf r,
   /etc/ssl/openssl.cnf r,
@@ -39,7 +28,6 @@
   /usr/bin/notify-send mrix,
   /usr/bin/rsstail mrix,
   /usr/lib/alsa-lib/libasound_module_rate_speexrate.so mr,
-  /usr/lib/gconv/gconv-modules r,
   /usr/lib/ld-*.so mr,
   /usr/lib/libasound.so.* mr,
   /usr/lib/libblkid.so.* mr,
@@ -100,7 +88,7 @@
   /usr/share/alsa/pcm/modem.conf r,
   /usr/share/alsa/pcm/surround*.conf r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
-  /usr/share/locale/locale.alias r,
-  /usr/share/zoneinfo/** r,
+  owner /home/*/.config/CheckLinuxHardenedUpdate.conf rw,
+  owner /home/*/Music/*Alarm* r,
 
 }

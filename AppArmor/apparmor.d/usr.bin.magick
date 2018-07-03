@@ -1,4 +1,6 @@
-# Last Modified: Mon Jul  2 12:52:56 2018
+# Last Modified: Tue Jul  3 08:56:10 2018
+#include <tunables/kernelvars>
+
 # vim:syntax=apparmor
 # AppArmor policy for magick
 # Author: irvine mcminn at that gmail place dot com
@@ -6,25 +8,10 @@
 
 
 /usr/bin/magick flags=(complain) {
+  #include <local/MyBase>
   #include <local/usr.bin.magick>
 
-  signal receive set=cont peer=unconfined,
-  signal receive set=hup peer=unconfined,
-  signal receive set=kill peer=unconfined,
-  signal receive set=stop peer=unconfined,
-  signal receive set=term peer=unconfined,
-
-  owner /home/*/.Xauthority r,
-  owner /home/*/.icons/** r,
-  owner /home/*/?????? rw,
-  owner /home/stupidme/Pictures/** r,
-  owner /tmp/magick-* rw,
-
-  /dev/urandom r,
   /etc/ImageMagick-*/** r,
-  /etc/ld.so.cache r,
-  /etc/ld.so.preload r,
-  /sys/devices/system/cpu/ r,
   /usr/lib/ImageMagick-*/** mr,
   /usr/lib/libMagickCore-*.so.* mr,
   /usr/lib/libMagickWand-*.so.* mr,
@@ -71,7 +58,10 @@
   /usr/share/X11/locale/locale.* r,
   /usr/share/icons/** r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
-  /usr/share/locale/locale.alias r,
-  /usr/share/zoneinfo/** r,
+  owner /home/*/.Xauthority r,
+  owner /home/*/.icons/** r,
+  owner /home/*/?????? rw,
+  owner /home/stupidme/Pictures/** r,
+  owner /tmp/magick-* rw,
 
 }
