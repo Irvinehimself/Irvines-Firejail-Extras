@@ -49,10 +49,10 @@ After a bit of research and finding [old vulnerabilities](https://tools.cisco.co
 After further research revealed the complexity of the problem, I reviewed `abstractions/base`, which is the recomended abstraction.
 
 My main objection are:
-1. It allows the confined `PROT_EXEC` access to the entirety of `usr\lib`
+1. It allows `PROT_EXEC` access to the entirety of `usr\lib`
 1. It allows `ptrace (readby)` and `  ptrace (tracedby)`
 
-As a result, I created a more restrictive version of `abstractions/base` called `local/MyBase` and am now including it as standard in all my profiles.
+As a result, I created a more restrictive version of `abstractions/base` called `local/MyBase` and am now including it as standard in all my profiles. Basically, the aim is to allow `signal` and `unix socket` operations but while only allowing `PROT_EXEC` on an *as need* basis.
 
 #### Notes:
 1. `usr.bin.magick` is the main entry point for *ImageMagick*
