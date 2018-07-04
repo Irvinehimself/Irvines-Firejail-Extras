@@ -9,7 +9,7 @@
 # Licence: GPL3
 
 
-/usr/bin/aplay flags=(complain) {
+/usr/bin/aplay {
   #include <abstractions/audio>
   #include <local/MyBase>
   #include <local/usr.bin.aplay>

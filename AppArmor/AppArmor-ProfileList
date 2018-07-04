@@ -16,6 +16,7 @@ usr.bin.ffmpegthumbnailer
 usr.bin.ffplay
 usr.bin.vnstatd
 usr.bin.mpg123
+usr.bin.aplay
 
 # complain mode
 usr.bin.ffmpeg
@@ -23,4 +24,3 @@ usr.bin.youtube-dl
 usr.bin.magick
 usr.bin.vnstat
 usr.bin.vnstati
-usr.bin.aplay
