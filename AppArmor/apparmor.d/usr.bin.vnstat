@@ -7,7 +7,7 @@
 # Licence: GPL3
 
 
-/usr/bin/vnstat flags=(complain) {
+/usr/bin/vnstat {
   #include <local/MyBase>
   #include <local/usr.bin.vnstat>
 

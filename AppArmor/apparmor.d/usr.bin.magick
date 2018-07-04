@@ -1,4 +1,4 @@
-# Last Modified: Tue Jul  3 08:56:10 2018
+# Last Modified: Wed Jul  4 13:50:18 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -11,6 +11,7 @@
   #include <local/MyBase>
   #include <local/usr.bin.magick>
 
+  / r,
   /etc/ImageMagick-*/** r,
   /usr/lib/ImageMagick-*/** mr,
   /usr/lib/libMagickCore-*.so.* mr,
@@ -58,10 +59,15 @@
   /usr/share/X11/locale/locale.* r,
   /usr/share/icons/** r,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
+  owner /home/ r,
+  owner /home/*/ r,
   owner /home/*/.Xauthority r,
   owner /home/*/.icons/** r,
   owner /home/*/?????? rw,
-  owner /home/stupidme/Pictures/** r,
+  owner /home/*/Desktop/** r,
+  owner /home/*/Documents/** r,
+  owner /home/*/Pictures/** r,
+  owner /home/*/Public/** r,
   owner /tmp/magick-* rw,
 
 }
