@@ -41,7 +41,9 @@ function CheckSystemUpdate() {
 }
 
 # ### ### ### Main ### ### ###
-CheckSystemUpdate &
+# Temporarily disabled launching 'PacmanSyu'. Currently, switching the
+# alarm off/sleep also closes the update terminal
+# CheckSystemUpdate &
 notify-send -u CRITICAL -t 0 "$Mesg" --icon="$NotifyIcon"
 while ! [[ $Key == "finished" ]] ; do
     mpg123 -Cq "$Music"
