@@ -7,7 +7,7 @@
 # GPL3
 
 
-/usr/bin/ffmpegthumbnailer flags=(complain) {
+/usr/bin/ffmpegthumbnailer {
   #include <local/MyBase>
   #include <local/usr.bin.ffmpegthumbnailer>
 

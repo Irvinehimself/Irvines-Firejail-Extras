@@ -1,4 +1,4 @@
-# Last Modified: Tue Jul  3 08:56:23 2018
+# Last Modified: Tue Jul  3 17:08:46 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -13,13 +13,13 @@
 
   /etc/vnstat.conf r,
   /proc/*/net/dev r,
-  /sys/devices/pci0000:00/0000:00:1c.4/0000:02:00.0/net/*/speed r,
-  /sys/devices/pci0000:00/0000:00:1c.5/0000:03:00.0/net/enp3s0/speed r,
+  /sys/devices/pci0000:00/0000:00:*/0000:*:00.0/net/*/speed r,
   /sys/devices/virtual/net/*/speed r,
   /usr/lib/libc-*.so mr,
   /usr/lib/libm-*.so mr,
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /var/lib/vnstat/ r,
-  /var/lib/vnstat/* rk,
+  /var/lib/vnstat/* rwk,
+  owner /var/lib/vnstat/* rwk,
 
 }

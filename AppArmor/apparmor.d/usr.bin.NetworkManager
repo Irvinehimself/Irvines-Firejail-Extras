@@ -7,7 +7,7 @@
 # GPL3
 
 
-/usr/bin/NetworkManager flags=(complain) {
+/usr/bin/NetworkManager {
   #include <abstractions/dbus-session-strict>
   #include <local/MyBase>
   #include <local/usr.bin.NetworkManager>

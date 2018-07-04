@@ -8,7 +8,7 @@
 # GPL3
 
 
-/usr/lib/xfce4/notifyd/xfce4-notifyd flags=(complain) {
+/usr/lib/xfce4/notifyd/xfce4-notifyd {
   #include <abstractions/freedesktop.org>
   #include <local/MyBase>
   #include <local/usr.lib.xfce4.notifyd.xfce4-notifyd>

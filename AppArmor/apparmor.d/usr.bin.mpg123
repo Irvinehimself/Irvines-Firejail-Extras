@@ -9,7 +9,7 @@
 # Licence: GPL3
 
 
-/usr/bin/mpg123 flags=(complain) {
+/usr/bin/mpg123 {
   #include <abstractions/audio>
   #include <local/MyBase>
   #include <local/usr.bin.mpg123>

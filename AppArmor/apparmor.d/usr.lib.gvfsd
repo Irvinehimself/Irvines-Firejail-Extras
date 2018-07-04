@@ -7,7 +7,7 @@
 # GPL3
 
 
-/usr/lib/gvfsd flags=(complain) {
+/usr/lib/gvfsd {
   #include <local/MyBase>
   #include <local/usr.lib.gvfsd>
 

@@ -7,7 +7,7 @@
 # GPL3
 
 
-/usr/bin/wpa_supplicant flags=(complain) {
+/usr/bin/wpa_supplicant {
   #include <local/MyBase>
   #include <local/usr.bin.wpa_supplicant>
 

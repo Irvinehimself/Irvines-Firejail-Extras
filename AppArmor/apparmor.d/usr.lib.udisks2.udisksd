@@ -5,9 +5,16 @@
 # AppArmor policy for udisks2d
 # Author: irvine mcminn at gmail dot com
 # GPL3
+# ### ### ### ### ### ###
+# Denying any operation on either `/media/` or `/run/media/` stops udisks2 from mounting
+# usbs, drives and partitions. The reasoning for this is to gain full control of how
+# external drives and partitions are mounted. In particular, I wish to ensure that they
+# are mounted with the noexec flag set, and that I can choose to either mount them as
+# read-only or read-write.
+# See: https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/HsTools#udisks2-hardening
+# ### ### ### ### ### ###
 
-
-/usr/lib/udisks2/udisksd flags=(complain) {
+/usr/lib/udisks2/udisksd {
   #include <abstractions/dri-enumerate>
   #include <local/MyBase>
   #include <local/usr.lib.udisks2.udisksd>

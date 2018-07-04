@@ -1,4 +1,4 @@
-# Last Modified: Tue Jul  3 08:56:28 2018
+# Last Modified: Tue Jul  3 17:08:55 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -10,5 +10,38 @@
 /usr/bin/vnstati flags=(complain) {
   #include <local/MyBase>
   #include <local/usr.bin.vnstati>
+
+  /etc/vnstat.conf r,
+  /usr/lib/libX11.so.* mr,
+  /usr/lib/libXau.so.* mr,
+  /usr/lib/libXdmcp.so.* mr,
+  /usr/lib/libXpm.so.* mr,
+  /usr/lib/libbz2.so.* mr,
+  /usr/lib/libc-*.so mr,
+  /usr/lib/libdl-*.so mr,
+  /usr/lib/libexpat.so.* mr,
+  /usr/lib/libfontconfig.so.* mr,
+  /usr/lib/libfreetype.so.* mr,
+  /usr/lib/libgd.so.* mr,
+  /usr/lib/libglib-2.0.so.* mr,
+  /usr/lib/libgraphite2.so.* mr,
+  /usr/lib/libharfbuzz.so.* mr,
+  /usr/lib/libjpeg.so.* mr,
+  /usr/lib/liblzma.so.* mr,
+  /usr/lib/libm-*.so mr,
+  /usr/lib/libpcre.so.* mr,
+  /usr/lib/libpng16.so.* mr,
+  /usr/lib/libpthread-*.so mr,
+  /usr/lib/libtiff.so.* mr,
+  /usr/lib/libuuid.so.* mr,
+  /usr/lib/libwebp.so.* mr,
+  /usr/lib/libxcb.so.* mr,
+  /usr/lib/libz.so.* mr,
+  /var/lib/vnstat/tun0 rk,
+  /var/lib/vnstat/wlp2s0 rk,
+  owner /home/*/Desktop/** w,
+  owner /home/*/Documents/** w,
+  owner /home/*/Pictures/** w,
+  owner /home/*/Public/** w,
 
 }

@@ -7,9 +7,12 @@
 # AppArmor policy for Pulse Audio
 # Author: irvine mcminn at gmail dot com
 # GPL3
+# ### ### ### ### ### ###
+# Denying `owner /home/*/ rw,` and `deny owner /**/orcexec.* mrw,` blocks JIT code
+# ### ### ### ### ### ###
 
 
-/usr/bin/pulseaudio flags=(complain) {
+/usr/bin/pulseaudio {
   #include <abstractions/audio>
   #include <abstractions/dbus-session-strict>
   #include <abstractions/dri-enumerate>
