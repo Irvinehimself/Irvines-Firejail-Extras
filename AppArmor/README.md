@@ -28,10 +28,10 @@ An uptodate list of profiles is available [here](AppArmor-ProfileList), but thes
 
 **Testing in enforce mode**
 1. usr.bin.vnstatd
+1. usr.bin.vnstati
+1. usr.bin.vnstat
 1. usr.bin.mpg123
 1. usr.bin.aplay
-1. usr.bin.vnstat
-1. usr.bin.vnstati
 
 **Testing in complain mode**
 1. usr.bin.ffmpeg

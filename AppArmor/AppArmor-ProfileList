@@ -15,10 +15,10 @@ usr.local.bin.CheckLinuxhardenedUpdate
 usr.bin.ffmpegthumbnailer
 usr.bin.ffplay
 usr.bin.vnstatd
+usr.bin.vnstati
+usr.bin.vnstat
 usr.bin.mpg123
 usr.bin.aplay
-usr.bin.vnstat
-usr.bin.vnstati
 
 # complain mode
 usr.bin.ffmpeg
