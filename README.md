@@ -4,7 +4,7 @@
 My current long term project is to experiment with building a high-security Os using [Arch Linux](https://www.archlinux.org). Apart from a commercial Vpn, disk encryption ... etc, the project basically consists of the following parts:
 1. My [apparmor enabled version](https://aur.archlinux.org/packages/firejail-apparmor/) of Firejail
 1. Use my `firejail-apparmor` package to sandbox **ALL** top level applications
-1. My [apparmor enabled version](https://aur.archlinux.org/pkgbase/linux-hardened-apparmor/)  of the linux-hardened kernel
+1. My *apparmor enabled version* of the linux-hardened kernel. (This now has official suppor)
 1. Write restrictive Apparmor profiles for sensitive low level daemons. eg `NetworkManager`, `openvpn`, `wpa-supplicant`, `gvfsd`, `udisks2`, `tumblerd`, .... etc
 1. Write tools for Firejail and AppArmor to help manage the enviroment.
 1. Write other tools and packages as needed to generally increase the overall security of the environment

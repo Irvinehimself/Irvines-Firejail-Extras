@@ -1,4 +1,4 @@
-# Last Modified: Wed Jul  4 13:50:18 2018
+# Last Modified: Sun Jul  8 07:49:58 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -64,9 +64,13 @@
   owner /home/*/.Xauthority r,
   owner /home/*/.icons/** r,
   owner /home/*/?????? rw,
+  owner /home/*/Desktop/ r,
   owner /home/*/Desktop/** r,
+  owner /home/*/Documents/ r,
   owner /home/*/Documents/** r,
+  owner /home/*/Pictures/ r,
   owner /home/*/Pictures/** r,
+  owner /home/*/Public/ r,
   owner /home/*/Public/** r,
   owner /tmp/magick-* rw,
 

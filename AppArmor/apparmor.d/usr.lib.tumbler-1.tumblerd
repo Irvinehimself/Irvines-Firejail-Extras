@@ -1,4 +1,4 @@
-# Last Modified: Tue Jul  3 17:09:01 2018
+# Last Modified: Sun Jul  8 07:49:12 2018
 #include <tunables/home>
 #include <tunables/kernelvars>
 
@@ -17,10 +17,9 @@
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
 
-  deny owner /home/*/Downloads/** mrwlkx,
   deny owner /home/* mrwlkx,
-
   deny owner /home/*/Docs/** mwlkx,
+  deny owner /home/*/Downloads/** mrwlkx,
   deny owner /home/*/Shared/** mwlkx,
   deny owner /home/*/Usbs/** mwlkx,
 

@@ -1,6 +1,7 @@
-# Last Modified: Tue Jul  3 15:45:36 2018
+# Last Modified: Sun Jul  8 07:44:43 2018
 #include <tunables/home>
 #include <tunables/kernelvars>
+#include <tunables/multiarch>
 
 # vim:syntax=apparmor
 # AppArmor policy for nm-applet
@@ -9,11 +10,17 @@
 
 
 /usr/bin/nm-applet {
+  #include <abstractions/dri-enumerate>
   #include <abstractions/freedesktop.org>
+  #include <abstractions/p11-kit>
   #include <local/MyBase>
   #include <local/usr.bin.nm-applet>
 
   ptrace tracedby peer=/usr/lib/gvfs-udisks2-volume-monitor//null-/usr/bin/lsof,
+
+  deny /etc/fstab r,
+  deny owner /proc/*/mountinfo r,
+  deny owner /proc/*/mounts r,
 
   /dev/dri/ r,
   /dev/shm/ r,
@@ -24,11 +31,14 @@
   /etc/nsswitch.conf r,
   /etc/passwd r,
   /etc/pulse/client.conf r,
+  /run/udev/data/+pci:0000:00:1c.4 r,
+  /run/udev/data/+pci:0000:02:00.0 r,
   /sys/devices/pci0000:00/0000:00:0?.0/device r,
   /sys/devices/pci0000:00/0000:00:0?.0/subsystem_device r,
   /sys/devices/pci0000:00/0000:00:0?.0/subsystem_vendor r,
   /sys/devices/pci0000:00/0000:00:0?.0/uevent r,
   /sys/devices/pci0000:00/0000:00:0?.0/vendor r,
+  /sys/devices/pci0000:00/0000:00:1c.4/0000:02:00.0/net/wlp2s0/uevent r,
   /usr/bin/nm-connection-editor mrix,
   /usr/lib/NetworkManager/VPN/ r,
   /usr/lib/NetworkManager/VPN/nm-openvpn-service.name r,
@@ -42,6 +52,7 @@
   /usr/lib/gio/modules/libgiognomeproxy.so mr,
   /usr/lib/gio/modules/libgiognutls.so mr,
   /usr/lib/gio/modules/libgiolibproxy.so mr,
+  /usr/lib/gio/modules/libgioremote-volume-monitor.so r,
   /usr/lib/gio/modules/libgsettingsgconfbackend.so mr,
   /usr/lib/gio/modules/libgvfsdbus.so mr,
   /usr/lib/gtk-3.0/3.0.0/immodules.cache r,
@@ -198,6 +209,7 @@
   owner /home/*/.cache/event-sound-cache.tdb.*.x86_64-unknown-linux-gnu rwk,
   owner /home/*/.cache/mesa_shader_cache/index rw,
   owner /home/*/.config/dconf/user r,
+  owner /home/*/.config/gtk-3.0/bookmarks r,
   owner /home/*/.config/gtk-3.0/gtk.css r,
   owner /home/*/.config/gtk-3.0/settings.ini r,
   owner /home/*/.config/pulse/cookie rk,

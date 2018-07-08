@@ -1,4 +1,4 @@
-# Last Modified: Tue Jul  3 08:54:12 2018
+# Last Modified: Sun Jul  8 07:44:32 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -32,7 +32,7 @@
   /home/*/.cert/nm-openvpn/*.pem r,
   /proc/*/stat r,
   /usr/bin/openvpn mrix,
-  /usr/lib/libnm.so.* r,
+  /usr/lib/libnm.so.* mr,
   /usr/lib/nm-openvpn-service mrix,
   /usr/lib/nm-openvpn-service-openvpn-helper mrix,
   owner /dev/net/tun rw,
@@ -165,7 +165,6 @@
   owner /usr/lib/libnettle.so.* mr,
   owner /usr/lib/libnghttp2.so.* mr,
   owner /usr/lib/libnl-3.so.* mr,
-  owner /usr/lib/libnm.so.* mr,
   owner /usr/lib/libnspr*.so mr,
   owner /usr/lib/libnss*.so mr,
   owner /usr/lib/libnss_myhostname.so.* mr,

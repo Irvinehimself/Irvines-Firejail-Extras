@@ -1,4 +1,4 @@
-# Last Modified: Tue Jul  3 17:08:46 2018
+# Last Modified: Sun Jul  8 07:49:35 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -20,6 +20,5 @@
   /usr/share/locale/*/LC_MESSAGES/libc.mo r,
   /var/lib/vnstat/ r,
   /var/lib/vnstat/* rwk,
-  owner /var/lib/vnstat/* rwk,
 
 }

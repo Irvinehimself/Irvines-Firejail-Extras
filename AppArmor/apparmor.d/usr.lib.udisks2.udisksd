@@ -1,4 +1,4 @@
-# Last Modified: Tue Jul  3 08:54:31 2018
+# Last Modified: Sun Jul  8 07:48:27 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -13,6 +13,7 @@
 # read-only or read-write.
 # See: https://github.com/Irvinehimself/TheBeggarsHardeningProject/tree/master/HsTools#udisks2-hardening
 # ### ### ### ### ### ###
+
 
 /usr/lib/udisks2/udisksd {
   #include <abstractions/dri-enumerate>

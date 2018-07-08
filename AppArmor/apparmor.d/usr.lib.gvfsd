@@ -1,4 +1,4 @@
-# Last Modified: Tue Jul  3 15:45:36 2018
+# Last Modified: Sun Jul  8 07:48:35 2018
 #include <tunables/kernelvars>
 
 # vim:syntax=apparmor
@@ -41,7 +41,7 @@
   /usr/lib/gvfsd-trash mrix,
   /usr/lib/libavahi-client.so.* mr,
   /usr/lib/libavahi-common.so.* mr,
-  /usr/lib/libavahi-glib.so.* r,
+  /usr/lib/libavahi-glib.so.* mr,
   /usr/lib/libblkid.so.* mr,
   /usr/lib/libc-*.so mr,
   /usr/lib/libdbus-1.so.* mr,
